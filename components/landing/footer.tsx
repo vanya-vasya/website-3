@@ -1,0 +1,138 @@
+import { Building, FileText, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+const routes = [
+  {
+    name: "Home",
+    href: "/#home",
+  },
+  {
+    name: "Features",
+    href: "/#features",
+  },
+  {
+    name: "FAQ",
+    href: "/#faq",
+  },
+  {
+    name: "Solutions",
+    href: "/#solutions",
+  },
+  {
+    name: "Testimonials",
+    href: "/#testimonials",
+  },
+];
+
+const importantLinks = [
+  {
+    name: "Privacy Policy",
+    href: "/privacy-policy",
+  },
+  {
+    name: "Terms and Conditions",
+    href: "/terms-and-conditions",
+  },
+  {
+    name: "Return Policy",
+    href: "/return-policy",
+  },
+  {
+    name: "Cookies Policy",
+    href: "/cookies-policy",
+  },
+];
+
+const companyDetails = [
+  {
+    name: "Company: Interwealth Solutions Ltd",
+    icon: Building,
+  },
+  {
+    name: "Company Number: 14863966",
+    icon: FileText,
+  },
+  {
+    name: "support@neuvisia.com",
+    icon: Mail,
+  },
+  {
+    name: `41 Devonshire Street,
+  Ground Floor, London, England, W1G 7AJ`,
+    icon: MapPin,
+  },
+];
+
+const Footer = () => {
+  const date = new Date();
+  let year = date.getFullYear();
+
+  return (
+    <footer className="main-footer max-w-[1350px] mx-auto bg-slate-900">
+      <div className="main-footer__shape-1 img-bounce"></div>
+      <div className="main-footer__top">
+        <div className="px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="pr-4 pl-4">
+              <div className="footer-widget__column footer-widget__about">
+                <div className="footer-widget__logo">
+                  <Image width={"150"} height={"60"} src="/logo.png" alt="" />
+                </div>
+                <p className="footer-widget__about-text">
+                  Unleash Your Creativity with Neuvisia – Your All-in-One
+                  Generative AI Platform. Discover limitless possibilities and
+                  bring your ideas to life effortlessly with cutting-edge AI
+                  tools for text, images, music, video, code, and more.
+                </p>
+              </div>
+            </div>
+            <div className="pr-4 pl-4 pt-6 xl:pt-0 flex justify-center flex-col md:flex-row">
+              <div className="footer-widget__column footer-widget__resources">
+                <div className="footer-widget__title-box">
+                  <h3 className="footer-widget__title">Menu</h3>
+                </div>
+                <div className="footer-widget__resources-list-box">
+                  <ul className="footer-widget__resources-list">
+                    {routes.map((route) => (
+                      <li key={route.name}>
+                        <Link href={route.href}>{route.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="pr-4 pl-4 pt-6 xl:pt-0 flex justify-center flex-col md:flex-row">
+              <div className="footer-widget__column footer-widget__resources">
+                <div className="footer-widget__title-box">
+                  <h3 className="footer-widget__title">Links</h3>
+                </div>
+                <div className="footer-widget__resources-list-box">
+                  <ul className="footer-widget__resources-list">
+                    {importantLinks.map((link) => (
+                      <li key={link.name}>
+                        <Link href={link.href}>{link.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="main-footer__bottom">
+        <div className="container mx-auto px-4">
+          <div className="">
+            <p className="text-center">
+              Copyright © {year}. All Rights Reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
