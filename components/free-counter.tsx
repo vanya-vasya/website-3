@@ -30,7 +30,8 @@ export const FreeCounter = ({
         <CardContent className="py-6">
           <div className="text-center text-sm text-white mb-4 space-y-2">
             <p>
-              {apiUsedGenerations} / {apiAvailableGenerations} Available Generations
+              {apiUsedGenerations} / {apiAvailableGenerations} Available
+              Generations
             </p>
             <Progress
               className="h-3"
