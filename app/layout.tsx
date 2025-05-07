@@ -4,18 +4,17 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import { ModalProvider } from "@/components/modal-provider";
 import { ToasterProvider } from "@/components/toaster-provider";
-import { Nunito  } from "next/font/google";
+import { Nunito } from "next/font/google";
 
 import NextTopLoader from "nextjs-toploader";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-const nunito = Nunito({ subsets: ["latin"], weight: ['400'], display: 'swap',});
+const nunito = Nunito({ subsets: ["latin"], weight: ["400"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Neuvisia - new vision of AI",
-  description:
-    "Experience Neuvisia – the smart engine of AI innovation.",
+  description: "Experience Neuvisia – the smart engine of AI innovation.",
 };
 
 export default function RootLayout({
@@ -27,7 +26,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${nunito.className} antialiased`}>
-          <GoogleAnalytics gaId="G-X6MQWY83RC" />
+          <GoogleAnalytics gaId="G-DYY23NK5V1" />
           <ModalProvider />
           <ToasterProvider />
           <NextTopLoader color="#3c3c77" showSpinner={false} />
