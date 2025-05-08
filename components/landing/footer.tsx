@@ -46,11 +46,11 @@ const importantLinks = [
 
 const companyDetails = [
   {
-    name: "Company: Interwealth Solutions Ltd",
+    name: "Company: GROWTHPIXEL LTD",
     icon: Building,
   },
   {
-    name: "Company Number: 14863966",
+    name: "Company Number: 16385052",
     icon: FileText,
   },
   {
@@ -58,8 +58,7 @@ const companyDetails = [
     icon: Mail,
   },
   {
-    name: `41 Devonshire Street,
-  Ground Floor, London, England, W1G 7AJ`,
+    name: `128 City Road, London, United Kingdom, EC1V 2NX`,
     icon: MapPin,
   },
 ];

@@ -36,11 +36,11 @@ const TermsAndConditions = () => {
                   <p className="career-page-top__text-1 pt-8">
                     Welcome to Neuvisia.com! These Terms and Conditions
                     (&quot;Terms&quot;) constitute a distance agreement between
-                    Interwealth Solutions Ltd (&quot;Company&quot;), a company
-                    registered under the laws of England and Wales, Company
-                    Number: 14863966, with its registered address at 41
-                    Devonshire Street, Ground Floor, London, England, W1G 7AJ,
-                    and you (&quot;Customer&quot;).
+                    GROWTHPIXEL LTD (&quot;Company&quot;), a company registered
+                    under the laws of England and Wales, Company Number:
+                    16385052, with its registered address at 128 City Road,
+                    London, United Kingdom, EC1V 2NX, and you
+                    (&quot;Customer&quot;).
                   </p>
                   <p className="career-page-top__text-1 pt-8">
                     By accessing or using Neuvisia.com, you agree to be bound by

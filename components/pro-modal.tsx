@@ -406,8 +406,8 @@ export const ProModal = () => {
           height={CardLogo.height}
         />
         <Label className="text-center font-normal text-xs text-white/30">
-          Interwealth Solutions Ltd - 41 Devonshire Street, <br />
-          Ground Floor, London, England, W1G 7AJ
+          GROWTHPIXEL LTD - 128 City Road, <br />
+          London, United Kingdom, EC1V 2NX
         </Label>
       </DialogContent>
     </Dialog>
