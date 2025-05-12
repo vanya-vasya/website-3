@@ -13,7 +13,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 const nunito = Nunito({ subsets: ["latin"], weight: ["400"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Neuvisia - new vision of AI",
+  title: "Neuvisia - New vision of AI",
   description: "Experience Neuvisia – the smart engine of AI innovation.",
 };
 
