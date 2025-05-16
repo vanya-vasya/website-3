@@ -18,8 +18,9 @@ export const MODEL_GENERATIONS_PRICE = {
 
 export const tools = [
   {
-    label: 'Conversation',
+    label: 'Chat Assistant',
     icon: MessageSquare,
+    description: "Advanced AI chatbot for natural conversations",
     href: '/dashboard/conversation',
     color: "text-red-600", 
     bgColor: "bg-red-600/10", 
@@ -27,6 +28,7 @@ export const tools = [
   {
     label: 'Image Generation',
     icon: FileImage,
+    description: "Create images from text descriptions",
     color: "text-orange-700",
     bgColor: "bg-orange-700/10",
     href: '/dashboard/image-generation',
@@ -34,6 +36,7 @@ export const tools = [
   {
     label: 'Image Restore',
     icon: ArchiveRestore,
+    description: "Enhance and restore old images",
     color: "text-yellow-600",
     bgColor: "bg-yellow-600/10",
     href: '/dashboard/image-restore',
@@ -41,6 +44,7 @@ export const tools = [
   {
     label: 'Image Background Removal',
     icon: ImageMinus,
+    description: "Remove image backgrounds automatically",
     color: "text-lime-600",
     bgColor: "bg-lime-600/10",
     href: '/dashboard/image-background-removal',
@@ -48,6 +52,7 @@ export const tools = [
   {
     label: 'Image Generative Fill',
     icon: PaintBucket,
+    description: "Fill empty spaces with AI-generated content",
     color: "text-emerald-600",
     bgColor: "bg-emerald-600/10",
     href: '/dashboard/image-generative-fill',
@@ -55,6 +60,7 @@ export const tools = [
   {
     label: 'Image Object Recolor',
     icon: BrushIcon,
+    description: "Change colors of objects in images",
     color: "text-cyan-600",
     bgColor: "bg-cyan-600/10",
     href: '/dashboard/image-object-recolor',
@@ -62,6 +68,7 @@ export const tools = [
   {
     label: 'Image Object Remove',
     icon: Scissors,
+    description: "Remove unwanted objects from images",
     color: "text-blue-600",
     bgColor: "bg-blue-600/10",
     href: '/dashboard/image-object-remove',
@@ -69,6 +76,7 @@ export const tools = [
   {
     label: 'Video Generation',
     icon: FileVideo2,
+    description: "Generate and edit video content",
     color: "text-indigo-600",
     bgColor: "bg-indigo-600/10",
     href: '/dashboard/video',
@@ -76,6 +84,7 @@ export const tools = [
   {
     label: 'Music Generation',
     icon: FileAudio,
+    description: "Create original music and audio",
     href: '/dashboard/music',
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
@@ -83,6 +92,7 @@ export const tools = [
   {
     label: 'Speech Generation',
     icon: Mic,
+    description: "Convert text to natural speech",
     color: "text-fuchsia-600",
     bgColor: "bg-fuchsia-600/10",
     href: '/dashboard/speech',
@@ -90,6 +100,7 @@ export const tools = [
   {
     label: 'Code Generation',
     icon: Code,
+    description: "Generate code snippets and solutions",
     color: "text-rose-600",
     bgColor: "bg-rose-600/10",
     href: '/dashboard/code',

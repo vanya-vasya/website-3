@@ -8,7 +8,6 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Empty } from "@/components/ui/empty";
@@ -19,6 +18,8 @@ import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { FeatureContainer } from "@/components/feature-container";
+import { inputStyles, buttonStyles, contentStyles, messageStyles, loadingStyles } from "@/components/ui/feature-styles";
 
 import { formSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
@@ -69,63 +70,53 @@ const ConversationPage = () => {
   };
 
   return (
-    <div>
-      <Heading
-        title="Conversation"
-        description="Our most advanced conversation model."
-        generationPrice={MODEL_GENERATIONS_PRICE.conversation}
-        icon={MessageSquare}
-        iconColor="text-red-600"
-        bgColor="bg-red-600/10"
-      />
-      <div>
-        <div>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="
-                rounded-lg 
-                border 
-                w-full 
-                p-4 
-                px-3 
-                md:px-6 
-                focus-within:shadow-sm
-                border-red-600
-                grid
-                grid-cols-12
-                gap-2
-              "
-            >
-              <FormField
-                name="prompt"
-                render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
-                    <FormControl className="m-0 p-0">
-                      <Input
-                      className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent text-white placeholder:text-white/30"
+    <FeatureContainer
+      title="Chat Assistant"
+      description={`Our most advanced conversation model. (Price: ${MODEL_GENERATIONS_PRICE.conversation} credits)`}
+      icon={MessageSquare}
+      iconColor="text-purple-500"
+      bgColor="bg-purple-500/10"
+    >
+      <div className={contentStyles.base}>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className={cn(
+              inputStyles.container,
+              "grid grid-cols-12 gap-2"
+            )}
+          >
+            <FormField
+              name="prompt"
+              render={({ field }) => (
+                <FormItem className="col-span-12 lg:col-span-10">
+                  <FormControl className="m-0 p-0">
+                    <Input
+                      className={inputStyles.base}
                       disabled={isLoading}
-                        placeholder="How do I calculate the radius of a circle?"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+                      placeholder="How do I calculate the radius of a circle?"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <Button
-              className="col-span-12 lg:col-span-2 w-full bg-transparent border border-transparent border-red-600 text-red-600 hover:ring-2 hover:text-white transition duration-300"
+              className={cn(
+                buttonStyles.base,
+                "col-span-12 lg:col-span-2 w-full"
+              )}
               type="submit"
               disabled={isLoading}
               size="icon"
             >
               Generate
             </Button>
-            </form>
-          </Form>
-        </div>
-        <div className="space-y-4 mt-4 ">
+          </form>
+        </Form>
+        <div className={contentStyles.section}>
           {isLoading && (
-            <div className="p-8 rounded-lg bg-slate-900 w-full flex items-center justify-center">
+            <div className={loadingStyles.container}>
               <Loader />
             </div>
           )}
@@ -137,10 +128,10 @@ const ConversationPage = () => {
               <div
                 key={message.content}
                 className={cn(
-                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                  messageStyles.container,
                   message.role === "user"
-                    ? "bg-slate-800 border border-slate-800 text-white"
-                    : "bg-slate-800 border border-slate-800 text-white"
+                    ? messageStyles.user
+                    : messageStyles.assistant
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
@@ -150,7 +141,7 @@ const ConversationPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </FeatureContainer>
   );
 };
 

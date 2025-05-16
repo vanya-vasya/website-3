@@ -1,3 +1,65 @@
+import { LucideIcon, MessageSquare, ImageIcon, VideoIcon, Music, Code, Settings, Sparkles } from "lucide-react";
+
+export interface Tool {
+  label: string;
+  icon: LucideIcon;
+  href: string;
+  color: string;
+  bgColor: string;
+  description?: string;
+}
+
+export const tools: Tool[] = [
+  {
+    label: "Conversation",
+    icon: MessageSquare,
+    href: "/dashboard/conversation",
+    color: "text-violet-500",
+    bgColor: "bg-violet-500/10",
+    description: "Chat with an advanced AI assistant that understands context and nuance."
+  },
+  {
+    label: "Image Generation",
+    icon: ImageIcon,
+    href: "/dashboard/image-generation",
+    color: "text-pink-700",
+    bgColor: "bg-pink-700/10",
+    description: "Generate stunning images from text descriptions using state-of-the-art AI."
+  },
+  {
+    label: "Video Generation",
+    icon: VideoIcon,
+    href: "/dashboard/video",
+    color: "text-orange-700",
+    bgColor: "bg-orange-700/10",
+    description: "Create engaging videos from text prompts with AI-powered animation."
+  },
+  {
+    label: "Music Generation",
+    icon: Music,
+    href: "/dashboard/music",
+    color: "text-emerald-500",
+    bgColor: "bg-emerald-500/10",
+    description: "Compose original music and melodies using AI composition models."
+  },
+  {
+    label: "Code Generation",
+    icon: Code,
+    href: "/dashboard/code",
+    color: "text-green-700",
+    bgColor: "bg-green-700/10",
+    description: "Generate code snippets and get programming help from an AI expert."
+  },
+  {
+    label: "Settings",
+    icon: Settings,
+    href: "/dashboard/settings",
+    color: "text-slate-500",
+    bgColor: "bg-slate-500/10",
+    description: "Customize your AI experience and manage your account preferences."
+  },
+];
+
 export const navLinks = [
   {
     label: "Home",
@@ -143,4 +205,18 @@ export const currenciesRate: Record<Currency, number> = {
   HUF: 400.33,
   MDL: 19.55,
   BGN: 1.96,
+};
+
+export const MODEL_GENERATIONS_PRICE = {
+  conversation: 0.01,
+  image_generation: 0.02,
+  image_restore: 0.02,
+  image_background_removal: 0.02,
+  image_object_remove: 0.02,
+  image_object_recolor: 0.02,
+  image_generative_fill: 0.02,
+  code: 0.01,
+  music: 0.02,
+  speech: 0.02,
+  video: 0.05,
 };

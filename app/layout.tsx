@@ -1,20 +1,25 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Inter, Space_Grotesk } from "next/font/google";
+import { cn } from "@/lib/utils";
 
 import { ModalProvider } from "@/components/modal-provider";
 import { ToasterProvider } from "@/components/toaster-provider";
-import { Nunito } from "next/font/google";
 
 import NextTopLoader from "nextjs-toploader";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-const nunito = Nunito({ subsets: ["latin"], weight: ["400"], display: "swap" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
 export const metadata: Metadata = {
-  title: "Neuvisia - New vision of AI",
-  description: "Experience Neuvisia – the smart engine of AI innovation.",
+  title: "Neuvisia AI",
+  description: "AI-powered creative tools for everyone",
 };
 
 export default function RootLayout({
@@ -24,8 +29,14 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`${nunito.className} antialiased`}>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            inter.variable,
+            spaceGrotesk.variable
+          )}
+        >
           <GoogleAnalytics gaId="G-DYY23NK5V1" />
           <ModalProvider />
           <ToasterProvider />

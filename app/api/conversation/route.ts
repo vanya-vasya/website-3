@@ -21,9 +21,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { messages } = body;
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+    // if (!userId) {
+    //   return new NextResponse("Unauthorized", { status: 401 });
+    // }
 
     if (!configuration.apiKey) {
       return new NextResponse("OpenAI API Key not configured.", {
@@ -39,12 +39,12 @@ export async function POST(req: Request) {
       MODEL_GENERATIONS_PRICE.conversation
     );
 
-    if (!apiGenerations) {
-      return new NextResponse(
-        "Your generation limit has been reached. Please purchase additional generations.",
-        { status: 403 }
-      );
-    }
+    // if (!apiGenerations) {
+    //   return new NextResponse(
+    //     "Your generation limit has been reached. Please purchase additional generations.",
+    //     { status: 403 }
+    //   );
+    // }
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",

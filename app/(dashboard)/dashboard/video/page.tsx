@@ -9,13 +9,15 @@ import { toast } from "react-hot-toast";
 import { FileVideo2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Loader } from "@/components/loader";
 import { Empty } from "@/components/ui/empty";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { FeatureContainer } from "@/components/feature-container";
+import { inputStyles, buttonStyles, contentStyles, loadingStyles, cardStyles } from "@/components/ui/feature-styles";
+import { cn } from "@/lib/utils";
 
 import { formSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
@@ -37,7 +39,6 @@ const VideoPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setVideo(undefined);
-
       const response = await axios.post("/api/video", values);
       setVideo(response.data);
       form.reset();
@@ -53,32 +54,21 @@ const VideoPage = () => {
   };
 
   return (
-    <div>
-      <Heading
-        title="Video Generation"
-        description="Turn your prompt into video. Generation can take from 1 to 5 minutes."
-        generationPrice={MODEL_GENERATIONS_PRICE.videoGeneration}
-        icon={FileVideo2}
-        iconColor="text-indigo-600"
-        bgColor="bg-indigo-600/10"
-      />
-      <div>
+    <FeatureContainer
+      title="Video Generation"
+      description={`Turn your prompt into video. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits)`}
+      icon={FileVideo2}
+      iconColor="text-purple-500"
+      bgColor="bg-purple-500/10"
+    >
+      <div className={contentStyles.base}>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="
-              rounded-lg 
-              border 
-              w-full 
-              p-4 
-              px-3 
-              md:px-6 
-              border-indigo-600
-              focus-within:shadow-sm
-              grid
-              grid-cols-12
-              gap-2
-            "
+            className={cn(
+              inputStyles.container,
+              "grid grid-cols-12 gap-2"
+            )}
           >
             <FormField
               name="prompt"
@@ -86,7 +76,7 @@ const VideoPage = () => {
                 <FormItem className="col-span-12 lg:col-span-10">
                   <FormControl className="m-0 p-0">
                     <Input
-                      className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent text-white placeholder:text-white/30"
+                      className={inputStyles.base}
                       disabled={isLoading}
                       placeholder="Clown fish swimming in a coral reef"
                       {...field}
@@ -96,7 +86,10 @@ const VideoPage = () => {
               )}
             />
             <Button
-              className="col-span-12 lg:col-span-2 w-full bg-transparent border border-transparent border-indigo-600 text-indigo-600 hover:ring-2 hover:text-white transition duration-300"
+              className={cn(
+                buttonStyles.base,
+                "col-span-12 lg:col-span-2 w-full"
+              )}
               type="submit"
               disabled={isLoading}
               size="icon"
@@ -105,22 +98,24 @@ const VideoPage = () => {
             </Button>
           </form>
         </Form>
-        {isLoading && (
-          <div className="p-20">
-            <Loader />
-          </div>
-        )}
-        {!video && !isLoading && <Empty label="No video files generated." />}
-        {video && (
-          <video
-            controls
-            className="w-full aspect-video mt-8 rounded-lg border bg-slate-800 border-slate-800"
-          >
-            <source src={video} />
-          </video>
-        )}
+        <div className={contentStyles.section}>
+          {isLoading && (
+            <div className={loadingStyles.container}>
+              <Loader />
+            </div>
+          )}
+          {!video && !isLoading && <Empty label="No video files generated." />}
+          {video && (
+            <video
+              controls
+              className={cn(cardStyles.base, "w-full aspect-video")}
+            >
+              <source src={video} />
+            </video>
+          )}
+        </div>
       </div>
-    </div>
+    </FeatureContainer>
   );
 };
 

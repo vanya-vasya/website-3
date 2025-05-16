@@ -114,7 +114,7 @@ const Slider = () => {
               <div className="feature-one__color-overly-3 img-bounce absolute top-[50px] right-[250px]"></div>
           </div>
         </div>
-        <div className="feature-one__color-overly-2 float-bob-x top-[50px] right-[30px]"></div>
+        {/* <div className="feature-one__color-overly-2 float-bob-x top-[50px] right-[30px]"></div> */}
     </section>
   );
 };
