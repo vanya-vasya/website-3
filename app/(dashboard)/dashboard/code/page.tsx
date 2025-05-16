@@ -2,7 +2,6 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Code } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -68,7 +67,7 @@ const CodePage = () => {
     <FeatureContainer
       title="Code Generation"
       description={`Generate code using descriptive text with our advanced AI model. (Price: ${MODEL_GENERATIONS_PRICE.codeGeneration} credits)`}
-      icon={Code}
+      iconName={"Code"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >

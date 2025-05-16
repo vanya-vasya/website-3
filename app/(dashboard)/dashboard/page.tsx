@@ -36,6 +36,9 @@ export default function HomePage() {
           Explore our powerful AI tools to enhance your creativity and
           productivity.
         </p>
+        <p className="
+text-red-600 bg-red-600/10 text-orange-700 bg-orange-700/10 text-yellow-600 bg-yellow-600/10 text-lime-600 bg-lime-600/10 text-emerald-600 bg-emerald-600/10 text-cyan-600 bg-cyan-600/10 text-blue-600 bg-blue-600/10 text-indigo-600 bg-indigo-600/10 text-violet-500 bg-violet-500/10 text-fuchsia-600 bg-fuchsia-600/10 text-rose-600 bg-rose-600/10">
+        </p>
       </div>
 
       <motion.div

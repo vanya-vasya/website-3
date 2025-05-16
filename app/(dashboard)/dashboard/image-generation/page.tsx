@@ -5,7 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Download, ImageIcon } from "lucide-react";
+import { Download } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -67,7 +67,7 @@ const PhotoPage = () => {
     <FeatureContainer
       title="Image Generation"
       description={`Turn your prompt into an image using our advanced AI model. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`}
-      icon={ImageIcon}
+      iconName={"ImageIcon"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >

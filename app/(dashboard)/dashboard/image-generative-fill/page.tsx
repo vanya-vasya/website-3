@@ -1,4 +1,3 @@
-import { PaintBucket } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/lib/actions/user.actions";
@@ -23,7 +22,7 @@ const ImageObjectRemovePage = async () => {
     <FeatureContainer
       title="Generative Fill"
       description={`Automatically adjust and fill your images to fit any aspect ratio.  (Price: ${MODEL_GENERATIONS_PRICE.imageGenerativeFill} credits)`}
-      icon={PaintBucket}
+      iconName={"PaintBucket"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >

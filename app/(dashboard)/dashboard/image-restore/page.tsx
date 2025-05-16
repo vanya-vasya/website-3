@@ -1,4 +1,3 @@
-import { ArchiveRestore } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/lib/actions/user.actions";
@@ -23,7 +22,7 @@ const ImageObjectRemovePage = async () => {
     <FeatureContainer
       title="Image Restore"
       description={`Refine images by removing noise and imperfections. (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`}
-      icon={ArchiveRestore}
+      iconName={"ArchiveRestore"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >

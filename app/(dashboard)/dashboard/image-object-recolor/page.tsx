@@ -1,4 +1,3 @@
-import { Brush } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/lib/actions/user.actions";
@@ -23,7 +22,7 @@ const ImageObjectRemovePage = async () => {
     <FeatureContainer
       title="Object Recolor"
       description={`Easily change the color of objects to match your vision. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRecolor} credits)`}
-      icon={Brush}
+      iconName={"Brush"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >

@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { FileAudio } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,7 +63,7 @@ const MusicPage = () => {
     <FeatureContainer
       title="Music Generation"
       description={`Turn your prompt into music. Generation can take from 1 to 5 minutes.  (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`}
-      icon={FileAudio}
+      iconName={"FileAudio"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >

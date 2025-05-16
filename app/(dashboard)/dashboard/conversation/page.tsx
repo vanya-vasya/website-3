@@ -2,7 +2,6 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -73,7 +72,7 @@ const ConversationPage = () => {
     <FeatureContainer
       title="Chat Assistant"
       description={`Our most advanced conversation model. (Price: ${MODEL_GENERATIONS_PRICE.conversation} credits)`}
-      icon={MessageSquare}
+      iconName={"MessageSquare"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >

@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LucideIcon } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface FeatureContainerProps {
   children: React.ReactNode;
   title: string;
   description: string;
-  icon: LucideIcon;
+  iconName: keyof typeof LucideIcons;
   iconColor?: string;
   bgColor?: string;
 }
@@ -32,10 +32,12 @@ export function FeatureContainer({
   children,
   title,
   description,
-  icon: Icon,
+  iconName,
   iconColor = "text-primary",
   bgColor = "bg-primary/10",
 }: FeatureContainerProps) {
+  const IconComponent = LucideIcons[iconName] as React.ComponentType<{ className?: string }>;
+  
   return (
     <motion.div
       variants={container}
@@ -46,7 +48,7 @@ export function FeatureContainer({
       <div className="space-y-4">
         <div className="flex items-center gap-4 justify-center">
           <div className={cn("p-2.5 rounded-lg", bgColor)}>
-            <Icon className={cn("w-6 h-6", iconColor)} />
+            <IconComponent className={cn("w-6 h-6", iconColor)} />
           </div>
           <h1 className="text-3xl md:text-4xl font-heading font-bold">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 inline">

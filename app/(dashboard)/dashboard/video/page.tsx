@@ -6,7 +6,6 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { FileVideo2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -57,7 +56,7 @@ const VideoPage = () => {
     <FeatureContainer
       title="Video Generation"
       description={`Turn your prompt into video. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits)`}
-      icon={FileVideo2}
+      iconName={"FileVideo2"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >

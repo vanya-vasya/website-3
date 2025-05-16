@@ -1,4 +1,3 @@
-import { Scissors } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/lib/actions/user.actions";
@@ -23,7 +22,7 @@ const ImageObjectRemovePage = async () => {
     <FeatureContainer
       title="Object Remove"
       description={`Easily clear out objects to focus on the important parts of your image. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRemove} credits)`}
-      icon={Scissors}
+      iconName={"Scissors"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
     >
