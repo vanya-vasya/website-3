@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   const apiAvailableGenerations = await getApiAvailableGenerations();
 
   return (
-    <div className="h-full relative dark min-h-screen bg-gradient-to-b from-black via-gray-950 to-gray-900">
+    <div className="h-auto relative dark min-h-screen bg-gradient-to-b from-black via-gray-950 to-gray-900">
       <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none"></div>
       <div className="absolute inset-0 bg-gradient-to-tr from-indigo-900/10 via-purple-800/5 to-transparent pointer-events-none"></div>
 
