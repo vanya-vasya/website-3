@@ -26,7 +26,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1499887142886-791eca5918cd?q=80&w=2080&auto=format&fit=crop"
+                        src="/images/testimonials/testimonials-1.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -55,7 +55,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1474176857210-7287d38d27c6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-2.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -85,7 +85,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1592462065256-79771d4c57b5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-3.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -114,7 +114,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1628359355624-855775b5c9c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-6.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -146,7 +146,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1682965635721-8acb70bfb693?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-5.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -177,7 +177,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1924&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-4.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -207,7 +207,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/vector-1740071248343-3802c8dd5f65?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-7.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -236,7 +236,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1519326773765-3ae3b02c44cc?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-8.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -271,7 +271,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1511300636408-a63a89df3482?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-9.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -300,7 +300,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1648183185705-45e3fd86b078?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-10.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -331,7 +331,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1629747387925-6905ff5a558a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-11.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
@@ -360,7 +360,7 @@ const Testimonials = () => {
                   <div className="flex items-center space-x-4">
                     <div className="relative w-12 h-12">
                       <Image
-                        src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        src="/images/testimonials/testimonials-12.avif"
                         fill
                         alt="Testimonials"
                         className="rounded-full object-cover border"
