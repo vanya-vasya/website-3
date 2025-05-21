@@ -7,7 +7,7 @@ import { FeatureContainer } from "@/components/feature-container";
 import { contentStyles } from "@/components/ui/feature-styles";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
-const ImageObjectRemovePage = async () => {
+const ImageObjectRecolorPage = async () => {
   const {userId} = auth();
   
   if(!userId) redirect('/sign-in');
@@ -38,4 +38,4 @@ const ImageObjectRemovePage = async () => {
    );
 }
  
-export default ImageObjectRemovePage;
+export default ImageObjectRecolorPage;

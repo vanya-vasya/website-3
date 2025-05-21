@@ -1,8 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-
-// import { handleError } from "../utils";
+// NOTE: Keep imports minimal; we do not auto-create users here to avoid backend logic changes.
 import prismadb from "@/lib/prismadb";
 
 // CREATE

@@ -2,11 +2,11 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,10 +21,35 @@ import { cn } from "@/lib/utils";
 import { formSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
+// Конфигурация для разных типов инструментов
+const toolConfigs = {
+  'video-generation': {
+    title: 'Video Generation',
+    description: `Turn your prompt into video. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits)`,
+    iconName: 'FileVideo2',
+    iconColor: 'text-indigo-600',
+    bgColor: 'bg-indigo-600/10',
+    placeholder: 'Clown fish swimming in a coral reef'
+  },
+  'video-creation': {
+    title: 'Video Creation',
+    description: `Generate engaging video content from your ideas and scripts. (Price: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits)`,
+    iconName: 'PlayCircle',
+    iconColor: 'text-purple-600',
+    bgColor: 'bg-purple-600/10',
+    placeholder: 'A cinematic aerial view of a futuristic city at sunset'
+  }
+};
+
 const VideoPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const toolId = searchParams.get('toolId') || 'video-generation';
   const proModal = useProModal();
   const [video, setVideo] = useState<string>();
+
+  // Получаем конфигурацию для текущего инструмента
+  const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['video-generation'];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,6 +57,11 @@ const VideoPage = () => {
       prompt: "",
     },
   });
+
+  // Обновляем placeholder при изменении toolId
+  useEffect(() => {
+    form.reset({ prompt: "" });
+  }, [toolId, form]);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -54,11 +84,11 @@ const VideoPage = () => {
 
   return (
     <FeatureContainer
-      title="Video Generation"
-      description={`Turn your prompt into video. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits)`}
-      iconName={"FileVideo2"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
+      title={currentTool.title}
+      description={currentTool.description}
+      iconName={currentTool.iconName as keyof typeof import("lucide-react")}
+      iconColor={currentTool.iconColor}
+      bgColor={currentTool.bgColor}
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -77,7 +107,7 @@ const VideoPage = () => {
                     <Input
                       className={inputStyles.base}
                       disabled={isLoading}
-                      placeholder="Clown fish swimming in a coral reef"
+                      placeholder={currentTool.placeholder}
                       {...field}
                     />
                   </FormControl>

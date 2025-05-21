@@ -7,7 +7,7 @@ import { FeatureContainer } from "@/components/feature-container";
 import { contentStyles } from "@/components/ui/feature-styles";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
-const ImageObjectRemovePage = async () => {
+const ImageRestorePage = async () => {
   const {userId} = auth();
   
   if(!userId) redirect('/sign-in');
@@ -21,7 +21,7 @@ const ImageObjectRemovePage = async () => {
   return ( 
     <FeatureContainer
       title="Image Restore"
-      description={`Refine images by removing noise and imperfections. (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`}
+      description={`Refine images by removing noise and imperfections. (Price: ${MODEL_GENERATIONS_PRICE.imageRestore} credits)`}
       iconName={"ArchiveRestore"}
       iconColor="text-purple-500"
       bgColor="bg-purple-500/10"
@@ -31,11 +31,11 @@ const ImageObjectRemovePage = async () => {
           userId={user.id}
           type={"restore" as TransformationTypeKey}
           creditBalance={balance}
-          generationPrice={MODEL_GENERATIONS_PRICE.imageGeneration}
+          generationPrice={MODEL_GENERATIONS_PRICE.imageRestore}
         />
       </div>
     </FeatureContainer>
    );
 }
  
-export default ImageObjectRemovePage;
+export default ImageRestorePage;

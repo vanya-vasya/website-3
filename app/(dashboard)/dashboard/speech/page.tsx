@@ -2,11 +2,11 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,10 +21,43 @@ import { cn } from "@/lib/utils";
 import { formSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
+// Конфигурация для разных типов инструментов
+const toolConfigs = {
+  'speech-generation': {
+    title: 'Speech Generation',
+    description: `Turn your prompt into speech. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits)`,
+    iconName: 'Mic',
+    iconColor: 'text-fuchsia-600',
+    bgColor: 'bg-fuchsia-600/10',
+    placeholder: 'Text to be read aloud...'
+  },
+  'video-voiceover': {
+    title: 'Video Voiceover Creation',
+    description: `Create professional narration and voiceovers for your videos. (Price: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits)`,
+    iconName: 'Megaphone',
+    iconColor: 'text-violet-500',
+    bgColor: 'bg-violet-500/10',
+    placeholder: 'Welcome to my YouTube channel! Today we are exploring the fascinating world of AI...'
+  },
+  'voice-melody': {
+    title: 'Voice Melody Creator',
+    description: `Generate vocal melodies and harmonies for your musical compositions. (Price: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits)`,
+    iconName: 'Mic',
+    iconColor: 'text-blue-400',
+    bgColor: 'bg-blue-400/10',
+    placeholder: 'Sing the following lyrics with a gentle melody: "Beneath the stars, we find our way..."'
+  }
+};
+
 const SpeechPage = () => {
   const proModal = useProModal();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const toolId = searchParams.get('toolId') || 'speech-generation';
   const [speechList, setSpeechList] = useState<string[]>([]);
+
+  // Получаем конфигурацию для текущего инструмента
+  const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['speech-generation'];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,6 +65,11 @@ const SpeechPage = () => {
       prompt: "",
     }
   });
+
+  // Обновляем placeholder при изменении toolId
+  useEffect(() => {
+    form.reset({ prompt: "" });
+  }, [toolId, form]);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -53,11 +91,11 @@ const SpeechPage = () => {
 
   return ( 
     <FeatureContainer
-      title="Speech Generation"
-      description={`Turn your prompt into speech. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits)`}
-      iconName={"Mic"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
+      title={currentTool.title}
+      description={currentTool.description}
+      iconName={currentTool.iconName as keyof typeof import("lucide-react")}
+      iconColor={currentTool.iconColor}
+      bgColor={currentTool.bgColor}
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -76,7 +114,7 @@ const SpeechPage = () => {
                     <Input
                       className={inputStyles.base}
                       disabled={isLoading} 
-                      placeholder="Text to be read aloud..." 
+                      placeholder={currentTool.placeholder}
                       {...field}
                     />
                   </FormControl>

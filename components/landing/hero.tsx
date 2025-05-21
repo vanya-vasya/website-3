@@ -7,28 +7,28 @@ const Hero = () => {
     {
       name: 'Sign in',
       description:
-        'Access your account swiftly and securely. Enjoy all features with a single click.',
+        'Access your Creator Studio account quickly and securely. Start bringing your creative visions to life.',
       date: '1',
       dateTime: '2021-08',
     },
     {
-      name: 'Get generation tokens',
+      name: 'Choose your creative profession',
       description:
-        'Collect tokens to power your creativity. The more you have, the more you can create.',
+        'Select from Video Creator, Digital Artist, Musician, or Content Creator to access specialized tools.',
       date: '2',
       dateTime: '2021-12',
     },
     {
-      name: 'Describe your idea',
+      name: 'Describe your creative vision',
       description:
-        'Clearly express your vision. We’ll help transform it into reality.',
+        'Tell us what you want to create - whether it\'s a video script, concept art, song lyrics, or social media content.',
       date: '3',
       dateTime: '2022-02',
     },
     {
-      name: 'Generate unique, high-quality content in seconds',
+      name: 'Generate professional creative content instantly',
       description:
-        'Produce original images, sounds, code, and more in moments with our advanced tech.',
+        'From video scripts to album covers, animations to social graphics - create professional content in seconds.',
       date: '4',
       dateTime: '2022-12',
     },    
@@ -39,27 +39,26 @@ const Hero = () => {
       <div className="feature-one__color-overly-1 flaot-bob-y top-[-150px]"></div>
         <div className="feature-one__inner">
           <h2 className="feature-one__title font-semibold">
-          Discover What’s Possible with <br/>
+          AI-Powered Platform for <br/>
             <p className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 inline">
-              Neuvisia
+              Creative Professionals
             </p>
           </h2>
           <div className="flex justify-center mb-12">
-              <p className="max-w-4xl">Neuvisia is your creative co-pilot — a powerful AI platform that helps you turn ideas into stunning content in seconds. From images and sound to code and beyond, 
-            Neuvisia gives you the tools to explore, create, and innovate effortlessly. Sign in, get your tokens, share your vision, and watch it come to life.</p>
+              <p className="max-w-4xl">Neuvisia is your creative AI assistant — a powerful platform designed specifically for video creators, digital artists, musicians, and content creators. Transform concepts into stunning videos, artwork, music, and content with specialized tools for your creative profession.</p>
           </div>
           <div className="feature-one__btn-box">
             <Link
               href="/dashboard"
               className="thm-btn feature-one__btn bg-slate-800 border border-slate-800 text-white transition duration-200"
             >
-              <i className="fal fa-plus"></i> Get Started Free
+              <i className="fal fa-plus"></i> Access Creator Studio
             </Link>
           </div>
         </div>
         </div>
         <div className="mx-auto mt-16 max-w-7xl px-6 lg:px-8">
-        <h1 className="text-2xl font-bold mb-4 sm:mb-0 text-white flex justify-center">Start now — it’s simpler than you think!</h1>                 
+        <h1 className="text-2xl font-bold mb-4 sm:mb-0 text-white flex justify-center">Elevate your creative process in four simple steps</h1>                 
           <div className="mx-auto grid max-w-2xl grid-cols-1 gap-8 overflow-hidden lg:mx-0 lg:max-w-none lg:grid-cols-4 mt-6">
                   {timeline.map((item) => (
                     <div key={item.name}>
