@@ -1,32 +1,51 @@
 import Link from "next/link";
 import Image from "next/image";
+import Image from "next/image";
 
 const Hero = () => {
   const timeline = [
     {
       name: "Sign in",
+      name: "Sign in",
       description:
+        "Access your Creator Studio account quickly and securely. Start bringing your creative visions to life.",
+      date: "1",
+      dateTime: "2021-08",
         "Access your Creator Studio account quickly and securely. Start bringing your creative visions to life.",
       date: "1",
       dateTime: "2021-08",
     },
     {
       name: "Choose your creative profession",
+      name: "Choose your creative profession",
       description:
+        "Select from Video Creator, Digital Artist, Musician, or Content Creator to access specialized tools.",
+      date: "2",
+      dateTime: "2021-12",
         "Select from Video Creator, Digital Artist, Musician, or Content Creator to access specialized tools.",
       date: "2",
       dateTime: "2021-12",
     },
     {
       name: "Describe your creative vision",
+      name: "Describe your creative vision",
       description:
+        "Tell us what you want to create - whether it's a video script, concept art, song lyrics, or social media content.",
+      date: "3",
+      dateTime: "2022-02",
         "Tell us what you want to create - whether it's a video script, concept art, song lyrics, or social media content.",
       date: "3",
       dateTime: "2022-02",
     },
     {
       name: "Generate professional creative content instantly",
+      name: "Generate professional creative content instantly",
       description:
+        "From video scripts to album covers, animations to social graphics - create professional content in seconds.",
+      date: "4",
+      dateTime: "2022-12",
+    },
+  ];
         "From video scripts to album covers, animations to social graphics - create professional content in seconds.",
       date: "4",
       dateTime: "2022-12",
@@ -36,14 +55,24 @@ const Hero = () => {
     <section id="home" className="feature-one animate__flip pb-16 bg-slate-900">
       <div className="mx-auto px-2 sm:px-4">
         <div className="feature-one__color-overly-1 flaot-bob-y top-[-150px]"></div>
+        <div className="feature-one__color-overly-1 flaot-bob-y top-[-150px]"></div>
         <div className="feature-one__inner">
           <h2 className="feature-one__title font-semibold">
             AI-Powered Platform for <br />
+            AI-Powered Platform for <br />
             <p className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 inline">
+              Creative Professionals
               Creative Professionals
             </p>
           </h2>
           <div className="flex justify-center mb-12">
+            <p className="max-w-4xl">
+              Neuvisia is your creative AI assistant — a powerful platform
+              designed specifically for video creators, digital artists,
+              musicians, and content creators. Transform concepts into stunning
+              videos, artwork, music, and content with specialized tools for
+              your creative profession.
+            </p>
             <p className="max-w-4xl">
               Neuvisia is your creative AI assistant — a powerful platform
               designed specifically for video creators, digital artists,
@@ -57,6 +86,7 @@ const Hero = () => {
               href="/dashboard"
               className="thm-btn feature-one__btn bg-slate-800 border border-slate-800 text-white transition duration-200"
             >
+              <i className="fal fa-plus"></i> Access Creator Studio
               <i className="fal fa-plus"></i> Access Creator Studio
             </Link>
           </div>

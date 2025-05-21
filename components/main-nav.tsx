@@ -18,12 +18,21 @@ import {
   FileAudio,
   FileVideo2, 
   FileImage, 
+  FileAudio,
+  FileVideo2, 
+  FileImage, 
   Wand2,
+  ImageMinus,
   ImageMinus,
   Scissors,
   PaintBucket,
   ArchiveRestore,
+  ArchiveRestore,
   Layers,
+  Sparkles,
+  ChevronDown,
+  BrushIcon,
+  Mic
   Sparkles,
   ChevronDown,
   BrushIcon,
@@ -47,10 +56,27 @@ const contentCreatorTools = tools.filter(tool => tool.professions.includes('cont
 
 // Общие инструменты
 const commonTools = tools.filter(tool => tool.professions.includes('all'))
+import { tools } from "@/constants"
+
+// Инструменты для видео-креаторов
+const videoCreatorTools = tools.filter(tool => tool.professions.includes('video'))
+
+// Инструменты для цифровых художников
+const digitalArtistTools = tools.filter(tool => tool.professions.includes('art'))
+
+// Инструменты для музыкантов
+const musicianTools = tools.filter(tool => tool.professions.includes('music'))
+
+// Инструменты для контент-креаторов
+const contentCreatorTools = tools.filter(tool => tool.professions.includes('content'))
+
+// Общие инструменты
+const commonTools = tools.filter(tool => tool.professions.includes('all'))
 
 export function MainNav({ initialUsedGenerations, initialAvailableGenerations }: { initialUsedGenerations: number, initialAvailableGenerations: number }) {
   return (
     <div className="flex items-center justify-between w-full">
+      <div className="flex items-center gap-8">
       <div className="flex items-center gap-8">
         <Link href="/dashboard" className="hidden items-center space-x-2 md:flex">
           <Image src="/logo.png" alt="Neuvisia Logo" width={150} height={50} />
@@ -88,14 +114,21 @@ export function MainNav({ initialUsedGenerations, initialAvailableGenerations }:
                 Digital Artists
               </NavigationMenuTrigger>
               <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-pink-500/20 rounded-xl overflow-hidden">
+              <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-pink-500/20 rounded-xl overflow-hidden">
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  {digitalArtistTools.map((item) => (
                   {digitalArtistTools.map((item) => (
                     <ListItem
                       key={item.id}
                       id={item.id}
                       title={item.label}
+                      key={item.id}
+                      id={item.id}
+                      title={item.label}
                       href={item.href}
                       icon={item.icon}
+                      color="text-pink-300"
+                      bgColor="bg-pink-500/20"
                       color="text-pink-300"
                       bgColor="bg-pink-500/20"
                     >
@@ -112,14 +145,21 @@ export function MainNav({ initialUsedGenerations, initialAvailableGenerations }:
                 Musicians
               </NavigationMenuTrigger>
               <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-blue-500/20 rounded-xl overflow-hidden">
+              <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-blue-500/20 rounded-xl overflow-hidden">
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  {musicianTools.map((item) => (
                   {musicianTools.map((item) => (
                     <ListItem
                       key={item.id}
                       id={item.id}
                       title={item.label}
+                      key={item.id}
+                      id={item.id}
+                      title={item.label}
                       href={item.href}
                       icon={item.icon}
+                      color="text-blue-300"
+                      bgColor="bg-blue-500/20"
                       color="text-blue-300"
                       bgColor="bg-blue-500/20"
                     >
@@ -136,14 +176,21 @@ export function MainNav({ initialUsedGenerations, initialAvailableGenerations }:
                 Content Creators
               </NavigationMenuTrigger>
               <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-emerald-500/20 rounded-xl overflow-hidden">
+              <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-emerald-500/20 rounded-xl overflow-hidden">
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  {contentCreatorTools.map((item) => (
                   {contentCreatorTools.map((item) => (
                     <ListItem
                       key={item.id}
                       id={item.id}
                       title={item.label}
+                      key={item.id}
+                      id={item.id}
+                      title={item.label}
                       href={item.href}
                       icon={item.icon}
+                      color="text-emerald-300"
+                      bgColor="bg-emerald-500/20"
                       color="text-emerald-300"
                       bgColor="bg-emerald-500/20"
                     >
@@ -178,13 +225,32 @@ const ListItem = React.forwardRef<
       : `${href}?toolId=${toolId}`;
   }
 
+  React.ComponentPropsWithoutRef<"a"> & { icon: any, color?: string, bgColor?: string, id?: string }
+>(({ className, title, children, icon: Icon, color = "text-indigo-300", bgColor = "bg-indigo-500/20", id, href, ...props }, ref) => {
+  // Use the ID directly as the toolId when available
+  const toolId = id;
+  
+  // Construct the complete href with toolId parameter
+  let fullHref = href || '';
+  
+  // Only add the toolId if it exists and the URL doesn't already have a toolId parameter
+  if (toolId && href && !href.includes('?toolId=')) {
+    // If the URL already has parameters, add toolId with &, otherwise with ?
+    fullHref = href.includes('?') 
+      ? `${href}&toolId=${toolId}` 
+      : `${href}?toolId=${toolId}`;
+  }
+
   return (
     <li>
       <NavigationMenuLink asChild>
         <Link
+        <Link
           ref={ref}
           href={fullHref}
+          href={fullHref}
           className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-white hover:bg-slate-800/50 hover:text-slate-50 focus:bg-slate-800/50 focus:text-slate-50",
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-white hover:bg-slate-800/50 hover:text-slate-50 focus:bg-slate-800/50 focus:text-slate-50",
             className
           )}
@@ -195,10 +261,17 @@ const ListItem = React.forwardRef<
               <Icon className={cn("h-4 w-4", color)} />
             </div>
             <div className="text-sm font-medium leading-none">{title}</div>
+          <div className="flex items-center gap-4 mb-2">
+            <div className={cn("p-1.5 rounded-lg", bgColor)}>
+              <Icon className={cn("h-4 w-4", color)} />
+            </div>
+            <div className="text-sm font-medium leading-none">{title}</div>
           </div>
+          <p className="line-clamp-2 text-sm leading-snug text-white/70">
           <p className="line-clamp-2 text-sm leading-snug text-white/70">
             {children}
           </p>
+        </Link>
         </Link>
       </NavigationMenuLink>
     </li>

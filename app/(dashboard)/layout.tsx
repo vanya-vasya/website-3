@@ -43,6 +43,9 @@ export default async function DashboardLayout({
             <div className="p-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 backdrop-filter backdrop-blur-sm">
               <UserButton afterSignOutUrl="/" />
             </div>
+            <div className="p-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 backdrop-filter backdrop-blur-sm">
+              <UserButton afterSignOutUrl="/" />
+            </div>
           </div>
         </div>
       </AnimatedLayout>
