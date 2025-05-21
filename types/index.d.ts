@@ -135,6 +135,7 @@ declare type CreateUserParams = {
     creditBalance: number;
     data?: Image | null;
     config?: object | null;
+    useStyleTransfer?: boolean;
   };
   
   declare type TransformedImageProps = {

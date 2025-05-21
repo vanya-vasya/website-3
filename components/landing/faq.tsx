@@ -5,29 +5,29 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const faqData = [
   {
-    question: "How do I access Neuvisia's tools?",
+    question: "How can Neuvisia help me as a creative professional?",
     answer:
-      "You can access all of Neuvisia’s tools by logging into your account on our website from any device with a stable internet connection. There’s no need for additional software.",
+      "Neuvisia offers specialized AI tools for video creators, digital artists, musicians, and content creators. Depending on your profession, you can access tools like video script generation, concept art creation, music composition, voiceover creation, and social media content generation to enhance your creative workflow.",
   },
   {
-    question: "Is there a limit to how many generations I can make?",
+    question: "Can I use Neuvisia for commercial projects?",
     answer:
-      "There are no strict limits to the number of generations you can make. However, your usage may be limited by the number of tokens available in your account, which you can easily track on your dashboard.",
+      "Yes, all content created with Neuvisia can be used for both personal and commercial projects. You retain full rights to the content you generate using our platform, making it ideal for professional creative work.",
   },
   {
-    question: "How do you ensure my privacy and security?",
+    question: "Do I need to be technically skilled to use Neuvisia?",
     answer:
-      "We ensure your privacy by keeping all data anonymous. We don’t store or track your creations, so your personal information and work remain fully secure.",
+      "Not at all. Neuvisia is designed with creative professionals in mind, with an intuitive interface that requires no technical expertise. Simply describe what you want to create, and our AI tools will handle the complex work for you.",
   },
   {
-    question: "What do I need to use Neuvisia?",
+    question: "How do you ensure the quality of AI-generated creative content?",
     answer:
-      "To use Neuvisia, you only need a reliable internet connection and a modern web browser. There's no need for specific software or hardware.",
+      "Our AI models are specifically trained on high-quality creative content relevant to each profession. We continuously refine our models to ensure they produce professional-grade results that meet industry standards for video, art, music, and content creation.",
   },
   {
-    question: "What types of content can I create with Neuvisia?",
+    question: "Can I customize the AI-generated content for my specific needs?",
     answer:
-      "With Neuvisia, you can create a variety of content, including text, images, music, videos, code, and audio. The platform is always evolving, with new features being added regularly.",
+      "Absolutely. All our creative tools allow for detailed customization through specific prompts and parameters. You maintain creative control while leveraging AI to speed up your workflow and enhance your creative capabilities.",
   },
   {
     question: "How much do different generations cost?",

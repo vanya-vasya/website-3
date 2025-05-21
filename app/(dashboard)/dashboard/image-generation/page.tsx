@@ -3,12 +3,12 @@
 import * as z from "zod";
 import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Download } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
@@ -31,10 +31,51 @@ import { cn } from "@/lib/utils";
 import { formSchema, resolutionOptions } from "./constants";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
+// Конфигурация для разных типов инструментов
+const toolConfigs = {
+  'image-generation': {
+    title: 'Image Generation',
+    description: `Turn your prompt into an image using our advanced AI model. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`,
+    iconName: 'Image',
+    iconColor: 'text-orange-700',
+    bgColor: 'bg-orange-700/10',
+    placeholder: 'A picture of a horse in Swiss alps'
+  },
+  'concept-art': {
+    title: 'Concept Art Generator',
+    description: `Create stunning concept art and illustrations for your projects. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`,
+    iconName: 'Palette',
+    iconColor: 'text-pink-600',
+    bgColor: 'bg-pink-600/10',
+    placeholder: 'A sci-fi character design for a futuristic warrior'
+  },
+  'social-graphics': {
+    title: 'Social Media Graphics',
+    description: `Create eye-catching graphics for your social media platforms. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`,
+    iconName: 'Image',
+    iconColor: 'text-green-600',
+    bgColor: 'bg-green-600/10',
+    placeholder: 'A promotional banner for a summer sale with bright colors'
+  },
+  'album-cover': {
+    title: 'Album Cover Creator',
+    description: `Design professional album covers and music artwork. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`,
+    iconName: 'Image',
+    iconColor: 'text-indigo-600',
+    bgColor: 'bg-indigo-600/10',
+    placeholder: 'An abstract album cover for an electronic music release'
+  }
+};
+
 const PhotoPage = () => {
   const proModal = useProModal();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const toolId = searchParams.get('toolId') || 'image-generation';
   const [photos, setPhotos] = useState<string[]>([]);
+
+  // Получаем конфигурацию для текущего инструмента
+  const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['image-generation'];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,6 +85,11 @@ const PhotoPage = () => {
       resolution: "1024x1024",
     },
   });
+
+  // Обновляем placeholder при изменении toolId
+  useEffect(() => {
+    form.reset({ prompt: "", amount: "1", resolution: "1024x1024" });
+  }, [toolId, form]);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -65,11 +111,11 @@ const PhotoPage = () => {
 
   return (
     <FeatureContainer
-      title="Image Generation"
-      description={`Turn your prompt into an image using our advanced AI model. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`}
-      iconName={"ImageIcon"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
+      title={currentTool.title}
+      description={currentTool.description}
+      iconName={currentTool.iconName as keyof typeof import("lucide-react")}
+      iconColor={currentTool.iconColor}
+      bgColor={currentTool.bgColor}
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -88,7 +134,7 @@ const PhotoPage = () => {
                     <Input
                       className={inputStyles.base}
                       disabled={isLoading}
-                      placeholder="A picture of a horse in Swiss alps"
+                      placeholder={currentTool.placeholder}
                       {...field}
                     />
                   </FormControl>

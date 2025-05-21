@@ -2,11 +2,11 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,10 +28,43 @@ import { cn } from "@/lib/utils";
 import { duration, formSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
+// Конфигурация для разных типов инструментов
+const toolConfigs = {
+  'music-generation': {
+    title: 'Music Generation',
+    description: `Turn your prompt into music. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`,
+    iconName: 'FileAudio',
+    iconColor: 'text-violet-500',
+    bgColor: 'bg-violet-500/10',
+    placeholder: 'Piano solo'
+  },
+  'music-composition': {
+    title: 'Music Composition Assistant',
+    description: `Get help composing melodies, chord progressions, and arrangements. (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`,
+    iconName: 'Music',
+    iconColor: 'text-blue-500',
+    bgColor: 'bg-blue-500/10',
+    placeholder: 'A dramatic orchestral piece with strings and percussion'
+  },
+  'sound-effects': {
+    title: 'Sound Effect Generator',
+    description: `Create unique sound effects for your music tracks and productions. (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`,
+    iconName: 'FileAudio',
+    iconColor: 'text-indigo-500',
+    bgColor: 'bg-indigo-500/10',
+    placeholder: 'Futuristic spaceship engine sounds'
+  }
+};
+
 const MusicPage = () => {
   const proModal = useProModal();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const toolId = searchParams.get('toolId') || 'music-generation';
   const [musicList, setListMusic] = useState<string[]>([]);
+
+  // Получаем конфигурацию для текущего инструмента
+  const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['music-generation'];
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,6 +73,11 @@ const MusicPage = () => {
       duration: "5",
     },
   });
+
+  // Обновляем placeholder при изменении toolId
+  useEffect(() => {
+    form.reset({ prompt: "", duration: "5" });
+  }, [toolId, form]);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -61,11 +99,11 @@ const MusicPage = () => {
 
   return (
     <FeatureContainer
-      title="Music Generation"
-      description={`Turn your prompt into music. Generation can take from 1 to 5 minutes.  (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`}
-      iconName={"FileAudio"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
+      title={currentTool.title}
+      description={currentTool.description}
+      iconName={currentTool.iconName as keyof typeof import("lucide-react")}
+      iconColor={currentTool.iconColor}
+      bgColor={currentTool.bgColor}
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -84,7 +122,7 @@ const MusicPage = () => {
                     <Input
                       className={inputStyles.base}
                       disabled={isLoading}
-                      placeholder="Piano solo"
+                      placeholder={currentTool.placeholder}
                       {...field}
                     />
                   </FormControl>

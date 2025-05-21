@@ -7,35 +7,41 @@ import { FeatureContainer } from "@/components/feature-container";
 import { contentStyles } from "@/components/ui/feature-styles";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
-const ImageGenerativeFillPage = async () => {
-  const {userId} = auth();
-  
-  if(!userId) redirect('/sign-in');
-  
-  const user = await getUserById(userId);  
+// Кастомные плейсхолдеры для полей ввода
+const customPlaceholders = {
+  prompt: "Expand canvas with matching style and elements",
+};
 
-  if(!user) redirect('/sign-in');
-  
+const CanvasExpansionPage = async () => {
+  const { userId } = auth();
+
+  if (!userId) redirect("/sign-in");
+
+  const user = await getUserById(userId);
+
+  if (!user) redirect("/sign-in");
+
   const balance = getUserAvailableGenerations(user);
 
-  return ( 
+  return (
     <FeatureContainer
-      title="Generative Fill"
-      description={`Automatically adjust and fill your images to fit any aspect ratio.  (Price: ${MODEL_GENERATIONS_PRICE.imageGenerativeFill} credits)`}
-      iconName={"PaintBucket"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
+      title="Canvas Expansion"
+      description={`Seamlessly expand your artworks beyond their original boundaries. (Price: ${MODEL_GENERATIONS_PRICE.imageGenerativeFill} credits)`}
+      iconName={"LayoutGrid"}
+      iconColor="text-rose-500"
+      bgColor="bg-rose-500/10"
     >
       <div className={contentStyles.base}>
-        <TransformationForm 
+        <TransformationForm
           userId={user.id}
           type={"fill" as TransformationTypeKey}
           creditBalance={balance}
           generationPrice={MODEL_GENERATIONS_PRICE.imageGenerativeFill}
+          data={customPlaceholders}
         />
       </div>
     </FeatureContainer>
-   );
-}
- 
-export default ImageGenerativeFillPage;
+  );
+};
+
+export default CanvasExpansionPage;

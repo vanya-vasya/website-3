@@ -7,24 +7,29 @@ import { FeatureContainer } from "@/components/feature-container";
 import { contentStyles } from "@/components/ui/feature-styles";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
-const ImageRestorePage = async () => {
-  const {userId} = auth();
-  
-  if(!userId) redirect('/sign-in');
-  
-  const user = await getUserById(userId);  
+// Кастомные плейсхолдеры для полей ввода
+const customPlaceholders = {
+  prompt: "Enhance and refine this digital painting",
+};
 
-  if(!user) redirect('/sign-in');
+const DigitalPaintingEnhancementPage = async () => {
+  const { userId } = auth();
+
+  if (!userId) redirect("/sign-in");
+
+  const user = await getUserById(userId);
+
+  if (!user) redirect("/sign-in");
 
   const balance = getUserAvailableGenerations(user);
 
-  return ( 
+  return (
     <FeatureContainer
-      title="Image Restore"
-      description={`Refine images by removing noise and imperfections. (Price: ${MODEL_GENERATIONS_PRICE.imageRestore} credits)`}
-      iconName={"ArchiveRestore"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
+      title="Digital Painting Enhancement"
+      description={`Enhance and refine your digital paintings with AI assistance. (Price: ${MODEL_GENERATIONS_PRICE.imageRestore} credits)`}
+      iconName={"BrushIcon"}
+      iconColor="text-pink-500"
+      bgColor="bg-pink-500/10"
     >
       <div className={contentStyles.base}>
         <TransformationForm
@@ -32,10 +37,11 @@ const ImageRestorePage = async () => {
           type={"restore" as TransformationTypeKey}
           creditBalance={balance}
           generationPrice={MODEL_GENERATIONS_PRICE.imageRestore}
+          data={customPlaceholders}
         />
       </div>
     </FeatureContainer>
-   );
-}
- 
-export default ImageRestorePage;
+  );
+};
+
+export default DigitalPaintingEnhancementPage;

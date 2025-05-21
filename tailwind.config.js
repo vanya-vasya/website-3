@@ -7,6 +7,77 @@ module.exports = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
+  safelist: [
+    // Profession button colors (text)
+    'text-violet-400',
+    'text-violet-300',
+    'text-pink-400',
+    'text-pink-300',
+    'text-blue-400',
+    'text-blue-300',
+    'text-emerald-400',
+    'text-emerald-300',
+    // Profession button backgrounds & borders
+    'bg-violet-900/20',
+    'bg-pink-900/20',
+    'bg-blue-900/20',
+    'bg-emerald-900/20',
+    'border-violet-500/20',
+    'border-pink-500/20',
+    'border-blue-500/20',
+    'border-emerald-500/20',
+    // Ring colors used for active state highlighting
+    'ring-violet-400',
+    'ring-pink-400',
+    'ring-blue-400',
+    'ring-emerald-400',
+    
+    // Tool card colors - violet (Video Creators)
+    'bg-violet-600/10',
+    'bg-violet-600/5',
+    'bg-violet-600/20',
+    'bg-violet-500/10',
+    'bg-violet-500/5',
+    'bg-violet-500/20',
+    'text-violet-600',
+    'text-violet-500',
+    'border-violet-400/30',
+    'border-violet-500/30',
+    
+    // Tool card colors - pink/rose (Digital Artists)
+    'bg-pink-600/10',
+    'bg-pink-500/10',
+    'bg-rose-600/10',
+    'bg-rose-500/10',
+    'text-pink-600',
+    'text-pink-500',
+    'text-rose-600',
+    'text-rose-500',
+    
+    // Tool card colors - blue/indigo (Musicians)
+    'bg-blue-600/10',
+    'bg-blue-500/10',
+    'bg-blue-400/10',
+    'bg-indigo-600/10',
+    'bg-indigo-500/10',
+    'text-blue-600',
+    'text-blue-500',
+    'text-blue-400',
+    'text-indigo-600',
+    'text-indigo-500',
+
+    // Tool card colors - green/emerald/teal (Content Creators)
+    'bg-green-600/10',
+    'bg-green-500/10',
+    'bg-emerald-600/10',
+    'bg-emerald-500/10',
+    'bg-teal-600/10',
+    'text-green-600',
+    'text-green-500',
+    'text-emerald-600',
+    'text-emerald-500',
+    'text-teal-600'
+  ],
   theme: {
     container: {
       center: true,

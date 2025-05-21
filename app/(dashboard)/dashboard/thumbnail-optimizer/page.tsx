@@ -7,35 +7,42 @@ import { FeatureContainer } from "@/components/feature-container";
 import { contentStyles } from "@/components/ui/feature-styles";
 import { MODEL_GENERATIONS_PRICE } from "@/constants";
 
-const ImageObjectRecolorPage = async () => {
-  const {userId} = auth();
-  
-  if(!userId) redirect('/sign-in');
-  
-  const user = await getUserById(userId);  
+// Кастомные плейсхолдеры для полей ввода
+const customPlaceholders = {
+  prompt: "Main subject or focus area",
+  color: "Bright and eye-catching colors",
+};
 
-  if(!user) redirect('/sign-in');
+const ThumbnailOptimizerPage = async () => {
+  const { userId } = auth();
+
+  if (!userId) redirect("/sign-in");
+
+  const user = await getUserById(userId);
+
+  if (!user) redirect("/sign-in");
 
   const balance = getUserAvailableGenerations(user);
 
-  return ( 
+  return (
     <FeatureContainer
-      title="Object Recolor"
-      description={`Easily change the color of objects to match your vision. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRecolor} credits)`}
-      iconName={"Brush"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
+      title="Thumbnail Optimizer"
+      description={`Create attention-grabbing thumbnails that increase your click-through rates. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRecolor} credits)`}
+      iconName={"Image"}
+      iconColor="text-emerald-500"
+      bgColor="bg-emerald-500/10"
     >
       <div className={contentStyles.base}>
-        <TransformationForm 
+        <TransformationForm
           userId={user.id}
           type={"recolor" as TransformationTypeKey}
           creditBalance={balance}
           generationPrice={MODEL_GENERATIONS_PRICE.imageObjectRecolor}
+          data={customPlaceholders}
         />
       </div>
     </FeatureContainer>
-   );
-}
- 
-export default ImageObjectRecolorPage;
+  );
+};
+
+export default ThumbnailOptimizerPage;

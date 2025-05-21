@@ -16,7 +16,8 @@ const ChatInterface = () => {
         <div className="flex-1">
           <div className="font-medium mb-1 text-white">You</div>
           <div className="bg-slate-700 rounded-lg p-4 shadow-sm dark:text-gray-200">
-            What would happen if the Earth suddenly stopped rotating?
+            Create a 30-second script for a product video about a new smartphone
+            camera with advanced AI features.
           </div>
         </div>
       </div>
@@ -34,10 +35,36 @@ const ChatInterface = () => {
         <div className="flex-1">
           <div className="font-medium text-white mb-1">Neuvisia</div>
           <div className="bg-slate-700 rounded-lg p-4 shadow-sm dark:text-gray-200">
-            If the Earth stopped rotating, gravity, atmospheric pressure, and
-            the planet&apos;s environment would change instantly. Oceans and the
-            atmosphere would continue moving, creating catastrophic hurricanes
-            and tsunamis.{" "}
+            <strong>SMARTPHONE AI CAMERA - 30 SEC SCRIPT</strong>
+            <br />
+            <br />
+            [Open with close-up of phone camera]
+            <br />
+            NARRATOR: &quot;Introducing the future of mobile photography.&quot;
+            <br />
+            <br />
+            [Show person taking photo in low light]
+            <br />
+            NARRATOR: &quot;Our new AI camera doesn&apos;t just take pictures -
+            it understands them.&quot;
+            <br />
+            <br />
+            [Split screen showing before/after AI enhancement]
+            <br />
+            NARRATOR: &quot;Advanced AI adjusts lighting, recognizes subjects,
+            and enhances details in real-time.&quot;
+            <br />
+            <br />
+            [Show various quick shots of amazing photos]
+            <br />
+            NARRATOR: &quot;Professional quality. Effortless results. Every
+            time.&quot;
+            <br />
+            <br />
+            [Product shot with logo]
+            <br />
+            NARRATOR: &quot;The new PhoneX Pro. Intelligence you can
+            capture.&quot;
           </div>
           <div className="flex items-center gap-2 mt-2">
             <button className="text-white-300/10">

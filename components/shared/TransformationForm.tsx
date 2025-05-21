@@ -22,6 +22,9 @@ import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils";
 import MediaUploader from "./MediaUploader";
 import TransformedImage from "./TransformedImage";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { inputStyles, buttonStyles } from "@/components/ui/feature-styles";
+import { cn } from "@/lib/utils";
+import axios from "axios";
 
 export const baseSchema = z.object({
   aspectRatio: z.string().optional(),
@@ -55,6 +58,15 @@ const createSchema = (type: string) => {
   return baseSchema;
 };
 
+// Объявление типа для объекта image, который создается в MediaUploader
+type UploadedImage = {
+  publicId: string;
+  width: number;
+  height: number;
+  secureURL: string;
+  aspectRatio?: string;
+};
+
 const TransformationForm = ({
   data = null,
   userId,
@@ -62,14 +74,16 @@ const TransformationForm = ({
   creditBalance,
   config = null,
   generationPrice,
+  useStyleTransfer = false,
 }: TransformationFormProps) => {
   const transformationType = transformationTypes[type];
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<UploadedImage | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
   const [newTransformation, setNewTransformation] =
     useState<Transformations | null>(null);
   const [isTransforming, setIsTransforming] = useState(false);
   const [transformationConfig, setTransformationConfig] = useState(config);
+  const [transformedImageUrl, setTransformedImageUrl] = useState<string | null>(null);
 
   const proModal = useProModal();
 
@@ -132,9 +146,42 @@ const TransformationForm = ({
       setIsTransforming(true);
       setIsButtonDisabled(true);
 
-      setTransformationConfig(
-        deepMergeObjects(newTransformation, transformationConfig)
-      );
+      if (useStyleTransfer && image) {
+        // Теперь типизация корректная
+        const imageUrl = image.secureURL || '';
+        
+        if (imageUrl) {
+          const stylePrompt = values.color || "";
+          const objectPrompt = values.prompt || "";
+          const combinedPrompt = `${objectPrompt} ${stylePrompt}`.trim();
+
+          // Вызов нового API для генерации с GPT Image
+          axios.post("/api/style-transfer", {
+            imageUrl: imageUrl,
+            prompt: combinedPrompt
+          })
+          .then((response) => {
+            const generatedImageUrl = response.data[0]?.url;
+            if (generatedImageUrl) {
+              setTransformedImageUrl(generatedImageUrl);
+            }
+            setIsTransforming(false);
+          })
+          .catch((error) => {
+            console.error("Style transfer error:", error);
+            setIsTransforming(false);
+            setIsButtonDisabled(false);
+          });
+        } else {
+          console.error("No image URL available");
+          setIsTransforming(false);
+          setIsButtonDisabled(false);
+        }
+      } else {
+        setTransformationConfig(
+          deepMergeObjects(newTransformation, transformationConfig)
+        );
+      }
     } else {
       proModal.onOpen();
     }
@@ -144,69 +191,47 @@ const TransformationForm = ({
     <Form {...form}>
       <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         {type === "fill" && (
-          <CustomField
-            control={form.control}
-            name="aspectRatio"
-            formLabel="Aspect Ratio"
-            className="w-full text-white"
-            render={({ field }) => (
-              <Select
-                onValueChange={(value) =>
-                  onSelectFieldHandler(value, field.onChange)
-                }
-                value={field.value || ""}
-              >
-                <SelectTrigger className="select-field text-white border-emerald-600">
-                  <SelectValue placeholder="Select size" />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-900 text-white border-emerald-600">
-                  {Object.keys(aspectRatioOptions).map((key) => (
-                    <SelectItem key={key} value={key} className="select-item">
-                      {aspectRatioOptions[key as AspectRatioKey].label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-        )}
-
-        {type === "remove" && (
-          <div className="flex flex-col gap-5 lg:flex-row lg:gap-10">
+          <div className={cn(inputStyles.container, "grid grid-cols-12 gap-2")}>
             <CustomField
               control={form.control}
-              name="prompt"
-              formLabel="Object to remove"
-              className="w-full text-white"
+              name="aspectRatio"
+              formLabel="Aspect Ratio"
+              className="w-full text-white col-span-12 lg:col-span-10"
               render={({ field }) => (
-                <Input
-                  value={field.value || ""}
-                  className="border-blue-600 input-field outline-none focus-visible:ring-0 focus-visible:ring-transparent text-white placeholder:text-white/30"
-                  onChange={(e) =>
-                    onInputChangeHandler(
-                      "prompt",
-                      e.target.value,
-                      type,
-                      field.onChange
-                    )
+                <Select
+                  onValueChange={(value) =>
+                    onSelectFieldHandler(value, field.onChange)
                   }
-                />
+                  value={field.value || ""}
+                >
+                  <SelectTrigger className="select-field text-white">
+                    <SelectValue placeholder="Select size" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-900 text-white">
+                    {Object.keys(aspectRatioOptions).map((key) => (
+                      <SelectItem key={key} value={key} className="select-item">
+                        {aspectRatioOptions[key as AspectRatioKey].label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               )}
             />
           </div>
         )}
 
-        {type === "recolor" && (
-          <div className="flex flex-col gap-5 lg:flex-row lg:gap-10">
+        {type === "remove" && (
+          <div className={cn(inputStyles.container, "grid grid-cols-12 gap-2")}>
             <CustomField
               control={form.control}
               name="prompt"
-              formLabel="Object to recolor"
-              className="w-full text-white"
+              formLabel="Object to remove"
+              className="w-full text-white col-span-12 lg:col-span-10"
               render={({ field }) => (
                 <Input
                   value={field.value || ""}
-                  className="border-cyan-600 input-field outline-none focus-visible:ring-0 focus-visible:ring-transparent text-white placeholder:text-white/30"
+                  className={inputStyles.base}
+                  placeholder={data?.prompt || ""}
                   onChange={(e) =>
                     onInputChangeHandler(
                       "prompt",
@@ -218,8 +243,45 @@ const TransformationForm = ({
                 />
               )}
             />
+            <Button
+              className={cn(
+                buttonStyles.base,
+                "col-span-12 lg:col-span-2 w-full"
+              )}
+              onClick={() => {}}
+              disabled={isButtonDisabled}
+              size="icon"
+            >
+              Apply
+            </Button>
+          </div>
+        )}
 
-            {type === "recolor" && (
+        {type === "recolor" && (
+          <div className={cn(inputStyles.container, "grid grid-cols-12 gap-2")}>
+            <div className="flex flex-col gap-4 col-span-12 lg:col-span-10">
+              <CustomField
+                control={form.control}
+                name="prompt"
+                formLabel="Object to recolor"
+                className="w-full text-white"
+                render={({ field }) => (
+                  <Input
+                    value={field.value || ""}
+                    className={inputStyles.base}
+                    placeholder={data?.prompt || ""}
+                    onChange={(e) =>
+                      onInputChangeHandler(
+                        "prompt",
+                        e.target.value,
+                        type,
+                        field.onChange
+                      )
+                    }
+                  />
+                )}
+              />
+
               <CustomField
                 control={form.control}
                 name="color"
@@ -228,7 +290,8 @@ const TransformationForm = ({
                 render={({ field }) => (
                   <Input
                     value={field.value || ""}
-                    className="border-cyan-600 input-field outline-none focus-visible:ring-0 focus-visible:ring-transparent text-white placeholder:text-white/30"
+                    className={inputStyles.base}
+                    placeholder={data?.color || ""}
                     onChange={(e) =>
                       onInputChangeHandler(
                         "color",
@@ -240,7 +303,18 @@ const TransformationForm = ({
                   />
                 )}
               />
-            )}
+            </div>
+            <Button
+              className={cn(
+                buttonStyles.base,
+                "col-span-12 lg:col-span-2 w-full self-center"
+              )}
+              onClick={() => {}}
+              disabled={isButtonDisabled}
+              size="icon"
+            >
+              Apply
+            </Button>
           </div>
         )}
 
@@ -264,22 +338,51 @@ const TransformationForm = ({
             )}
           />
 
-          <TransformedImage
-            image={image}
-            type={type}
-            title={"Transformed Image"}
-            isTransforming={isTransforming}
-            setIsTransforming={setIsTransforming}
-            transformationConfig={transformationConfig}
-            userId={userId}
-            generationPrice={generationPrice}
-          />
+          {useStyleTransfer && transformedImageUrl ? (
+            <div className="flex flex-col gap-4">
+              <div className="flex-between relative">
+                <h3 className="text-md text-white font-semibold">
+                  Transformed with GPT Image
+                </h3>
+                <button 
+                  className="p-14-medium px-2 absolute top-0 right-0" 
+                  onClick={() => window.open(transformedImageUrl, '_blank')}
+                >
+                  <img 
+                    src="/assets/icons/download.svg"
+                    alt="Download"
+                    width={24}
+                    height={24}
+                    className="pb-[6px]"
+                  />
+                </button>
+              </div>
+              <div className="relative">
+                <img 
+                  src={transformedImageUrl}
+                  alt="AI-Generated Style Transfer"
+                  className="rounded-lg overflow-hidden h-72 md:h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          ) : (
+            <TransformedImage
+              image={image}
+              type={type}
+              title={"Transformed Image"}
+              isTransforming={isTransforming}
+              setIsTransforming={setIsTransforming}
+              transformationConfig={transformationConfig}
+              userId={userId}
+              generationPrice={generationPrice}
+            />
+          )}
         </div>
 
         <div className="flex flex-col gap-4">
           <Button
             type="submit"
-            className="submit-button capitalize bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0"
+            className={cn(buttonStyles.base, "w-full")}
             disabled={isButtonDisabled}
           >
             {isTransforming ? "Transforming..." : "Apply Transformation"}
