@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   const apiAvailableGenerations = await getApiAvailableGenerations();
 
   return (
-    <div className="h-auto relative dark min-h-screen bg-gradient-to-b from-black via-gray-950 to-gray-900">
+    <div className="h-full relative dark min-h-screen bg-gradient-to-b from-black via-gray-950 to-gray-900">
       <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none"></div>
       <div className="absolute inset-0 bg-gradient-to-tr from-indigo-900/10 via-purple-800/5 to-transparent pointer-events-none"></div>
 
@@ -43,9 +43,6 @@ export default async function DashboardLayout({
             <div className="p-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 backdrop-filter backdrop-blur-sm">
               <UserButton afterSignOutUrl="/" />
             </div>
-            <div className="p-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 backdrop-filter backdrop-blur-sm">
-              <UserButton afterSignOutUrl="/" />
-            </div>
           </div>
         </div>
       </AnimatedLayout>
@@ -59,7 +56,7 @@ export default async function DashboardLayout({
       <footer className="py-6 border-t border-indigo-900/20 mt-20">
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 space-y-2 md:space-y-0">
-            <p>© 2025 Neuvisia AI. All rights reserved.</p>
+            <p>© 2023 Neuvisia AI. All rights reserved.</p>
             <div className="flex space-x-4">
               <span>Privacy Policy</span>
               <span>Terms of Service</span>
