@@ -242,17 +242,17 @@ export const tools = [
     href: "/dashboard/image-generation",
     professions: ["art"],
   },
-  {
-    id: "art-style-transfer",
-    label: "Art Style Transfer",
-    icon: Wand2,
-    description:
-      "Transform your artworks with different artistic styles and techniques",
-    color: "text-rose-600",
-    bgColor: "bg-rose-600/10",
-    href: "/dashboard/art-style-transfer",
-    professions: ["art"],
-  },
+  // {
+  //   id: "art-style-transfer",
+  //   label: "Art Style Transfer",
+  //   icon: Wand2,
+  //   description:
+  //     "Transform your artworks with different artistic styles and techniques",
+  //   color: "text-rose-600",
+  //   bgColor: "bg-rose-600/10",
+  //   href: "/dashboard/art-style-transfer",
+  //   professions: ["art"],
+  // },
   {
     id: "digital-painting",
     label: "Digital Painting Enhancement",
