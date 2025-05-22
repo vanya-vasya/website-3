@@ -7,6 +7,7 @@ import {
 } from "@/lib/api-limit";
 import { UsageProgress } from "@/components/usage-progress";
 import { AnimatedLayout, AnimatedPage } from "@/components/animated-layout";
+import Link from "next/link";
 
 export default async function DashboardLayout({
   children,
@@ -53,15 +54,23 @@ export default async function DashboardLayout({
         </div>
       </main>
 
-      <footer className="py-6 border-t border-indigo-900/20 mt-20">
+      <footer className="py-6 border-t border-indigo-900/20">
         <div className="container">
           <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 space-y-2 md:space-y-0">
-            <p>© 2023 Neuvisia AI. All rights reserved.</p>
+            <p>GROWTHPIXEL LTD (№16385052) <br/> Email: support@neuvisia.com <br/>128 City Road, London, United Kingdom, EC1V 2NX, <br/>Copyright © {new Date().getFullYear()}. All rights reserved.</p>
             <div className="flex space-x-4">
-              <span>Privacy Policy</span>
-              <span>Terms of Service</span>
-              <span>Contact</span>
+            <Link href="/privacy-policy" className="hover:text-gray-300">Privacy Policy
+            </Link>
+            <Link href="/terms-and-conditions" className="hover:text-gray-300">Terms and Conditions
+            </Link>
+            <Link href="/return-policy" className="hover:text-gray-300">Return Policy
+            </Link>
+            <Link href="/cookies-policy" className="hover:text-gray-300">Cookies Policy
+            </Link>
             </div>
+          </div>
+          <div className="flex justify-center mt-6">
+            <img src="/cards.svg" alt="cards" width={300} height={100} />
           </div>
         </div>
       </footer>
