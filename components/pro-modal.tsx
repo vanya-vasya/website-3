@@ -166,13 +166,11 @@ export const ProModal = () => {
         test: false,
         transaction_type: "payment",
         public_key:
-          "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvCiE7EGhC3/gth7nPZYqy1Y8CYbfxyK1973pjciyYTSOEwLaNUFkjC+y1Se4y56jMu111FofgBBMYaV15eSQsdFg3P8akd6/sZaKF74KQcXOBl7pWtj/20oj4OU1HyaPxGm64l67FD81zaSHJ8jo41NYikounxLL394QaFrcKw6YX2CaKF6UsyxtiTK36vkz/G/tlq5DOFyiMTY7q+xtV9Enu7wREF19figeaOGtCeAF2iEgCEhYkgu6FDUuY5ENXxKIU4KOuOPxmwQB3ZxnW5EYwXOLohJQYK7lUzWtZC8bUb7kEj1nImVoVeMDTb26jEu3ztW02FFBYrmt+WXGAwIDAQAB",
+          "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx/MGZJ8QMVlA65K8aDUtBOrWC3fIA8EFMU6WC35stdlUT/kOIFxzDnKPUKpPIX/aP44RgPs/fGZJWDve+Gl0YJNSi8GrhXzrZSZCDu2UGoi7SXlWN4ERafjMZS49F5j3jfpNS3teiAZ0Rsne7pCyRKacjTYx3bPBaePiEtokbSyG5BQc+u5FzRHi7okvKP9hwd8/lvfZXdQFfMjka0ImJBiV9ebm1ZaJy3FFsjPxOGQ19dsyxOmYxqc/ZlWPJs7LI3s5/AnvSpgDKsRx5CPL1cf5UF+ZnFnLg3gQJTkwTJ4UhIOB26uTsJK1iXpS0R5WTjPepNm0xfGu+c6kEqnK+QIDAQAB",
         order: {
           amount: watch("generations") * 5,
           currency: "EUR",
-          description: `AI Horizon Top Up (${watch(
-            "generations"
-          )} Generations)`,
+          description: `Neuvisia Top Up (${watch("generations")} Tokens)`,
           tracking_id: userId,
         },
         settings: {

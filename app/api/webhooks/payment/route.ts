@@ -69,7 +69,7 @@ export async function POST(req: Request) {
         }
 
         const text = body?.transaction?.description;
-        const match = text.match(/\((\d+)\sGenerations\)/);
+        const match = text.match(/\((\d+)\sTokens\)/);
 
         if (!match) {
           return NextResponse.json(
