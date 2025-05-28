@@ -189,22 +189,24 @@ export type Currency =
   | "RON"
   | "HUF"
   | "MDL"
-  | "BGN";
+  | "BGN"
+  | "JOD";
 
 export const currenciesRate: Record<Currency, number> = {
   EUR: 1,
-  USD: 1.08,
+  USD: 1.13,
   GBP: 0.84,
-  CHF: 0.95,
-  AED: 3.96,
-  SEK: 10.85,
-  PLN: 4.17,
-  CZK: 24.92,
+  CHF: 0.93,
+  AED: 4.16,
+  SEK: 10.89,
+  PLN: 4.25,
+  CZK: 24.93,
   DKK: 7.46,
-  RON: 4.98,
-  HUF: 400.33,
-  MDL: 19.55,
+  RON: 5.05,
+  HUF: 403.30,
+  MDL: 19.58,
   BGN: 1.96,
+  JOD: 0.80,
 };
 
 export const MODEL_GENERATIONS_PRICE = {

@@ -57,6 +57,7 @@ const formSchema = z.object({
     "HUF",
     "MDL",
     "BGN",
+    "JOD",
   ]),
   policies: z.boolean().refine((val) => val === true, {
     message: "You must agree to the terms and conditions",
@@ -86,6 +87,7 @@ export const ProModal = () => {
     "HUF",
     "MDL",
     "BGN",
+    "JOD",
   ];
 
   const {
