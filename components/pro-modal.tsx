@@ -25,7 +25,7 @@ import { currenciesRate, Currency } from "@/constants/index";
 import Image from "next/image";
 import CardLogo from "@/public/card-logo.png";
 import { z } from "zod";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -66,6 +66,7 @@ const formSchema = z.object({
 export const ProModal = () => {
   const router = useRouter();
   const { userId } = useAuth();
+  const { user } = useUser();
   const proModal = useProModal();
   const [loading, setLoading] = useState(false);
   const [generationPrice, setGenerationPrice] = useState(GENERATIONS_PRICE);
@@ -172,6 +173,9 @@ export const ProModal = () => {
           currency: "EUR",
           description: `Neuvisia Top Up (${watch("generations")} Tokens)`,
           tracking_id: userId,
+        },
+        customer: {
+          email: user?.emailAddresses[0].emailAddress || "",
         },
         settings: {
           notification_url: "https://www.neuvisia.com/api/webhooks/payment",
