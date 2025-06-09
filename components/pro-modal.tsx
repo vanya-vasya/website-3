@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Check, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -21,7 +20,7 @@ import { GENERATIONS_PRICE, toolsModal } from "@/constants";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { currenciesRate, Currency } from "@/constants/index";
+import { currencies, currenciesRate, Currency } from "@/constants/index";
 import Image from "next/image";
 import CardLogo from "@/public/card-logo.png";
 import { z } from "zod";
@@ -36,29 +35,13 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import Link from "next/link";
 
 const formSchema = z.object({
   generations: z
     .number()
     .positive({ message: "Generations count must be positive" })
     .min(1, { message: "At least one generation is required" }),
-  currency: z.enum([
-    "EUR",
-    "USD",
-    "GBP",
-    "CHF",
-    "AED",
-    "SEK",
-    "PLN",
-    "CZK",
-    "DKK",
-    "RON",
-    "HUF",
-    "MDL",
-    "BGN",
-    "JOD",
-  ]),
+  currency: z.enum(currencies),
   policies: z.boolean().refine((val) => val === true, {
     message: "You must agree to the terms and conditions",
   }),
@@ -73,22 +56,6 @@ export const ProModal = () => {
   const [generationPrice, setGenerationPrice] = useState(GENERATIONS_PRICE);
   const [generationsCount, setGenerationsCount] = useState(50);
   const [activeButton, setActiveButton] = useState(50);
-  const currencies = [
-    "EUR",
-    "USD",
-    "GBP",
-    "CHF",
-    "AED",
-    "SEK",
-    "PLN",
-    "CZK",
-    "DKK",
-    "RON",
-    "HUF",
-    "MDL",
-    "BGN",
-    "JOD",
-  ];
 
   const {
     register,

@@ -186,6 +186,7 @@ export type Currency =
   | "PLN"
   | "CZK"
   | "DKK"
+  | "NOK"
   | "RON"
   | "HUF"
   | "MDL"
@@ -194,20 +195,39 @@ export type Currency =
 
 export const currenciesRate: Record<Currency, number> = {
   EUR: 1,
-  USD: 1.13,
+  USD: 1.14,
   GBP: 0.84,
-  CHF: 0.93,
-  AED: 4.16,
-  SEK: 10.89,
-  PLN: 4.25,
-  CZK: 24.93,
+  CHF: 0.94,
+  AED: 4.19,
+  SEK: 10.98,
+  PLN: 4.27,
+  CZK: 24.80,
   DKK: 7.46,
-  RON: 5.05,
-  HUF: 403.30,
-  MDL: 19.58,
+  NOK: 11.50,
+  RON: 5.04,
+  HUF: 401.80,
+  MDL: 19.71,
   BGN: 1.96,
-  JOD: 0.80,
+  JOD: 0.81,
 };
+
+export const currencies = [
+    "EUR",
+    "USD",
+    "GBP",
+    "CHF",
+    "AED",
+    "SEK",
+    "PLN",
+    "CZK",
+    "DKK",
+    "NOK",
+    "RON",
+    "HUF",
+    "MDL",
+    "BGN",
+    "JOD",
+  ]  as const;
 
 export const MODEL_GENERATIONS_PRICE = {
   conversation: 0.01,
