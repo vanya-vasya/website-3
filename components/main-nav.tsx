@@ -28,6 +28,8 @@ import {
   ChevronDown,
   BrushIcon,
   Mic,
+  Coins,
+  Banknote,
 } from "lucide-react";
 import Image from "next/image";
 import { UsageProgress } from "./usage-progress";
@@ -169,6 +171,15 @@ export function MainNav({
                   ))}
                 </ul>
               </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <Link href={"/dashboard/billing/payment-history"}>
+                <div className="cursor-pointer group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 group bg-transparent hover:bg-amber-900/40 focus:bg-amber-900/40 data-[state=open]:bg-amber-900/40 text-white hover:text-amber-200">
+                  <Banknote className="mr-2 h-4 w-4 text-amber-400" />
+                  Payment History
+                </div>
+              </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>

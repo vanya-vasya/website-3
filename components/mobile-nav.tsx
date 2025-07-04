@@ -6,11 +6,14 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
-  Sparkles,
   X,
-  Zap,
-  PenTool,
-  Paintbrush,
+  FileAudio,
+  FileVideo2,
+  PaintBucket,
+  Menu,
+  LayoutDashboard,
+  BrushIcon,
+  Banknote,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -26,21 +29,6 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  MessageSquare,
-  FileAudio,
-  FileVideo2,
-  FileImage,
-  Wand2,
-  ImageMinus,
-  Scissors,
-  PaintBucket,
-  ArchiveRestore,
-  Layers,
-  Menu,
-  LayoutDashboard,
-  BrushIcon,
-} from "lucide-react";
 import { useProModal } from "@/hooks/use-pro-modal";
 import Image from "next/image";
 import { tools } from "@/constants";
@@ -90,7 +78,7 @@ export function MobileNav({
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden h-10 w-10 rounded-xl bg-indigo-900/20 hover:bg-indigo-900/40 border border-indigo-500/20 backdrop-blur-sm"
+          className="xl:hidden h-10 w-10 rounded-xl bg-indigo-900/20 hover:bg-indigo-900/40 border border-indigo-500/20 backdrop-blur-sm"
         >
           <Menu className="h-5 w-5 text-indigo-300" />
           <span className="sr-only">Toggle Menu</span>
@@ -307,9 +295,24 @@ export function MobileNav({
                 ))}
               </CollapsibleContent>
             </Collapsible>
+            <Link
+              href={"/dashboard/billing/payment-history"}
+              onClick={() => setIsOpen(false)}
+              className={cn(
+                "flex w-full items-center p-4 font-medium text-white hover:bg-amber-900/30 transition-colors",
+                pathname === "/dashboard/billing/payment-history"
+                  ? "bg-amber-900/40 text-white"
+                  : "text-gray-300"
+              )}
+            >
+              <div className="h-7 w-7 rounded-md flex items-center">
+                <Banknote className="h-4 w-4 text-amber-300" />
+              </div>
+              Payment History
+            </Link>
           </div>
 
-          <div className="p-4 border-t border-indigo-500/10">
+          {/* <div className="p-4 border-t border-indigo-500/10">
             <div
               className="rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 p-4 cursor-pointer"
               onClick={() => {
@@ -325,7 +328,7 @@ export function MobileNav({
                 Unlimited access to all creative tools and priority rendering
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </SheetContent>
     </Sheet>

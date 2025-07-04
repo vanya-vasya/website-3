@@ -23,12 +23,12 @@ export default async function DashboardLayout({
       <div className="absolute inset-0 bg-gradient-to-tr from-indigo-900/10 via-purple-800/5 to-transparent pointer-events-none"></div>
 
       <AnimatedLayout>
-        <div className="container flex h-20 items-center">
+        <div className="container flex h-20 items-center px-4 xl:px-0">
           <MobileNav
             initialUsedGenerations={apiUsedGenerations}
             initialAvailableGenerations={apiAvailableGenerations}
           />
-          <div className="hidden md:block flex-1">
+          <div className="hidden xl:block flex-1">
             <MainNav
               initialUsedGenerations={apiUsedGenerations}
               initialAvailableGenerations={apiAvailableGenerations}
@@ -41,7 +41,7 @@ export default async function DashboardLayout({
                 initialAvailableGenerations={apiAvailableGenerations}
               />
             </div>
-            <div className="p-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 backdrop-filter backdrop-blur-sm">
+            <div className="rounded-full bg-indigo-500/10 border border-indigo-500/20 backdrop-filter backdrop-blur-sm">
               <UserButton afterSignOutUrl="/" />
             </div>
           </div>
@@ -56,17 +56,29 @@ export default async function DashboardLayout({
 
       <footer className="py-6 border-t border-indigo-900/20">
         <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 space-y-2 md:space-y-0">
-            <p>GROWTHPIXEL LTD (№16385052) <br/> Email: support@neuvisia.com <br/>128 City Road, London, United Kingdom, EC1V 2NX, <br/>Copyright © {new Date().getFullYear()}. All rights reserved.</p>
+          <div className="px-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 space-y-2 md:space-y-0">
+            <p>
+              GROWTHPIXEL LTD (№16385052) <br /> Email: support@neuvisia.com{" "}
+              <br />
+              128 City Road, London, United Kingdom, EC1V 2NX, <br />
+              Copyright © {new Date().getFullYear()}. All rights reserved.
+            </p>
             <div className="flex space-x-4">
-            <Link href="/privacy-policy" className="hover:text-gray-300">Privacy Policy
-            </Link>
-            <Link href="/terms-and-conditions" className="hover:text-gray-300">Terms and Conditions
-            </Link>
-            <Link href="/return-policy" className="hover:text-gray-300">Return Policy
-            </Link>
-            <Link href="/cookies-policy" className="hover:text-gray-300">Cookies Policy
-            </Link>
+              <Link href="/privacy-policy" className="hover:text-gray-300">
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms-and-conditions"
+                className="hover:text-gray-300"
+              >
+                Terms and Conditions
+              </Link>
+              <Link href="/return-policy" className="hover:text-gray-300">
+                Return Policy
+              </Link>
+              <Link href="/cookies-policy" className="hover:text-gray-300">
+                Cookies Policy
+              </Link>
             </div>
           </div>
           <div className="flex justify-center mt-6">

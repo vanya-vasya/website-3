@@ -1,8 +1,9 @@
-import { auth } from '@clerk/nextjs/server';
+import { auth } from "@clerk/nextjs/server";
 
 import prismadb from "@/lib/prismadb";
+import { Transaction } from "@prisma/client";
 
-export const incrementApiLimit = async (value:number) => {
+export const incrementApiLimit = async (value: number) => {
   const { userId } = auth();
 
   if (!userId) {
@@ -21,7 +22,7 @@ export const incrementApiLimit = async (value:number) => {
   }
 };
 
-export const checkApiLimit = async (generationPrice:number) => {
+export const checkApiLimit = async (generationPrice: number) => {
   const { userId } = auth();
 
   if (!userId) {
@@ -31,7 +32,12 @@ export const checkApiLimit = async (generationPrice:number) => {
   const userApiLimit = await prismadb.user.findUnique({
     where: { clerkId: userId },
   });
-  if (userApiLimit && userApiLimit.usedGenerations < userApiLimit.availableGenerations && (userApiLimit.availableGenerations - userApiLimit.usedGenerations) >= generationPrice) {
+  if (
+    userApiLimit &&
+    userApiLimit.usedGenerations < userApiLimit.availableGenerations &&
+    userApiLimit.availableGenerations - userApiLimit.usedGenerations >=
+      generationPrice
+  ) {
     return true;
   } else {
     return false;
@@ -76,3 +82,22 @@ export const getApiUsedGenerations = async () => {
 
   return userApiLimit.usedGenerations;
 };
+
+export async function fetchPaymentHistory(): Promise<Transaction[] | null> {
+  try {
+    const { userId } = auth();
+
+    if (!userId) {
+      return null;
+    }
+    const transactions = await prismadb.transaction.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    return transactions;
+  } catch (error) {
+    console.error("[FETCH_PAYMENT_HISTORY_ERROR]", error);
+    throw new Error("Failed to fetch payment history");
+  }
+}
