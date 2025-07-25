@@ -135,8 +135,7 @@ export const ProModal = () => {
         iframe: true,
         test: false,
         transaction_type: "payment",
-        public_key:
-          "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx/MGZJ8QMVlA65K8aDUtBOrWC3fIA8EFMU6WC35stdlUT/kOIFxzDnKPUKpPIX/aP44RgPs/fGZJWDve+Gl0YJNSi8GrhXzrZSZCDu2UGoi7SXlWN4ERafjMZS49F5j3jfpNS3teiAZ0Rsne7pCyRKacjTYx3bPBaePiEtokbSyG5BQc+u5FzRHi7okvKP9hwd8/lvfZXdQFfMjka0ImJBiV9ebm1ZaJy3FFsjPxOGQ19dsyxOmYxqc/ZlWPJs7LI3s5/AnvSpgDKsRx5CPL1cf5UF+ZnFnLg3gQJTkwTJ4UhIOB26uTsJK1iXpS0R5WTjPepNm0xfGu+c6kEqnK+QIDAQAB",
+        public_key: process.env.NEXT_PUBLIC_SHOP_PUBLIC_KEY,
         order: {
           amount: watch("generations") * 5,
           currency: "EUR",
