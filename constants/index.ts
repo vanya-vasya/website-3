@@ -1,4 +1,13 @@
-import { LucideIcon, MessageSquare, ImageIcon, VideoIcon, Music, Code, Settings, Sparkles } from "lucide-react";
+import {
+  LucideIcon,
+  MessageSquare,
+  ImageIcon,
+  VideoIcon,
+  Music,
+  Code,
+  Settings,
+  Sparkles,
+} from "lucide-react";
 
 export interface Tool {
   label: string;
@@ -16,7 +25,8 @@ export const tools: Tool[] = [
     href: "/dashboard/conversation",
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
-    description: "Chat with an advanced AI assistant that understands context and nuance."
+    description:
+      "Chat with an advanced AI assistant that understands context and nuance.",
   },
   {
     label: "Image Generation",
@@ -24,7 +34,8 @@ export const tools: Tool[] = [
     href: "/dashboard/image-generation",
     color: "text-pink-700",
     bgColor: "bg-pink-700/10",
-    description: "Generate stunning images from text descriptions using state-of-the-art AI."
+    description:
+      "Generate stunning images from text descriptions using state-of-the-art AI.",
   },
   {
     label: "Video Generation",
@@ -32,7 +43,8 @@ export const tools: Tool[] = [
     href: "/dashboard/video",
     color: "text-orange-700",
     bgColor: "bg-orange-700/10",
-    description: "Create engaging videos from text prompts with AI-powered animation."
+    description:
+      "Create engaging videos from text prompts with AI-powered animation.",
   },
   {
     label: "Music Generation",
@@ -40,7 +52,8 @@ export const tools: Tool[] = [
     href: "/dashboard/music",
     color: "text-emerald-500",
     bgColor: "bg-emerald-500/10",
-    description: "Compose original music and melodies using AI composition models."
+    description:
+      "Compose original music and melodies using AI composition models.",
   },
   {
     label: "Code Generation",
@@ -48,7 +61,8 @@ export const tools: Tool[] = [
     href: "/dashboard/code",
     color: "text-green-700",
     bgColor: "bg-green-700/10",
-    description: "Generate code snippets and get programming help from an AI expert."
+    description:
+      "Generate code snippets and get programming help from an AI expert.",
   },
   {
     label: "Settings",
@@ -56,7 +70,8 @@ export const tools: Tool[] = [
     href: "/dashboard/settings",
     color: "text-slate-500",
     bgColor: "bg-slate-500/10",
-    description: "Customize your AI experience and manage your account preferences."
+    description:
+      "Customize your AI experience and manage your account preferences.",
   },
 ];
 
@@ -191,7 +206,8 @@ export type Currency =
   | "HUF"
   | "MDL"
   | "BGN"
-  | "JOD";
+  | "JOD"
+  | "KWD";
 
 export const currenciesRate: Record<Currency, number> = {
   EUR: 1,
@@ -201,33 +217,35 @@ export const currenciesRate: Record<Currency, number> = {
   AED: 4.19,
   SEK: 10.98,
   PLN: 4.27,
-  CZK: 24.80,
+  CZK: 24.8,
   DKK: 7.46,
-  NOK: 11.50,
+  NOK: 11.5,
   RON: 5.04,
-  HUF: 401.80,
+  HUF: 401.8,
   MDL: 19.71,
   BGN: 1.96,
   JOD: 0.81,
+  KWD: 0.36,
 };
 
 export const currencies = [
-    "EUR",
-    "USD",
-    "GBP",
-    "CHF",
-    "AED",
-    "SEK",
-    "PLN",
-    "CZK",
-    "DKK",
-    "NOK",
-    "RON",
-    "HUF",
-    "MDL",
-    "BGN",
-    "JOD",
-  ]  as const;
+  "EUR",
+  "USD",
+  "GBP",
+  "CHF",
+  "AED",
+  "SEK",
+  "PLN",
+  "CZK",
+  "DKK",
+  "NOK",
+  "RON",
+  "HUF",
+  "MDL",
+  "BGN",
+  "JOD",
+  "KWD",
+] as const;
 
 export const MODEL_GENERATIONS_PRICE = {
   conversation: 0.01,
