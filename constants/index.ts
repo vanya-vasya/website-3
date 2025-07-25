@@ -211,7 +211,7 @@ export type Currency =
 
 export const currenciesRate: Record<Currency, number> = {
   EUR: 1,
-  USD: 1.14,
+  USD: 1.133616,
   GBP: 0.84,
   CHF: 0.94,
   AED: 4.19,
@@ -225,7 +225,7 @@ export const currenciesRate: Record<Currency, number> = {
   MDL: 19.71,
   BGN: 1.96,
   JOD: 0.81,
-  KWD: 0.36,
+  KWD: 0.346695,
 };
 
 export const currencies = [
