@@ -1,4 +1,6 @@
+import { transporter } from "@/config/nodemailer";
 import prismadb from "@/lib/prismadb";
+import { generatePdfReceipt } from "@/lib/receiptGeneration";
 import { createPublicKey, verify } from "crypto";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -107,6 +109,56 @@ export async function POST(req: Request) {
             receipt_url: transaction.receipt_url,
           },
         });
+
+        try {
+          const pdfBuffer = await generatePdfReceipt(
+            String(body.transaction.uid).split("-").pop() ?? "",
+            body.transaction.customer.email,
+            new Date(Date.now()).toLocaleDateString("ru-RU", {
+              day: "numeric",
+              month: "numeric",
+              year: "numeric",
+            }),
+            number,
+            body.transaction.description,
+            body.transaction.amount,
+            body.transaction.currency
+          );
+
+          await transporter.sendMail({
+            from: process.env.OUTBOX_EMAIL,
+            to: body.transaction.customer.email,
+            subject: `Receipt #${
+              String(body.transaction.uid).split("-").pop() || "42f7fj3u48rh"
+            } - Neuvisia Tokens Purchase`,
+            text: `Hi there,
+
+We’re excited to welcome you to Neuvisia — thanks so much for your recent order on neuvisia.com!
+
+You’ll find your transaction receipt attached to this message. Be sure to keep it in case you need it later.
+
+If you run into any issues, have questions about your token usage, or need guidance, our support team is just an email away at support@neuvisia.com. We’re always ready to help.
+
+We’re honored to be part of your creative journey.
+
+With appreciation,
+The Neuvisia Team
+neuvisia.com
+support@neuvisia.com`,
+            attachments: [
+              {
+                filename:
+                  `receipt-${String(body.transaction.uid)
+                    .split("-")
+                    .pop()}.pdf` || "receipt.pdf",
+                content: pdfBuffer,
+                contentType: "application/pdf",
+              },
+            ],
+          });
+        } catch (emailError) {
+          console.error("Failed to send receipt email:", emailError);
+        }
 
         return NextResponse.json(
           { success: true, message: "Success Response" },

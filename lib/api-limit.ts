@@ -97,7 +97,8 @@ export async function fetchPaymentHistory(): Promise<Transaction[] | null> {
     });
     return transactions;
   } catch (error) {
-    console.error("[FETCH_PAYMENT_HISTORY_ERROR]", error);
-    throw new Error("Failed to fetch payment history");
+    // console.error("[FETCH_PAYMENT_HISTORY_ERROR]", error);
+    // throw new Error("Failed to fetch payment history");
+    return null;
   }
 }
