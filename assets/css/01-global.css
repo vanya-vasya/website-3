@@ -9,9 +9,9 @@
     --font-weight-normal: 400; /* Вес для обычного текста */
     --font-weight-bold: 700;  /* Вес для жирного текста */
     --thm-font-two: 'Nunito', sans-serif;
-    --thm-gray: #A1AAC9;
+    --thm-gray: #1b1c1e;
     --thm-gray-rgb: 161, 170, 201;
-    --thm-white: #ffffff;
+    --thm-white: #222020;
     --thm-white-rgb: 255, 255, 255;
     --thm-black: #000000;
     --thm-black-rgb: 0, 0, 0;
@@ -23,8 +23,8 @@
     --thm-gray-bg-rgb: 133, 133, 133;
     --thm-bdr-color: #3C3C77;
     --thm-bdr-color-rgb: 60, 60, 119;
-    --thm-body-bg: #0f172a;
-    --thm-main-bg: #15152c;
+    --thm-body-bg: #cbcfd8;
+    --thm-main-bg: #d0d0dd;
     --thm-border-radius: 8px;
     --thm-gradient-color1: #8F79FF;
     --thm-gradient-color2: #426BFF;
@@ -518,10 +518,10 @@ img {
     appearance: none;
     outline: none !important;
     color: var(--thm-white);
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
     text-transform: capitalize;
-    padding: 11px 30px 11px;
+    padding: 11px 18px 11px 18px;
     border-radius: 8px;
     background: #20293C;
     box-shadow: 0px 20px 24px -10px #0B042F;

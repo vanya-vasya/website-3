@@ -1,89 +1,220 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import CodeSnippet from "@/components/ui/CodeSnippet"; 
 import ChatInterface from "@/components/ui/ChatInterface"; 
 import Image from 'next/image';
 
-const Solutions = () => {
-  return (
-    <div className="py-6 sm:py-8 lg:py-12 bg-slate-900 relative">
-      <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
-        <div className="mb-4 flex items-center justify-between gap-8 sm:mb-8 md:mb-12">
-          <div className="flex items-center gap-12">
-            <h2 className="text-2xl font-bold lg:text-3xl text-white">Designed for Every Creative Professional</h2>
+const creativeTools = [
+  {
+    title: "Co-Composer",
+    description: "Create original music and melodies for your projects with AI-powered composition",
+    image: "/images/resource/music/music-production.jpg",
+    type: "image",
+    color: "from-cyan-400 via-blue-500 to-indigo-600",
+  },
+  {
+    title: "Co-Director", 
+    description: "Create professional video scripts, storyboards and scenarios for your next production",
+    image: "/images/resource/video-production.jpg",
+    type: "image",
+    color: "from-cyan-400 via-blue-500 to-indigo-600",
+  },
+  {
+    title: "Design Partner",
+    description: "Generate stunning concept art and illustrations for your creative projects",
+    image: "/images/resource/tiktok.jpg",
+    type: "image", 
+    color: "from-cyan-400 via-blue-500 to-indigo-600",
+  },
+  {
+    title: "Creative Partner",
+    description: "Generate engaging social media posts, captions, and content calendars for your brand",
+    image: "/images/resource/digital_artist.jpg",
+    type: "image",
+    color: "from-cyan-400 via-blue-500 to-indigo-600",
+  },
+];
 
-            <p className="hidden max-w-screen-sm text-white/50 md:block">
-              Neuvisia provides specialized tools for video creators, digital artists, musicians, and content creators – all in one unified platform.
-            </p>
-          </div>
+const Solutions = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [autoplay, setAutoplay] = useState(true);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | undefined;
+    if (autoplay) {
+      interval = setInterval(() => {
+        setActiveIndex((current) => (current + 1) % creativeTools.length);
+      }, 5000);
+    }
+    return () => clearInterval(interval);
+  }, [autoplay]);
+
+  const handleDotClick = (index: number) => {
+    setActiveIndex(index);
+    setAutoplay(false);
+    // Restart autoplay after 10 seconds of inactivity
+    setTimeout(() => setAutoplay(true), 10000);
+  };
+
+  // Calculate the visible tools (current, prev, next)
+  const getPrevIndex = (index: number) =>
+    index === 0 ? creativeTools.length - 1 : index - 1;
+  const getNextIndex = (index: number) =>
+    index === creativeTools.length - 1 ? 0 : index + 1;
+
+  return (
+    <section id="solutions"  className="relative overflow-hidden py-16 md:py-24 lg:py-32 bg-slate-50">
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:30px_30px]"></div>
+
+      {/* Background elements */}
+
+      <div className="container relative mx-auto px-4">
+        <div className="mx-auto flex max-w-3xl flex-col items-center space-y-8 text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+            style={{
+              fontWeight: 600,
+              fontSize: '2.5rem',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              textTransform: 'none',
+              color: '#0f172a',
+              marginBottom: '1rem'
+            }}
+          >
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600">
+              It is your AI creative assistant
+            </span>
+          </motion.h2>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-6 xl:gap-8">
-        <div className="group relative flex h-48 items-end overflow-hidden rounded-lg shadow-lg md:h-80 hover:ring-2 hover:ring-pink-600">
-            <div className="absolute inset-0 h-full w-full">
-              <Image
-                src="/images/resource/music/music-production.jpg"
-                alt="Music composition interface"
-                width={800}
-                height={600}
-                className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-                loading="lazy"
-              />
-            </div>
+        {/* 3D Card Slider */}
+        <div className="relative h-[500px] w-full max-w-6xl mx-auto">
+          {creativeTools.map((tool, index) => {
+            // Determine if this card is active, previous, or next
+            const isActive = index === activeIndex;
+            const isPrev = index === getPrevIndex(activeIndex);
+            const isNext = index === getNextIndex(activeIndex);
+            const isVisible = isActive || isPrev || isNext;
 
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-800 via-transparent to-transparent opacity-50"></div>
+            if (!isVisible) return null;
 
-            <span className="relative ml-4 mb-3 inline-block text-sm bg-slate-800 px-3 py-1 rounded-md text-white md:ml-5 md:text-lg">
-              Musician Tools
-            </span>
-          </div>
+            let position: "center" | "left" | "right";
+            if (isActive) position = "center";
+            else if (isPrev) position = "left";
+            else position = "right";
 
-          <div className="group relative flex h-48 items-end overflow-hidden rounded-lg shadow-lg md:col-span-2 md:h-80 hover:ring-2 hover:ring-pink-600">
-            <div className="absolute inset-0 h-full w-full bg-slate-800">
-              <ChatInterface />
-            </div>
+            return (
+              <motion.div
+                key={index}
+                initial={false}
+                animate={{
+                  x:
+                    position === "center"
+                      ? 0
+                      : position === "left"
+                      ? "-55%"
+                      : "55%",
+                  scale: position === "center" ? 1 : 0.8,
+                  opacity: position === "center" ? 1 : 0.6,
+                  zIndex: position === "center" ? 30 : 10,
+                  rotateY:
+                    position === "center" ? 0 : position === "left" ? 15 : -15,
+                }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                className="absolute top-0 left-0 right-0 mx-auto w-full max-w-2xl h-[500px] cursor-pointer perspective-1000"
+                onClick={() => {
+                  if (!isActive) {
+                    setActiveIndex(index);
+                    setAutoplay(false);
+                    setTimeout(() => setAutoplay(true), 10000);
+                  }
+                }}
+              >
+                <div className="relative w-full h-full transform-style-3d rounded-2xl shadow-lg overflow-hidden">
+                  {/* Background content */}
+                  <div className="absolute inset-0 z-0">
+                    {tool.type === "image" && tool.image ? (
+                      <Image
+                        src={tool.image}
+                        alt={tool.title}
+                        width={800}
+                        height={600}
+                        className="absolute inset-0 h-full w-full object-cover object-center"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 h-full w-full bg-slate-800">
+                        <ChatInterface />
+                      </div>
+                    )}
+                  </div>
 
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent opacity-80"></div>
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/60 to-transparent z-10"></div>
 
-            <span className="relative ml-4 mb-3 inline-block text-sm bg-slate-800/90 px-3 py-1 rounded-md font-semibold shadow-lg text-white md:ml-5 md:text-lg border border-pink-600/30">
-              Video Creator Tools
-            </span>
-          </div>
+                  {/* Glowing border */}
+                  <div
+                    className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${tool.color} opacity-0 hover:opacity-20 blur transition-opacity`}
+                  ></div>
 
-          <div className="group relative flex h-48 items-end overflow-hidden rounded-lg  shadow-lg md:col-span-2 md:h-80 hover:ring-2 hover:ring-pink-600">
-            <Image
-              src="/images/resource/animation.gif"
-              alt="Video creation example"
-              width={1000}
-              height={667}
-              className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-              loading="lazy"
+                  {/* Content */}
+                  <div className="absolute inset-0 z-20 p-8 flex flex-col justify-end">
+                    <div className="text-left">
+                      <h3 className="mb-4 text-3xl font-extrabold leading-9 text-white sm:text-4xl sm:leading-10">
+                        {tool.title}
+                      </h3>
+
+                      <p 
+                        className="mb-6 max-w-md text-white"
+                        style={{
+                          fontWeight: 600,
+                          fontSize: '1rem',
+                          lineHeight: 1.2,
+                          letterSpacing: '0.01em',
+                          textTransform: 'none'
+                        }}
+                      >
+                        {tool.description}
+                      </p>
+
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.98 }}
+                        className={`px-6 py-3 rounded-full bg-gradient-to-r ${tool.color} text-white font-semibold shadow-lg`}
+                      >
+                        Explore
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Navigation dots */}
+        <div className="flex justify-center mt-12 space-x-4">
+          {creativeTools.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === activeIndex
+                  ? "bg-white w-8"
+                  : "bg-gray-500 opacity-50 hover:opacity-75"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
             />
-
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
-
-            <span className="relative ml-4 mb-3 inline-block text-sm bg-slate-800 px-3 py-1 rounded-md text-white md:ml-5 md:text-lg">
-              Digital Artist Tools
-            </span>
-          </div>
-
-          <div className="group relative flex h-48 items-end overflow-hidden rounded-lg  shadow-lg md:h-80 hover:ring-2 hover:ring-pink-600">
-            <Image
-              src="/images/resource/hero-1.png"
-              alt="Content creation example"
-              width={600}
-              height={400}
-              className="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
-              loading="lazy"
-            />
-
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50"></div>
-
-            <span className="relative ml-4 mb-3 inline-block text-sm bg-slate-800 px-3 py-1 rounded-md text-white md:ml-5 md:text-lg">
-              Content Creator Tools
-            </span>
-          </div>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

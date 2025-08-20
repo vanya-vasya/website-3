@@ -24,7 +24,8 @@ const CanvasExpansionPage = async () => {
   const balance = getUserAvailableGenerations(user);
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title="Canvas Expansion"
       description={`Seamlessly expand your artworks beyond their original boundaries. (Price: ${MODEL_GENERATIONS_PRICE.imageGenerativeFill} credits)`}
       iconName={"LayoutGrid"}
@@ -41,6 +42,7 @@ const CanvasExpansionPage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
   );
 };
 

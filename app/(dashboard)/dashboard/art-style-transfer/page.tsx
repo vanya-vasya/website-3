@@ -26,7 +26,8 @@ const ArtStyleTransferPage = async () => {
   const balance = getUserAvailableGenerations(user);
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title="Art Style Transfer"
       description={`Transform your artworks with different artistic styles and techniques using GPT Image. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRecolor} credits)`}
       iconName={"Wand2"}
@@ -44,6 +45,7 @@ const ArtStyleTransferPage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
   );
 };
 

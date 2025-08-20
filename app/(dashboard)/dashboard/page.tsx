@@ -1,17 +1,18 @@
 "use client";
 
 import {
-  ArrowRight,
   Sparkles,
   Zap,
   VideoIcon,
   PenTool,
   Music,
   Paintbrush,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -39,21 +40,15 @@ const item = {
   },
 };
 
-// Function to get the border color from a text color class
-const getBorderColorFromTextColor = (colorClass: string) => {
-  // Extract color name and variant from format like "text-violet-600"
-  const parts = colorClass.split("-");
-  if (parts.length >= 3) {
-    const colorName = parts[1];
-    return `border-${colorName}-400/30`;
-  }
-  return "border-gray-400/30"; // fallback
-};
+
 
 export default function HomePage() {
   const router = useRouter();
+  const sliderRef = useRef<HTMLDivElement>(null);
   const [activeFilters, setActiveFilters] = useState<Profession[]>([]);
   const [filteredTools, setFilteredTools] = useState(tools);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   useEffect(() => {
     if (activeFilters.length === 0) {
@@ -82,27 +77,75 @@ export default function HomePage() {
     });
   };
 
-  return (
-    <div className="space-y-8">
-      <div className="space-y-6 relative">
-        <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-br from-indigo-800/20 via-purple-700/10 to-transparent rounded-3xl blur-3xl -z-10"></div>
+  const checkScrollButtons = () => {
+    if (sliderRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  };
 
-        <h1 className="text-4xl md:text-6xl font-heading font-bold text-center">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 inline">
+  const scrollLeft = () => {
+    if (sliderRef.current) {
+      const cardWidth = 400; // Approximate card width with gap
+      sliderRef.current.scrollBy({
+        left: -cardWidth,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (sliderRef.current) {
+      const cardWidth = 400; // Approximate card width with gap
+      sliderRef.current.scrollBy({
+        left: cardWidth,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  useEffect(() => {
+    checkScrollButtons();
+    const handleScroll = () => checkScrollButtons();
+    const slider = sliderRef.current;
+    
+    if (slider) {
+      slider.addEventListener('scroll', handleScroll);
+      return () => slider.removeEventListener('scroll', handleScroll);
+    }
+  }, [filteredTools]);
+
+  return (
+    <div className="space-y-8 bg-white">
+      <div className="space-y-6 relative max-w-[1350px] mx-auto bg-white">
+        <h1 className="text-4xl md:text-6xl font-bold text-center">
+          <span 
+            className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 inline"
+            style={{
+              fontFamily: 'var(--contact-font)',
+              fontWeight: 600,
+              letterSpacing: '0.01em',
+              textTransform: 'none'
+            }}
+          >
             Creator Studio
           </span>
         </h1>
 
-        <div className="flex flex-col items-center">
-          <div className="flex items-center gap-2 bg-indigo-900/20 backdrop-blur-sm border border-indigo-500/10 py-3 px-5 rounded-full mb-4">
-            <Zap className="h-4 w-4 text-indigo-400" />
-            <p className="text-sm text-indigo-300">
-              Elevate your creative content with AI
-            </p>
-          </div>
-          <p className="text-center text-muted-foreground max-w-[700px] mx-auto text-base md:text-lg">
+        <div className="flex justify-center mb-12">
+          <p 
+            className="max-w-4xl text-base text-center"
+            style={{
+              fontFamily: 'var(--contact-font)',
+              fontWeight: 600,
+              letterSpacing: '0.01em',
+              textTransform: 'none',
+              color: '#0f172a'
+            }}
+          >
             Powerful AI tools designed specifically for content creators, video
-            artists, photographers and digital artists.
+            artists, photographers and digital artists
           </p>
         </div>
 
@@ -112,22 +155,24 @@ export default function HomePage() {
               key={profession.id}
               onClick={() => toggleFilter(profession.id as Profession)}
               className={cn(
-                "flex items-center gap-2 py-2 px-4 rounded-lg transition-all duration-300",
+                "flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-500 shadow-lg shadow-indigo-500/20 font-semibold transform",
                 profession.bgColor,
                 profession.borderColor,
-                "border",
-                // Если фильтр активен, добавляем эффект свечения
-                activeFilters.includes(profession.id as Profession) &&
-                  "ring-2 ring-offset-2 ring-offset-gray-900 shadow-lg",
-                activeFilters.includes(profession.id as Profession)
-                  ? `ring-${profession.textColor.split("-")[1]}`
-                  : ""
+                // Если фильтр активен, применяем эффекты карточек
+                activeFilters.includes(profession.id as Profession) 
+                  ? "shadow-2xl shadow-indigo-500/40 scale-[1.02] -translate-y-2"
+                  : "hover:shadow-2xl hover:shadow-indigo-500/40 hover:scale-[1.02] hover:-translate-y-2"
               )}
+              style={{
+                boxShadow: activeFilters.includes(profession.id as Profession)
+                  ? '0 0 0 1px rgba(129, 140, 248, 0.3), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                  : '0 0 0 1px rgba(129, 140, 248, 0.2), 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+              }}
             >
               <profession.icon
                 className={cn("h-5 w-5", profession.iconColor)}
               />
-              <span className={cn("text-sm font-medium", profession.textColor)}>
+              <span className={cn("text-sm", profession.textColor)}>
                 {profession.label}
               </span>
             </button>
@@ -135,88 +180,140 @@ export default function HomePage() {
         </div>
       </div>
 
-      <AnimatePresence>
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4"
+      <div className="relative">
+        {/* Navigation Arrows */}
+        <button
+          onClick={scrollLeft}
+          disabled={!canScrollLeft}
+          className={cn(
+            "absolute left-2 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-indigo-500/20 backdrop-blur-sm border border-indigo-500/30 flex items-center justify-center transition-all duration-300",
+            canScrollLeft 
+              ? "hover:bg-indigo-500/40 hover:border-indigo-400/50 text-white" 
+              : "opacity-50 cursor-not-allowed text-gray-500"
+          )}
         >
-          {filteredTools.map((tool, index) => (
-            <motion.div
-              key={tool.id}
-              variants={item}
-              initial="hidden"
-              animate="show"
-              exit="hidden"
-              layout
-              className="w-full"
-            >
-              <Card
-                onClick={() => router.push(`${tool.href}?toolId=${tool.id}`)}
-                className="group relative overflow-hidden p-6 hover:shadow-xl transition-all duration-500 cursor-pointer border-0 bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl glow-card"
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+        
+        <button
+          onClick={scrollRight}
+          disabled={!canScrollRight}
+          className={cn(
+            "absolute right-2 top-1/2 -translate-y-1/2 z-10 h-12 w-12 rounded-full bg-indigo-500/20 backdrop-blur-sm border border-indigo-500/30 flex items-center justify-center transition-all duration-300",
+            canScrollRight 
+              ? "hover:bg-indigo-500/40 hover:border-indigo-400/50 text-white" 
+              : "opacity-50 cursor-not-allowed text-gray-500"
+          )}
+        >
+          <ChevronRight className="h-6 w-6" />
+        </button>
+
+        {/* Slider Container */}
+        <AnimatePresence>
+          <motion.div
+            ref={sliderRef}
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="flex gap-6 overflow-x-auto scrollbar-hide px-4 py-2 scroll-smooth"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+            onScroll={checkScrollButtons}
+          >
+            {filteredTools.map((tool, index) => (
+              <motion.div
+                key={tool.id}
+                variants={item}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                layout
+                className="flex-shrink-0 w-80 sm:w-96"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-indigo-500 to-purple-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                <Card
+                  onClick={() => router.push(`${tool.href}?toolId=${tool.id}`)}
+                  className="group relative overflow-hidden p-6 shadow-lg shadow-indigo-500/20 hover:shadow-2xl hover:shadow-indigo-500/40 transition-all duration-500 cursor-pointer border-0 bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl glow-card h-full transform hover:scale-[1.02] hover:-translate-y-2"
+                  style={{
+                    boxShadow: '0 0 0 1px rgba(129, 140, 248, 0.3), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                  }}
+                >
+                  {/* Multi-layer glow effects with pulsing animation */}
+                  <div
+                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-cyan-500 to-indigo-600 opacity-0 group-hover:opacity-30 blur-md transition-all duration-500 z-10 glow-pulse"
+                  ></div>
+                  
+                  {/* Secondary glow layer */}
+                  <div
+                    className="absolute inset-0 rounded-xl bg-gradient-to-br from-blue-300 to-indigo-700 opacity-0 group-hover:opacity-15 blur-xl transition-all duration-700 z-10"
+                  ></div>
 
-                <div className="relative z-10">
-                  <div className="flex items-center gap-4 mb-5">
-                    <div
-                      className={cn(
-                        "p-3 rounded-xl backdrop-blur-sm border icon-float",
-                        tool.bgColor,
-                        getBorderColorFromTextColor(tool.color),
-                        `${tool.id}-icon`
-                      )}
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                    >
-                      <tool.icon className={cn("w-6 h-6", tool.color)} />
+                  {/* Animated gradient overlay with shimmer */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-15 shimmer-effect"></div>
+
+                  {/* Enhanced progress bar */}
+                  <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+                  
+                  {/* Corner accent */}
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+
+                  <div className="relative z-20 flex flex-col h-full">
+                    <div className="flex items-center gap-4 mb-5">
+                      <div className="relative w-12 h-12 flex items-center justify-center">
+                        <div
+                          className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 opacity-20 blur-lg"
+                        ></div>
+                        <div className="relative bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 p-3 rounded-full backdrop-blur-sm">
+                          <tool.icon className="w-6 h-6 text-white" />
+                        </div>
+                      </div>
+                      <h3 className="font-heading font-semibold text-lg text-black transition-all duration-500">
+                        {tool.label}
+                      </h3>
                     </div>
-                    <h3 className="font-heading font-semibold text-lg text-white">
-                      {tool.label}
-                    </h3>
-                  </div>
 
-                  <p className="text-sm text-gray-300 mb-6 line-clamp-2">
-                    {tool.description}
-                  </p>
+                    <p className="text-sm text-black mb-6 line-clamp-2 flex-grow transition-colors duration-500">
+                      {tool.description}
+                    </p>
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-                      <span className="flex items-center gap-1.5">
-                        <Sparkles className="h-3 w-3" />
-                        {tool.professions.includes("all")
-                          ? "Creator Tool"
-                          : tool.professions.includes("video")
-                          ? "Video Creator"
-                          : tool.professions.includes("art")
-                          ? "Digital Artist"
-                          : tool.professions.includes("music")
-                          ? "Musician"
-                          : "Content Creator"}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium px-3 py-1.5 rounded-full bg-indigo-500/10 group-hover:bg-indigo-500/20 text-black border border-indigo-500/20 group-hover:border-indigo-400/30 transition-all duration-500">
+                        <span className="flex items-center gap-1.5">
+                          <Sparkles className="h-3 w-3 transition-transform duration-500 group-hover:rotate-180" />
+                          {tool.professions.includes("all")
+                            ? "Creator Tool"
+                            : tool.professions.includes("video")
+                            ? "Co-Director"
+                            : tool.professions.includes("art")
+                            ? "Design Partner"
+                            : tool.professions.includes("music")
+                            ? "Co-Composer"
+                            : "Creative Partner"}
+                        </span>
                       </span>
-                    </span>
-                    <div className="h-8 w-8 rounded-full flex items-center justify-center bg-indigo-500/10 group-hover:bg-indigo-500/30 transition-colors duration-300 btn-glow">
-                      <ArrowRight className="w-4 h-4 text-indigo-300 group-hover:text-white transition-colors" />
+
                     </div>
                   </div>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <div className="relative py-6">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-indigo-500/10" />
         </div>
-        <div className="relative flex justify-center">
-          <span className="bg-background px-4 py-1 text-xs text-indigo-300 rounded-full border border-indigo-500/10 backdrop-blur-sm">
-            Made for creators, by creators
-          </span>
-        </div>
       </div>
+      
+      <style jsx global>{`
+        :root {
+          --contact-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                          Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+      `}</style>
     </div>
   );
 }

@@ -89,8 +89,9 @@ const SpeechPage = () => {
     }
   }
 
-  return ( 
-    <FeatureContainer
+    return (
+    <div className="bg-white">
+      <FeatureContainer
       title={currentTool.title}
       description={currentTool.description}
       iconName={currentTool.iconName as keyof typeof import("lucide-react")}
@@ -160,6 +161,7 @@ const SpeechPage = () => {
         </div>
       </div>
     </FeatureContainer>
+    </div>
   );
 }
  

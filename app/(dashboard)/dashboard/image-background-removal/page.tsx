@@ -18,7 +18,8 @@ const ImageObjectRemovePage = async () => {
   const balance = getUserAvailableGenerations(user);
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title="Background Removal"
       description={`Quick background removal to bring your subject into focus. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`}
       iconName="ImageMinus"
@@ -34,6 +35,7 @@ const ImageObjectRemovePage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
   );
 };
 

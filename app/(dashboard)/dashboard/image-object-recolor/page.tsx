@@ -18,8 +18,9 @@ const ImageObjectRecolorPage = async () => {
 
   const balance = getUserAvailableGenerations(user);
 
-  return ( 
-    <FeatureContainer
+    return (
+    <div className="bg-white">
+      <FeatureContainer
       title="Object Recolor"
       description={`Easily change the color of objects to match your vision. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRecolor} credits)`}
       iconName={"Brush"}
@@ -35,6 +36,7 @@ const ImageObjectRecolorPage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
    );
 }
  

@@ -18,8 +18,9 @@ const ImageGenerativeFillPage = async () => {
   
   const balance = getUserAvailableGenerations(user);
 
-  return ( 
-    <FeatureContainer
+    return (
+    <div className="bg-white">
+      <FeatureContainer
       title="Generative Fill"
       description={`Automatically adjust and fill your images to fit any aspect ratio.  (Price: ${MODEL_GENERATIONS_PRICE.imageGenerativeFill} credits)`}
       iconName={"PaintBucket"}
@@ -35,6 +36,7 @@ const ImageGenerativeFillPage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
    );
 }
  

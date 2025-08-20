@@ -18,9 +18,7 @@ export default async function DashboardLayout({
   const apiAvailableGenerations = await getApiAvailableGenerations();
 
   return (
-    <div className="h-auto relative dark min-h-screen bg-gradient-to-b from-black via-gray-950 to-gray-900">
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-5 pointer-events-none"></div>
-      <div className="absolute inset-0 bg-gradient-to-tr from-indigo-900/10 via-purple-800/5 to-transparent pointer-events-none"></div>
+    <div className="h-auto relative min-h-screen bg-white">
 
       <AnimatedLayout>
         <div className="container flex h-20 items-center px-4 xl:px-0">
@@ -54,9 +52,9 @@ export default async function DashboardLayout({
         </div>
       </main>
 
-      <footer className="py-6 border-t border-indigo-900/20">
+      <footer className="py-6 border-t border-gray-200 bg-white">
         <div className="container">
-          <div className="px-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 space-y-2 md:space-y-0">
+          <div className="px-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 space-y-2 md:space-y-0">
             <p>
               GROWTHPIXEL LTD (№16385052) <br /> Email: support@neuvisia.com{" "}
               <br />
@@ -64,19 +62,19 @@ export default async function DashboardLayout({
               Copyright © {new Date().getFullYear()}. All rights reserved.
             </p>
             <div className="flex space-x-4">
-              <Link href="/privacy-policy" className="hover:text-gray-300">
+              <Link href="/privacy-policy" className="hover:text-indigo-600">
                 Privacy Policy
               </Link>
               <Link
                 href="/terms-and-conditions"
-                className="hover:text-gray-300"
+                className="hover:text-indigo-600"
               >
                 Terms and Conditions
               </Link>
-              <Link href="/return-policy" className="hover:text-gray-300">
+              <Link href="/return-policy" className="hover:text-indigo-600">
                 Return Policy
               </Link>
-              <Link href="/cookies-policy" className="hover:text-gray-300">
+              <Link href="/cookies-policy" className="hover:text-indigo-600">
                 Cookies Policy
               </Link>
             </div>

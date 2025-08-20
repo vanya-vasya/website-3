@@ -1,108 +1,165 @@
 "use client";
 
-import { useEffect } from "react";
+import Image from "next/image";
 
 const Contact = () => {
-  useEffect(() => {
-    const targets = [
-      { id: "starsCount", count: 90000, suffix: "+" },
-      { id: "downloadsCount", count: 15000, suffix: "+" },
-      { id: "sponsorsCount", count: 50, suffix: "+" },
-    ];
+  // Array of partner logos
+  const partnerLogos = [
+    {
+      src: "/logos/BrightPay%20Black.svg",
+      alt: "BrightPay",
+      width: 128,
+      height: 47,
+    },
+    {
+      src: "/logos/Sage%20Black.svg",
+      alt: "Sage",
+      width: 128,
+      height: 47,
+    },
+    {
+      src: "/logos/Liberis%20Black.svg",
+      alt: "Liberis",
+      width: 128,
+      height: 47,
+    },
+    {
+      src: "/logos/Wagestream%20Black.svg",
+      alt: "Wagestream",
+      width: 128,
+      height: 47,
+    },
+    {
+      src: "/logos/Motorway%20Black.svg",
+      alt: "Motorway",
+      width: 128,
+      height: 47,
+    },
+    {
+      src: "/logos/Pax2Pay%20Black.svg",
+      alt: "Pax2Pay",
+      width: 128,
+      height: 47,
+    },
+    {
+      src: "/logos/Vyne%20Black.svg",
+      alt: "Vyne",
+      width: 128,
+      height: 47,
+    },
+    {
+      src: "/logos/Harri%20Black.svg",
+      alt: "Harri",
+      width: 128,
+      height: 47,
+    },
+  ];
 
-    const animateCount = (element: HTMLElement, count: number, suffix: string) => {
-      let start = 0;
-      const duration = 1500;
-      const startTime = performance.now();
-
-      const step = (currentTime: number) => {
-        const progress = Math.min((currentTime - startTime) / duration, 1);
-        const value = Math.floor(progress * count);
-        element.textContent = `${value}${suffix}`;
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        } else {
-          element.textContent = `${count}${suffix}`;
-        }
-      };
-
-      requestAnimationFrame(step);
-    };
-
-    if (typeof window !== "undefined") {
-      targets.forEach(({ id, count, suffix }) => {
-        const el = document.getElementById(id);
-        if (el) {
-          animateCount(el, count, suffix);
-        }
-      });
-    }
-  }, []);
+  // Duplicate the array to create seamless loop
+  const duplicatedLogos = [...partnerLogos, ...partnerLogos];
 
   return (
-    <section id="contact" className="page-title bg-slate-900">
-      <div className="dark:bg-gray-900">
-        <div className="pt-12 sm:pt-20">
-          <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-extrabold leading-9 text-white sm:text-4xl sm:leading-10">
-                Trusted by creators and developers
-              </h2>
-              <p className="mt-3 text-xl leading-7 text-white-300/10 sm:mt-4">
-              Neuvisia powers real-world projects across industries — from design and media to software and marketing.
-              </p>
-            </div>
+    <section id="contact" className="bg-white py-16 sm:py-24">
+      <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <h2 className="contact-heading">
+            Trusted by Leading Companies
+          </h2>
+          <p className="contact-subtitle">
+            Join Thousands of Businesses That Rely on Our AI-Powered Solutions
+          </p>
+        </div>
+
+        {/* Scrolling Marquee */}
+        <div className="relative overflow-hidden">
+          {/* Gradient overlays for smooth fade effect */}
+          <div className="absolute left-0 top-0 w-20 h-full bg-gradient-to-r from-white to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 w-20 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
+          
+          {/* Scrolling container */}
+          <div className="flex space-x-8 lg:space-x-12 animate-marquee">
+            {duplicatedLogos.map((logo, index) => (
+              <div
+                key={`${logo.alt}-${index}`}
+                className="flex-shrink-0 flex items-center justify-center h-16 w-32 opacity-70 hover:opacity-100 transition-opacity duration-300"
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={logo.width}
+                  height={logo.height}
+                  className="max-h-12 w-auto object-contain"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="container bg-slate-900">
-        <div className="pb-8 sm:pb-12">
-          <div className="relative">
-            <div className="absolute inset-0 h-1/2 bg-slate-900"></div>
-            <div className="relative max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
-              <div className="relative max-w-4xl mt-8 mx-auto group">
-                <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 opacity-40 blur-sm transition duration-300 group-hover:opacity-100 group-hover:blur pointer-events-none"></div>
-                <dl className="relative bg-slate-800 rounded-lg shadow-lg grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800">
-                <div className="flex flex-col p-6 text-center">
-                    <dt className="order-2 mt-2 text-lg font-medium leading-6 text-white/70">
-                      AI-Generated Creations
-                    </dt>
-                    <dd
-                      className="order-1 text-5xl font-extrabold leading-none text-pink-600"
-                      id="starsCount"
-                    >
-                      0
-                    </dd>
-                  </div>
-                  <div className="flex flex-col p-6 text-center">
-                    <dt className="order-2 mt-2 text-lg font-medium leading-6 text-white/70">
-                      Active Users Monthly
-                    </dt>
-                    <dd
-                      className="order-1 text-5xl font-extrabold leading-none text-pink-600"
-                      id="downloadsCount"
-                    >
-                      0
-                    </dd>
-                  </div>
-                  <div className="flex flex-col p-6 text-center">
-                    <dt className="order-2 mt-2 text-lg font-medium leading-6 text-white/70">
-                      Countries Using Neuvisia
-                    </dt>
-                    <dd
-                      className="order-1 text-5xl font-extrabold leading-none text-pink-600"
-                      id="sponsorsCount"
-                    >
-                      0
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <style jsx global>{`
+        :root {
+          --contact-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                          Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+
+        .contact-heading {
+          font-family: var(--contact-font);
+          font-weight: 600;
+          font-size: 2.5rem;
+          line-height: 1.1;
+          letter-spacing: 0.01em;
+          text-transform: none;
+          color: #0f172a;
+          margin-bottom: 1rem;
+        }
+
+        .contact-subtitle {
+          font-family: var(--contact-font);
+          font-weight: 600;
+          font-size: 1rem;
+          line-height: 1.2;
+          letter-spacing: 0.01em;
+          text-transform: none;
+          color: #0f172a;
+          margin-top: 1rem;
+        }
+
+
+
+        @media (max-width: 640px) {
+          .contact-heading {
+            font-size: 2rem;
+          }
+          .contact-subtitle {
+            font-size: 0.875rem;
+          }
+        }
+
+        @keyframes marquee-scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-marquee {
+          animation: marquee-scroll 20s linear infinite;
+          will-change: transform;
+        }
+
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+
+        @media (max-width: 640px) {
+          .animate-marquee {
+            animation-duration: 15s;
+          }
+        }
+      `}</style>
     </section>
   );
 };

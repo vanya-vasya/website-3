@@ -5,7 +5,8 @@ import { fetchPaymentHistory } from "@/lib/api-limit";
 const PaymentHistoryPage = async () => {
   const transactions = await fetchPaymentHistory();
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title="Payment History"
       description={`Monitor, track, and manage your payment history with ease. View all your transactions in one place.`}
       iconName={"Banknote"}
@@ -97,6 +98,7 @@ const PaymentHistoryPage = async () => {
         )}
       </div>
     </FeatureContainer>
+    </div>
   );
 };
 

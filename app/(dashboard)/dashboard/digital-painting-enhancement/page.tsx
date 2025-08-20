@@ -24,7 +24,8 @@ const DigitalPaintingEnhancementPage = async () => {
   const balance = getUserAvailableGenerations(user);
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title="Digital Painting Enhancement"
       description={`Enhance and refine your digital paintings with AI assistance. (Price: ${MODEL_GENERATIONS_PRICE.imageRestore} credits)`}
       iconName={"BrushIcon"}
@@ -41,6 +42,7 @@ const DigitalPaintingEnhancementPage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
   );
 };
 

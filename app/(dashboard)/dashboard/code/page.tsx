@@ -64,7 +64,8 @@ const CodePage = () => {
   };
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title="Code Generation"
       description={`Generate code using descriptive text with our advanced AI model. (Price: ${MODEL_GENERATIONS_PRICE.codeGeneration} credits)`}
       iconName={"Code"}
@@ -150,6 +151,7 @@ const CodePage = () => {
         </div>
       </div>
     </FeatureContainer>
+    </div>
   );
 }
 

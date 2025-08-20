@@ -23,11 +23,6 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         <div className="flex items-center justify-center pt-[50px] relative">
           <div className="z-10">{children}</div>
-          <div className="feature-one__main-content-box z-0 absolute">
-            <div className="feature-one__color-overly-1 flaot-bob-y top-[-150px]"></div>
-            <div className="feature-one__color-overly-2 flaot-bob-x top-[-250px]"></div>
-            <div className="feature-one__color-overly-3 img-bounce top-[-200px]"></div>
-          </div>
         </div>
         <Footer />
       </main>

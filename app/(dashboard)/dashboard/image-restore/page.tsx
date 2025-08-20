@@ -18,8 +18,9 @@ const ImageRestorePage = async () => {
 
   const balance = getUserAvailableGenerations(user);
 
-  return ( 
-    <FeatureContainer
+    return (
+    <div className="bg-white">
+      <FeatureContainer
       title="Image Restore"
       description={`Refine images by removing noise and imperfections. (Price: ${MODEL_GENERATIONS_PRICE.imageRestore} credits)`}
       iconName={"ArchiveRestore"}
@@ -35,6 +36,7 @@ const ImageRestorePage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
    );
 }
  

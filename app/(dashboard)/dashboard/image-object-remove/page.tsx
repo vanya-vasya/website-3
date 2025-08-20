@@ -18,8 +18,9 @@ const ImageObjectRemovePage = async () => {
 
   const balance = getUserAvailableGenerations(user);
 
-  return ( 
-    <FeatureContainer
+    return (
+    <div className="bg-white">
+      <FeatureContainer
       title="Object Remove"
       description={`Easily clear out objects to focus on the important parts of your image. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRemove} credits)`}
       iconName={"Scissors"}
@@ -35,6 +36,7 @@ const ImageObjectRemovePage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
    );
 }
  

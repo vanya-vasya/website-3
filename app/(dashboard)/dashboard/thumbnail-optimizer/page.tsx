@@ -25,7 +25,8 @@ const ThumbnailOptimizerPage = async () => {
   const balance = getUserAvailableGenerations(user);
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title="Thumbnail Optimizer"
       description={`Create attention-grabbing thumbnails that increase your click-through rates. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRecolor} credits)`}
       iconName={"Image"}
@@ -42,6 +43,7 @@ const ThumbnailOptimizerPage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
   );
 };
 

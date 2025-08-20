@@ -24,7 +24,8 @@ const ArtReferenceCleanupPage = async () => {
   const balance = getUserAvailableGenerations(user);
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title="Art Reference Cleanup"
       description={`Clean up and prepare reference images for your artistic creations. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRemove} credits)`}
       iconName={"ImageMinus"}
@@ -41,6 +42,7 @@ const ArtReferenceCleanupPage = async () => {
         />
       </div>
     </FeatureContainer>
+    </div>
   );
 };
 

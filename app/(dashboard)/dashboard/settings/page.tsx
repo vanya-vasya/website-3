@@ -10,7 +10,7 @@ const SettingsPage = async () => {
   const apiAvailableGenerations = await getApiAvailableGenerations();
 
   return ( 
-    <div>
+    <div className="bg-white">
       <Heading
         title="Settings"
         description="Manage account settings."

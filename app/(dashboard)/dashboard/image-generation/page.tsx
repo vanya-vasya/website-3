@@ -110,7 +110,8 @@ const PhotoPage = () => {
   };
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title={currentTool.title}
       description={currentTool.description}
       iconName={currentTool.iconName as keyof typeof import("lucide-react")}
@@ -211,6 +212,7 @@ const PhotoPage = () => {
         </div>
       </div>
     </FeatureContainer>
+    </div>
   );
 }
 

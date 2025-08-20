@@ -24,6 +24,17 @@ import {
   Wand2,
   Type,
   LayoutGrid,
+  Clapperboard,
+  Video,
+  Mic2,
+  Paintbrush,
+  Expand,
+  Eraser,
+  Disc,
+  Volume2,
+  Lightbulb,
+  Share2,
+  Focus,
 } from "lucide-react";
 
 export const GENERATIONS_PRICE = 0.05;
@@ -48,38 +59,38 @@ export type Profession = "video" | "art" | "music" | "content" | "all";
 export const professions = [
   {
     id: "video",
-    label: "Video Creators",
-    bgColor: "bg-violet-900/20",
-    borderColor: "border-violet-500/20",
-    textColor: "text-violet-400",
-    iconColor: "text-violet-400",
+    label: "Co-Director",
+    bgColor: "bg-gradient-to-r from-blue-400 via-cyan-500 to-indigo-600",
+    borderColor: "border-transparent",
+    textColor: "text-white",
+    iconColor: "text-white",
     icon: FileVideo2,
   },
   {
     id: "art",
-    label: "Digital Artists",
-    bgColor: "bg-pink-900/20",
-    borderColor: "border-pink-500/20",
-    textColor: "text-pink-400",
-    iconColor: "text-pink-400",
+    label: "Design Partner",
+    bgColor: "bg-gradient-to-r from-blue-400 via-cyan-500 to-indigo-600",
+    borderColor: "border-transparent",
+    textColor: "text-white",
+    iconColor: "text-white",
     icon: BrushIcon,
   },
   {
     id: "music",
-    label: "Musicians",
-    bgColor: "bg-blue-900/20",
-    borderColor: "border-blue-500/20",
-    textColor: "text-blue-400",
-    iconColor: "text-blue-400",
+    label: "Co-Composer",
+    bgColor: "bg-gradient-to-r from-blue-400 via-cyan-500 to-indigo-600",
+    borderColor: "border-transparent",
+    textColor: "text-white",
+    iconColor: "text-white",
     icon: FileAudio,
   },
   {
     id: "content",
-    label: "Content Creators",
-    bgColor: "bg-emerald-900/20",
-    borderColor: "border-emerald-500/20",
-    textColor: "text-emerald-400",
-    iconColor: "text-emerald-400",
+    label: "Creative Partner",
+    bgColor: "bg-gradient-to-r from-blue-400 via-cyan-500 to-indigo-600",
+    borderColor: "border-transparent",
+    textColor: "text-white",
+    iconColor: "text-white",
     icon: PaintBucket,
   },
 ];
@@ -92,7 +103,7 @@ export const tools = [
     label: "Chat Assistant",
     icon: MessageSquare,
     description:
-      "AI assistant to brainstorm content ideas and help with creator's block",
+      "An AI assistant that sparks content ideas and helps you overcome creative block",
     href: "/dashboard/conversation",
     color: "text-red-600",
     bgColor: "bg-red-600/10",
@@ -103,7 +114,7 @@ export const tools = [
     label: "Image Generation",
     icon: Image,
     description:
-      "Generate custom imagery for your blogs, videos, and social media",
+      "Generate custom visuals for blogs, videos, and social media with a single prompt",
     color: "text-orange-700",
     bgColor: "bg-orange-700/10",
     href: "/dashboard/image-generation",
@@ -114,7 +125,7 @@ export const tools = [
     label: "Image Restore",
     icon: ArchiveRestore,
     description:
-      "Enhance low-quality images and restore old photographs for your content",
+      "Enhance low-quality images and bring old photographs back to life",
     color: "text-yellow-600",
     bgColor: "bg-yellow-600/10",
     href: "/dashboard/image-restore",
@@ -136,7 +147,7 @@ export const tools = [
     label: "Image Generative Fill",
     icon: Layers,
     description:
-      "Expand your images for different platforms with AI-powered content filling",
+      "Expand images for any platform with AI-powered content fill",
     color: "text-emerald-600",
     bgColor: "bg-emerald-600/10",
     href: "/dashboard/image-generative-fill",
@@ -147,7 +158,7 @@ export const tools = [
     label: "Image Object Recolor",
     icon: Palette,
     description:
-      "Change colors of objects to match your brand style and visual identity",
+      "Recolor objects to match your brand’s palette and visual identity",
     color: "text-cyan-600",
     bgColor: "bg-cyan-600/10",
     href: "/dashboard/image-object-recolor",
@@ -158,7 +169,7 @@ export const tools = [
     label: "Image Object Remove",
     icon: Scissors,
     description:
-      "Clean up your photos by removing unwanted elements and distractions",
+      "Clean up photos by removing unwanted elements and distractions",
     color: "text-blue-600",
     bgColor: "bg-blue-600/10",
     href: "/dashboard/image-object-remove",
@@ -169,7 +180,7 @@ export const tools = [
     label: "Video Generation",
     icon: FileVideo2,
     description:
-      "Create engaging short-form video content for your social channels",
+      "Create engaging short-form videos tailored to your social channels",
     color: "text-indigo-600",
     bgColor: "bg-indigo-600/10",
     href: "/dashboard/video",
@@ -179,7 +190,7 @@ export const tools = [
     id: "music-generation",
     label: "Music Generation",
     icon: Music,
-    description: "Produce custom background music for your videos and podcasts",
+    description: "Produce custom background music for videos and podcasts in minutes",
     href: "/dashboard/music",
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
@@ -190,30 +201,30 @@ export const tools = [
     label: "Speech Generation",
     icon: Mic,
     description:
-      "Create professional voiceovers and narrations for your videos",
+      "Create professional voiceovers and narration for your videos",
     color: "text-fuchsia-600",
     bgColor: "bg-fuchsia-600/10",
     href: "/dashboard/speech",
     professions: ["all"],
   },
 
-  // Video Creators
+  // Co-Directors
   {
     id: "video-script",
-    label: "Create Video Scenario/Script",
-    icon: FileText,
+    label: "Script Builder",
+    icon: Clapperboard,
     description:
-      "Generate professional scripts and storyboards for your videos",
-    color: "text-violet-600",
+      "Generate industry-ready scripts and storyboards for your videos",
+    color: "text-black",
     bgColor: "bg-violet-600/10",
     href: "/dashboard/conversation",
     professions: ["video"],
   },
   {
     id: "video-creation",
-    label: "Video Creation",
-    icon: PlayCircle,
-    description: "Generate engaging video content from your ideas and scripts",
+    label: "Video Maker",
+    icon: Video,
+    description: "Turn ideas and scripts into engaging video content automatically",
     color: "text-purple-600",
     bgColor: "bg-purple-600/10",
     href: "/dashboard/video",
@@ -221,22 +232,22 @@ export const tools = [
   },
   {
     id: "video-voiceover",
-    label: "Video Voiceover Creation",
-    icon: Megaphone,
-    description: "Create professional narration and voiceovers for your videos",
+    label: "AI Voiceover",
+    icon: Mic2,
+    description: "Deliver broadcast-quality narration and voiceovers for every video",
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
     href: "/dashboard/speech",
     professions: ["video"],
   },
 
-  // Digital Artists
+  // Design Partners
   {
     id: "concept-art",
-    label: "Concept Art Generator",
+    label: "Design Partner",
     icon: Palette,
     description:
-      "Create stunning concept art and illustrations for your projects",
+      "Get AI assistance composing melodies, chord progressions, and full arrangements",
     color: "text-pink-600",
     bgColor: "bg-pink-600/10",
     href: "/dashboard/image-generation",
@@ -255,9 +266,9 @@ export const tools = [
   // },
   {
     id: "digital-painting",
-    label: "Digital Painting Enhancement",
-    icon: BrushIcon,
-    description: "Enhance and refine your digital paintings with AI assistance",
+    label: "Painting Enhance",
+    icon: Paintbrush,
+    description: "Create unique sound effects for your music tracks and productions",
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
     href: "/dashboard/digital-painting-enhancement",
@@ -265,10 +276,10 @@ export const tools = [
   },
   {
     id: "canvas-expansion",
-    label: "Canvas Expansion",
-    icon: LayoutGrid,
+    label: "Canvas Expand",
+    icon: Expand,
     description:
-      "Seamlessly expand your artworks beyond their original boundaries",
+      "Generate engaging blog topics and clear outlines for your audience",
     color: "text-rose-500",
     bgColor: "bg-rose-500/10",
     href: "/dashboard/canvas-expansion",
@@ -276,8 +287,8 @@ export const tools = [
   },
   {
     id: "art-reference",
-    label: "Art Reference Cleanup",
-    icon: ImageMinus,
+    label: "Reference Cleanup",
+    icon: Eraser,
     description:
       "Clean up and prepare reference images for your artistic creations",
     color: "text-pink-700",
@@ -286,11 +297,11 @@ export const tools = [
     professions: ["art"],
   },
 
-  // Musicians
+  // Co-Composers
   {
     id: "song-lyrics",
-    label: "Write Song Lyrics",
-    icon: FileText,
+    label: "Lyric Writer",
+    icon: FileAudio,
     description: "Generate creative and inspiring lyrics for your music",
     color: "text-blue-600",
     bgColor: "bg-blue-600/10",
@@ -299,8 +310,8 @@ export const tools = [
   },
   {
     id: "album-cover",
-    label: "Album Cover Creator",
-    icon: Image,
+    label: "Cover Art",
+    icon: Disc,
     description: "Design professional album covers and music artwork",
     color: "text-indigo-600",
     bgColor: "bg-indigo-600/10",
@@ -309,10 +320,10 @@ export const tools = [
   },
   {
     id: "music-composition",
-    label: "Music Composition Assistant",
+    label: "Compose Assist",
     icon: Music,
     description:
-      "Get help composing melodies, chord progressions, and arrangements",
+      "Get AI assistance composing melodies, chord progressions, and full arrangements",
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
     href: "/dashboard/music",
@@ -320,8 +331,8 @@ export const tools = [
   },
   {
     id: "sound-effects",
-    label: "Sound Effect Generator",
-    icon: FileAudio,
+    label: "SFX Generator",
+    icon: Volume2,
     description:
       "Create unique sound effects for your music tracks and productions",
     color: "text-indigo-500",
@@ -331,7 +342,7 @@ export const tools = [
   },
   {
     id: "voice-melody",
-    label: "Voice Melody Creator",
+    label: "Melody Maker",
     icon: Mic,
     description:
       "Generate vocal melodies and harmonies for your musical compositions",
@@ -344,9 +355,9 @@ export const tools = [
   // Content Creators
   {
     id: "blog-ideas",
-    label: "Blog Post Ideas",
-    icon: BookOpen,
-    description: "Generate engaging blog topics and outlines for your audience",
+    label: "Blog Ideas",
+    icon: Lightbulb,
+    description: "Generate engaging blog topics and clear outlines for your audience",
     color: "text-emerald-600",
     bgColor: "bg-emerald-600/10",
     href: "/dashboard/conversation",
@@ -354,9 +365,9 @@ export const tools = [
   },
   {
     id: "social-graphics",
-    label: "Social Media Graphics",
-    icon: Image,
-    description: "Create eye-catching graphics for your social media platforms",
+    label: "Social Graphics",
+    icon: Share2,
+    description: "Create eye-catching graphics optimized for every social platform",
     color: "text-green-600",
     bgColor: "bg-green-600/10",
     href: "/dashboard/image-generation",
@@ -364,10 +375,10 @@ export const tools = [
   },
   {
     id: "content-calendar",
-    label: "Content Calendar Planner",
+    label: "Content Calendar",
     icon: Calendar,
     description:
-      "Plan and organize your content schedule for maximum engagement",
+      "Plan and organize your content schedule to maximize engagement",
     color: "text-teal-600",
     bgColor: "bg-teal-600/10",
     href: "/dashboard/conversation",
@@ -376,9 +387,9 @@ export const tools = [
   {
     id: "thumbnail-optimizer",
     label: "Thumbnail Optimizer",
-    icon: Image,
+    icon: Focus,
     description:
-      "Create attention-grabbing thumbnails that increase your click-through rates",
+      "Design attention-grabbing thumbnails that lift click-through rates",
     color: "text-emerald-500",
     bgColor: "bg-emerald-500/10",
     href: "/dashboard/thumbnail-optimizer",
@@ -389,7 +400,7 @@ export const tools = [
     label: "Caption Generator",
     icon: Type,
     description:
-      "Generate compelling captions that drive engagement for your posts",
+      "Write compelling captions that drive measurable engagement",
     color: "text-green-500",
     bgColor: "bg-green-500/10",
     href: "/dashboard/conversation",

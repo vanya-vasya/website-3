@@ -83,7 +83,8 @@ const VideoPage = () => {
   };
 
   return (
-    <FeatureContainer
+    <div className="bg-white">
+      <FeatureContainer
       title={currentTool.title}
       description={currentTool.description}
       iconName={currentTool.iconName as keyof typeof import("lucide-react")}
@@ -145,6 +146,7 @@ const VideoPage = () => {
         </div>
       </div>
     </FeatureContainer>
+    </div>
   );
 };
 
