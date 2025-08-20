@@ -33,51 +33,51 @@ type ChatCompletionRequestMessage = {
 const toolConfigs = {
   'chat-assistant': {
     title: 'Chat Assistant',
-    description: `Our most advanced conversation model. (Price: ${MODEL_GENERATIONS_PRICE.conversation} credits)`,
+    description: `Our most advanced conversation model\nPrice: ${MODEL_GENERATIONS_PRICE.conversation} credits`,
     iconName: 'MessageSquare',
     iconColor: 'text-red-600',
     bgColor: 'bg-red-600/10',
-    placeholder: 'How do I calculate the radius of a circle?'
+    placeholder: 'Ask me anything - from complex problems to creative brainstorming...'
   },
   'video-script': {
-    title: 'Create Video Scenario/Script',
-    description: `Generate professional scripts and storyboards for your videos. (Price: ${MODEL_GENERATIONS_PRICE.conversation} credits)`,
-    iconName: 'FileText',
-    iconColor: 'text-violet-600',
+    title: 'Script Builder',
+    description: `Generate industry-ready scripts and storyboards for your videos\nPrice: ${MODEL_GENERATIONS_PRICE.conversation} credits`,
+    iconName: 'Clapperboard',
+    iconColor: 'text-black',
     bgColor: 'bg-violet-600/10',
-    placeholder: 'Create a script for a 5-minute YouTube video about travel vlogging tips.'
+    placeholder: 'Write a compelling video script about sustainable travel for millennials...'
   },
   'song-lyrics': {
-    title: 'Write Song Lyrics',
-    description: `Generate creative and inspiring lyrics for your music. (Price: ${MODEL_GENERATIONS_PRICE.conversation} credits)`,
-    iconName: 'FileText',
+    title: 'Lyric Writer',
+    description: `Generate creative and inspiring lyrics for your music\nPrice: ${MODEL_GENERATIONS_PRICE.conversation} credits`,
+    iconName: 'FileAudio',
     iconColor: 'text-blue-600',
     bgColor: 'bg-blue-600/10',
-    placeholder: 'Write lyrics for a pop song about overcoming challenges and finding strength.'
+    placeholder: 'Craft powerful lyrics about resilience and personal growth in any genre'
   },
   'blog-ideas': {
-    title: 'Blog Post Ideas',
-    description: `Generate engaging blog topics and outlines for your audience. (Price: ${MODEL_GENERATIONS_PRICE.conversation} credits)`,
+    title: 'Blog Ideas',
+    description: `Generate engaging blog topics and outlines for your audience\nPrice: ${MODEL_GENERATIONS_PRICE.conversation} credits`,
     iconName: 'BookOpen',
     iconColor: 'text-emerald-600',
     bgColor: 'bg-emerald-600/10',
-    placeholder: 'Generate 5 blog post ideas about sustainable living for millennials.'
+    placeholder: 'Brainstorm viral blog topics for modern lifestyle and wellness trends'
   },
   'content-calendar': {
-    title: 'Content Calendar Planner',
-    description: `Plan and organize your content schedule for maximum engagement. (Price: ${MODEL_GENERATIONS_PRICE.conversation} credits)`,
+    title: 'Content Planner',
+    description: `Plan and organize your content schedule for maximum engagement\nPrice: ${MODEL_GENERATIONS_PRICE.conversation} credits`,
     iconName: 'Calendar',
     iconColor: 'text-teal-600',
     bgColor: 'bg-teal-600/10',
-    placeholder: 'Create a content calendar for Instagram posts for a fitness brand for the next month.'
+    placeholder: 'Create a comprehensive content schedule that maximizes engagement across social media and marketing channels'
   },
   'caption-generator': {
     title: 'Caption Generator',
-    description: `Generate compelling captions that drive engagement for your posts. (Price: ${MODEL_GENERATIONS_PRICE.conversation} credits)`,
+    description: `Write compelling captions that drive measurable engagement\nPrice: ${MODEL_GENERATIONS_PRICE.conversation} credits`,
     iconName: 'Type',
     iconColor: 'text-green-500',
     bgColor: 'bg-green-500/10',
-    placeholder: 'Create 3 engaging Instagram captions for photos of a sunset on the beach.'
+    placeholder: 'Create captivating captions that spark engagement and boost conversions'
   },
 };
 
@@ -135,8 +135,6 @@ const ConversationPage = () => {
       title={currentTool.title}
       description={currentTool.description}
       iconName={currentTool.iconName as keyof typeof import("lucide-react")}
-      iconColor={currentTool.iconColor}
-      bgColor={currentTool.bgColor}
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -182,7 +180,7 @@ const ConversationPage = () => {
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="No conversation started." />
+            <Empty label="It's empty ¯\_(ツ)_/¯" />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (

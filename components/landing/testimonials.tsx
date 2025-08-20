@@ -156,6 +156,7 @@ const Testimonials = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl"
             style={{
+              fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
               fontWeight: 600,
               fontSize: '1rem',
               lineHeight: 1.2,
@@ -233,6 +234,7 @@ const Testimonials = () => {
                       <div>
                         <h3 
                           style={{
+                            fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                             fontWeight: 600,
                             fontSize: '1.25rem',
                             lineHeight: 1.2,
@@ -245,6 +247,7 @@ const Testimonials = () => {
                         </h3>
                         <p 
                           style={{
+                            fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                             fontWeight: 600,
                             fontSize: '0.875rem',
                             lineHeight: 1.2,
@@ -261,6 +264,7 @@ const Testimonials = () => {
                     <p 
                       className="max-w-md"
                       style={{
+                        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                         fontWeight: 600,
                         fontSize: '1rem',
                         lineHeight: 1.2,

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Check, Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
 import classNames from "classnames";
 import {
   Dialog,
@@ -356,16 +357,22 @@ export const ProModal = () => {
             )}
           </div>
           <DialogFooter className="mt-3">
-            <Button
-              disabled={loading}
-              size="lg"
-              variant="premium"
-              type="submit"
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
               className="w-full"
             >
-              Buy Generations
-              <Zap className="w-4 h-4 ml-2 fill-white" />
-            </Button>
+              <Button
+                disabled={loading}
+                size="lg"
+                variant="premium"
+                type="submit"
+                className="w-full"
+              >
+                Buy Generations
+                <Zap className="w-4 h-4 ml-2 fill-white" />
+              </Button>
+            </motion.div>
           </DialogFooter>
         </form>
         <Image

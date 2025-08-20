@@ -268,7 +268,7 @@ export default function HomePage() {
                           <tool.icon className="w-6 h-6 text-white" />
                         </div>
                       </div>
-                      <h3 className="font-heading font-semibold text-lg text-black transition-all duration-500">
+                      <h3 className="font-heading font-semibold text-lg bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 transition-all duration-500">
                         {tool.label}
                       </h3>
                     </div>

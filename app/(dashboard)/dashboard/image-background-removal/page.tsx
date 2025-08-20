@@ -21,10 +21,8 @@ const ImageObjectRemovePage = async () => {
     <div className="bg-white">
       <FeatureContainer
       title="Background Removal"
-      description={`Quick background removal to bring your subject into focus. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`}
+      description={`Quick background removal to bring your subject into focus\nPrice: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits`}
       iconName="ImageMinus"
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
     >
       <div className={contentStyles.base}>
         <TransformationForm

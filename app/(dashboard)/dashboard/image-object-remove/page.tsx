@@ -22,10 +22,8 @@ const ImageObjectRemovePage = async () => {
     <div className="bg-white">
       <FeatureContainer
       title="Object Remove"
-      description={`Easily clear out objects to focus on the important parts of your image. (Price: ${MODEL_GENERATIONS_PRICE.imageObjectRemove} credits)`}
+      description={`Easily clear out objects to focus on the important parts of your image\nPrice: ${MODEL_GENERATIONS_PRICE.imageObjectRemove} credits`}
       iconName={"Scissors"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
     >
       <div className={contentStyles.base}>
         <TransformationForm 

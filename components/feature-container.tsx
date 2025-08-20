@@ -9,8 +9,6 @@ interface FeatureContainerProps {
   title: string;
   description: string;
   iconName: keyof typeof LucideIcons;
-  iconColor?: string;
-  bgColor?: string;
 }
 
 const container = {
@@ -33,8 +31,6 @@ export function FeatureContainer({
   title,
   description,
   iconName,
-  iconColor = "text-primary",
-  bgColor = "bg-primary/10",
 }: FeatureContainerProps) {
   const IconComponent = LucideIcons[iconName] as React.ComponentType<{ className?: string }>;
   
@@ -47,16 +43,19 @@ export function FeatureContainer({
     >
       <div className="space-y-4">
         <div className="flex items-center gap-4 justify-center">
-          <div className={cn("p-2.5 rounded-lg", bgColor)}>
-            <IconComponent className={cn("w-6 h-6", iconColor)} />
+          <div className="relative w-12 h-12 flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 opacity-20 blur-lg"></div>
+            <div className="relative bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 p-3 rounded-full backdrop-blur-sm">
+              <IconComponent className="w-6 h-6 text-white" />
+            </div>
           </div>
           <h1 className="text-3xl md:text-4xl font-heading font-bold">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 inline">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 inline">
             {title}
             </span>
           </h1>
         </div>
-        <p className="text-center text-muted-foreground max-w-[500px] mx-auto">
+        <p className="text-center text-muted-foreground max-w-[700px] mx-auto whitespace-pre-line">
           {description}
         </p>
       </div>
@@ -64,17 +63,6 @@ export function FeatureContainer({
       <motion.div variants={item} className="px-4">
         {children}
       </motion.div>
-
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border" />
-        </div>
-        <div className="relative flex justify-center">
-          <span className="bg-background px-2 text-xs text-muted-foreground">
-            Powered by advanced AI models
-          </span>
-        </div>
-      </div>
     </motion.div>
   );
 } 

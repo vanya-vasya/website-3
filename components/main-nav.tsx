@@ -16,7 +16,7 @@ import {
   MessageSquare,
   Music,
   FileAudio,
-  FileVideo2,
+  Video,
   FileImage,
   Wand2,
   ImageMinus,
@@ -26,10 +26,11 @@ import {
   Layers,
   Sparkles,
   ChevronDown,
-  BrushIcon,
+  Palette,
   Mic,
   Coins,
   Banknote,
+  Lightbulb,
 } from "lucide-react";
 import Image from "next/image";
 import { UsageProgress } from "./usage-progress";
@@ -66,7 +67,7 @@ export function MainNav({
   initialAvailableGenerations: number;
 }) {
   return (
-    <div className="flex items-center justify-between w-full">
+    <div className="flex items-center justify-between w-full bg-white">
       <div className="flex items-center gap-8">
         <Link
           href="/dashboard"
@@ -76,13 +77,13 @@ export function MainNav({
         </Link>
 
         <NavigationMenu>
-          <NavigationMenuList className="space-x-1">
+          <NavigationMenuList className="nav-container">
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent hover:bg-violet-900/40 focus:bg-violet-900/40 data-[state=open]:bg-violet-900/40 text-white hover:text-violet-200">
-                <FileVideo2 className="mr-2 h-4 w-4 text-violet-400" />
-                Video Creators
+              <NavigationMenuTrigger className="nav-link bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+                <Video className="mr-2 h-4 w-4 text-blue-600" />
+                Co-Director
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-violet-500/20 rounded-xl overflow-hidden">
+              <NavigationMenuContent className="bg-white backdrop-blur-xl border border-violet-300 rounded-xl overflow-hidden shadow-lg">
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {videoCreatorTools.map((item) => (
                     <ListItem
@@ -91,8 +92,6 @@ export function MainNav({
                       title={item.label}
                       href={item.href}
                       icon={item.icon}
-                      color="text-violet-300"
-                      bgColor="bg-violet-500/20"
                     >
                       {item.description}
                     </ListItem>
@@ -102,11 +101,11 @@ export function MainNav({
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent hover:bg-pink-900/40 focus:bg-pink-900/40 data-[state=open]:bg-pink-900/40 text-white hover:text-pink-200">
-                <BrushIcon className="mr-2 h-4 w-4 text-pink-400" />
-                Digital Artists
+              <NavigationMenuTrigger className="nav-link bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+                <Palette className="mr-2 h-4 w-4 text-blue-600" />
+                Design Partner
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-pink-500/20 rounded-xl overflow-hidden">
+              <NavigationMenuContent className="bg-white backdrop-blur-xl border border-pink-300 rounded-xl overflow-hidden shadow-lg">
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {digitalArtistTools.map((item) => (
                     <ListItem
@@ -115,8 +114,6 @@ export function MainNav({
                       title={item.label}
                       href={item.href}
                       icon={item.icon}
-                      color="text-pink-300"
-                      bgColor="bg-pink-500/20"
                     >
                       {item.description}
                     </ListItem>
@@ -126,11 +123,11 @@ export function MainNav({
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent hover:bg-blue-900/40 focus:bg-blue-900/40 data-[state=open]:bg-blue-900/40 text-white hover:text-blue-200">
-                <FileAudio className="mr-2 h-4 w-4 text-blue-400" />
-                Musicians
+              <NavigationMenuTrigger className="nav-link bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+                <Music className="mr-2 h-4 w-4 text-blue-600" />
+                Co-Composer
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-blue-500/20 rounded-xl overflow-hidden">
+              <NavigationMenuContent className="bg-white backdrop-blur-xl border border-blue-300 rounded-xl overflow-hidden shadow-lg">
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {musicianTools.map((item) => (
                     <ListItem
@@ -139,8 +136,6 @@ export function MainNav({
                       title={item.label}
                       href={item.href}
                       icon={item.icon}
-                      color="text-blue-300"
-                      bgColor="bg-blue-500/20"
                     >
                       {item.description}
                     </ListItem>
@@ -150,11 +145,11 @@ export function MainNav({
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="bg-transparent hover:bg-emerald-900/40 focus:bg-emerald-900/40 data-[state=open]:bg-emerald-900/40 text-white hover:text-emerald-200">
-                <PaintBucket className="mr-2 h-4 w-4 text-emerald-400" />
-                Content Creators
+              <NavigationMenuTrigger className="nav-link bg-transparent hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+                <Lightbulb className="mr-2 h-4 w-4 text-blue-600" />
+                Creative Partner
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="bg-gray-900/90 backdrop-blur-xl border border-emerald-500/20 rounded-xl overflow-hidden">
+              <NavigationMenuContent className="bg-white backdrop-blur-xl border border-emerald-300 rounded-xl overflow-hidden shadow-lg">
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {contentCreatorTools.map((item) => (
                     <ListItem
@@ -163,8 +158,6 @@ export function MainNav({
                       title={item.label}
                       href={item.href}
                       icon={item.icon}
-                      color="text-emerald-300"
-                      bgColor="bg-emerald-500/20"
                     >
                       {item.description}
                     </ListItem>
@@ -175,15 +168,46 @@ export function MainNav({
 
             <NavigationMenuItem>
               <Link href={"/dashboard/billing/payment-history"}>
-                <div className="cursor-pointer group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 group bg-transparent hover:bg-amber-900/40 focus:bg-amber-900/40 data-[state=open]:bg-amber-900/40 text-white hover:text-amber-200">
-                  <Banknote className="mr-2 h-4 w-4 text-amber-400" />
-                  Payment History
+                <div className="nav-link cursor-pointer group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 group bg-transparent">
+                  <Banknote className="mr-2 h-4 w-4 text-blue-600" />
+                  Payments
                 </div>
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </div>
+      
+      <style jsx global>{`
+        .nav-container {
+          display: flex;
+          background-color: #f8fafc;
+          border-radius: 9999px;
+          padding: 4px;
+          gap: 4px;
+        }
+
+        .nav-link {
+          font-family: var(--font-sans);
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 1.1;
+          letter-spacing: 0.01em;
+          text-transform: none;
+          color: #0f172a;
+          padding: 8px 16px;
+          border-radius: 9999px;
+          transition: all 500ms ease-in-out;
+        }
+
+        .nav-link:hover {
+          background: linear-gradient(to right, #22d3ee, #3b82f6, #4f46e5);
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          text-decoration: none;
+        }
+      `}</style>
     </div>
   );
 }
@@ -192,8 +216,6 @@ const ListItem = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a"> & {
     icon: any;
-    color?: string;
-    bgColor?: string;
     id?: string;
   }
 >(
@@ -203,8 +225,6 @@ const ListItem = React.forwardRef<
       title,
       children,
       icon: Icon,
-      color = "text-indigo-300",
-      bgColor = "bg-indigo-500/20",
       id,
       href,
       ...props
@@ -232,18 +252,21 @@ const ListItem = React.forwardRef<
             ref={ref}
             href={fullHref}
             className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-white hover:bg-slate-800/50 hover:text-slate-50 focus:bg-slate-800/50 focus:text-slate-50",
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors text-black hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900",
               className
             )}
             {...props}
           >
             <div className="flex items-center gap-4 mb-2">
-              <div className={cn("p-1.5 rounded-lg", bgColor)}>
-                <Icon className={cn("h-4 w-4", color)} />
+              <div className="relative w-8 h-8 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 opacity-20 blur-sm"></div>
+                <div className="relative bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 p-2 rounded-full backdrop-blur-sm">
+                  <Icon className="w-4 h-4 text-white" />
+                </div>
               </div>
               <div className="text-sm font-medium leading-none">{title}</div>
             </div>
-            <p className="line-clamp-2 text-sm leading-snug text-white/70">
+            <p className="line-clamp-2 text-sm leading-snug text-gray-600">
               {children}
             </p>
           </Link>

@@ -67,10 +67,8 @@ const CodePage = () => {
     <div className="bg-white">
       <FeatureContainer
       title="Code Generation"
-      description={`Generate code using descriptive text with our advanced AI model. (Price: ${MODEL_GENERATIONS_PRICE.codeGeneration} credits)`}
+      description={`Generate code using descriptive text with our advanced AI model\nPrice: ${MODEL_GENERATIONS_PRICE.codeGeneration} credits`}
       iconName={"Code"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -116,7 +114,7 @@ const CodePage = () => {
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="No conversation started." />
+            <Empty label="It’s empty ¯\_(ツ)_/¯" />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (

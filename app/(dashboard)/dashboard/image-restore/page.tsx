@@ -22,10 +22,8 @@ const ImageRestorePage = async () => {
     <div className="bg-white">
       <FeatureContainer
       title="Image Restore"
-      description={`Refine images by removing noise and imperfections. (Price: ${MODEL_GENERATIONS_PRICE.imageRestore} credits)`}
+      description={`Refine images by removing noise and imperfections\nPrice: ${MODEL_GENERATIONS_PRICE.imageRestore} credits`}
       iconName={"ArchiveRestore"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
     >
       <div className={contentStyles.base}>
         <TransformationForm

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { 
   Clapperboard, 
   Video, 
@@ -142,6 +143,7 @@ const Slider = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl"
             style={{
+              fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
               fontWeight: 600,
               fontSize: '1rem',
               lineHeight: 1.2,
@@ -156,17 +158,17 @@ const Slider = () => {
 
         {/* Marquee Container */}
         <div className="relative w-full overflow-hidden">
-          <div className="flex space-x-8">
+          <div className="flex space-x-16">
             <motion.div
-              className="flex space-x-8"
+              className="flex space-x-16"
               animate={{
-                x: [0, -100 * creatorTools.length],
+                x: [0, -200 * creatorTools.length],
               }}
               transition={{
                 x: {
                   repeat: Infinity,
                   repeatType: "loop",
-                  duration: 30,
+                  duration: 80,
                   ease: "linear",
                 },
               }}
@@ -174,7 +176,7 @@ const Slider = () => {
               {duplicatedTools.map((tool, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 w-48 h-40 group cursor-pointer"
+                  className="flex-shrink-0 w-96 h-80 group cursor-pointer"
                 >
                   <div className="relative w-full h-full rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300">
 
@@ -184,19 +186,20 @@ const Slider = () => {
                     ></div>
 
                     {/* Content */}
-                    <div className="absolute inset-0 z-20 p-3 flex flex-col items-center justify-center text-center">
-                      <div className="mb-2 relative w-8 h-8 flex items-center justify-center">
+                    <div className="absolute inset-0 z-20 p-6 flex flex-col items-center justify-center text-center">
+                      <div className="mb-4 relative w-16 h-16 flex items-center justify-center">
                         <div
                           className={`absolute inset-0 rounded-full bg-gradient-to-r ${tool.color} opacity-20 blur-lg`}
                         ></div>
-                        <div className={`relative bg-gradient-to-r ${tool.color} p-1.5 rounded-full backdrop-blur-sm`}>
-                          <tool.icon className="w-4 h-4 text-white" />
+                        <div className={`relative bg-gradient-to-r ${tool.color} p-3 rounded-full backdrop-blur-sm`}>
+                          <tool.icon className="w-8 h-8 text-white" />
                         </div>
                       </div>
 
                       <h3 
-                        className="text-sm mb-3"
+                        className="text-lg mb-6"
                         style={{
+                          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                           fontWeight: 600,
                           lineHeight: 1.2,
                           letterSpacing: '0.01em',
@@ -207,13 +210,15 @@ const Slider = () => {
                         {tool.title}
                       </h3>
 
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`px-2 py-1 rounded-full bg-gradient-to-r ${tool.color} text-white font-semibold shadow-lg text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-                      >
-                        Get Started
-                      </motion.button>
+                      <Link href="/dashboard">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`px-4 py-2 rounded-full bg-gradient-to-r ${tool.color} text-white font-semibold shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                        >
+                          Get Started
+                        </motion.button>
+                      </Link>
                     </div>
                   </div>
                 </div>

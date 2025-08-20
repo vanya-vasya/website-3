@@ -5,7 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Download } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -35,35 +35,35 @@ import { MODEL_GENERATIONS_PRICE } from "@/constants";
 const toolConfigs = {
   'image-generation': {
     title: 'Image Generation',
-    description: `Turn your prompt into an image using our advanced AI model. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`,
+    description: `Turn your prompt into an image using our advanced AI model\nPrice: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits`,
     iconName: 'Image',
     iconColor: 'text-orange-700',
     bgColor: 'bg-orange-700/10',
     placeholder: 'A picture of a horse in Swiss alps'
   },
   'concept-art': {
-    title: 'Concept Art Generator',
-    description: `Create stunning concept art and illustrations for your projects. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`,
+    title: 'Design Partner',
+    description: `Create stunning concept art and illustrations for your projects\nPrice: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits`,
     iconName: 'Palette',
     iconColor: 'text-pink-600',
     bgColor: 'bg-pink-600/10',
     placeholder: 'A sci-fi character design for a futuristic warrior'
   },
   'social-graphics': {
-    title: 'Social Media Graphics',
-    description: `Create eye-catching graphics for your social media platforms. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`,
-    iconName: 'Image',
+    title: 'Social Graphics',
+    description: `Create eye-catching graphics for your social media platforms\nPrice: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits`,
+    iconName: 'Share2',
     iconColor: 'text-green-600',
     bgColor: 'bg-green-600/10',
-    placeholder: 'A promotional banner for a summer sale with bright colors'
+    placeholder: 'Promotional banner for summer sale with bright colors and modern design'
   },
   'album-cover': {
-    title: 'Album Cover Creator',
-    description: `Design professional album covers and music artwork. (Price: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits)`,
-    iconName: 'Image',
+    title: 'Cover Art',
+    description: `Design professional album covers and music artwork\nPrice: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits`,
+    iconName: 'Disc',
     iconColor: 'text-indigo-600',
     bgColor: 'bg-indigo-600/10',
-    placeholder: 'An abstract album cover for an electronic music release'
+    placeholder: 'Create stunning album artwork for your music release'
   }
 };
 
@@ -115,8 +115,7 @@ const PhotoPage = () => {
       title={currentTool.title}
       description={currentTool.description}
       iconName={currentTool.iconName as keyof typeof import("lucide-react")}
-      iconColor={currentTool.iconColor}
-      bgColor={currentTool.bgColor}
+
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -189,7 +188,7 @@ const PhotoPage = () => {
             </div>
           )}
           {photos.length === 0 && !isLoading && (
-            <Empty label="No images generated." />
+            <Empty label="It's empty ¯\_(ツ)_/¯" />
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {photos.map((src) => (

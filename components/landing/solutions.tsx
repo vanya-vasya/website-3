@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import CodeSnippet from "@/components/ui/CodeSnippet"; 
 import ChatInterface from "@/components/ui/ChatInterface"; 
 import Image from 'next/image';
+import Link from "next/link";
 
 const creativeTools = [
   {
@@ -78,6 +79,7 @@ const Solutions = () => {
             transition={{ duration: 0.6 }}
             className="text-center"
             style={{
+              fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
               fontWeight: 600,
               fontSize: '2.5rem',
               lineHeight: 1.1,
@@ -173,6 +175,7 @@ const Solutions = () => {
                       <p 
                         className="mb-6 max-w-md text-white"
                         style={{
+                          fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
                           fontWeight: 600,
                           fontSize: '1rem',
                           lineHeight: 1.2,
@@ -183,13 +186,15 @@ const Solutions = () => {
                         {tool.description}
                       </p>
 
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.98 }}
-                        className={`px-6 py-3 rounded-full bg-gradient-to-r ${tool.color} text-white font-semibold shadow-lg`}
-                      >
-                        Explore
-                      </motion.button>
+                      <Link href="/dashboard">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`px-6 py-3 rounded-full bg-gradient-to-r ${tool.color} text-white font-semibold shadow-lg`}
+                        >
+                          Explore
+                        </motion.button>
+                      </Link>
                     </div>
                   </div>
                 </div>

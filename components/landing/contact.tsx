@@ -6,52 +6,64 @@ const Contact = () => {
   // Array of partner logos
   const partnerLogos = [
     {
-      src: "/logos/BrightPay%20Black.svg",
-      alt: "BrightPay",
-      width: 128,
-      height: 47,
+      src: "/logos/TechFlow-Logo.png",
+      alt: "TechFlow Solutions",
+      width: 256,
+      height: 94,
     },
     {
-      src: "/logos/Sage%20Black.svg",
-      alt: "Sage",
-      width: 128,
-      height: 47,
+      src: "/logos/DataPrime-Logo.png",
+      alt: "DataPrime Analytics",
+      width: 256,
+      height: 94,
     },
     {
-      src: "/logos/Liberis%20Black.svg",
-      alt: "Liberis",
-      width: 128,
-      height: 47,
+      src: "/logos/CloudVault-Logo.png",
+      alt: "CloudVault Security",
+      width: 256,
+      height: 94,
     },
     {
-      src: "/logos/Wagestream%20Black.svg",
-      alt: "Wagestream",
-      width: 128,
-      height: 47,
+      src: "/logos/GreenLeaf-Logo.png",
+      alt: "GreenLeaf Innovations",
+      width: 256,
+      height: 94,
     },
     {
-      src: "/logos/Motorway%20Black.svg",
-      alt: "Motorway",
-      width: 128,
-      height: 47,
+      src: "/logos/NexusHub-Logo.png",
+      alt: "NexusHub Consulting",
+      width: 256,
+      height: 94,
     },
     {
-      src: "/logos/Pax2Pay%20Black.svg",
-      alt: "Pax2Pay",
-      width: 128,
-      height: 47,
+      src: "/logos/QuantumEdge-Logo.png",
+      alt: "QuantumEdge Finance",
+      width: 256,
+      height: 94,
     },
     {
-      src: "/logos/Vyne%20Black.svg",
-      alt: "Vyne",
-      width: 128,
-      height: 47,
+      src: "/logos/StreamLine-Logo.png",
+      alt: "StreamLine Logistics",
+      width: 256,
+      height: 94,
     },
     {
-      src: "/logos/Harri%20Black.svg",
-      alt: "Harri",
-      width: 128,
-      height: 47,
+      src: "/logos/PulseCore-Logo.png",
+      alt: "PulseCore Health",
+      width: 256,
+      height: 94,
+    },
+    {
+      src: "/logos/ZenithPay-Logo.png",
+      alt: "ZenithPay Solutions",
+      width: 256,
+      height: 94,
+    },
+    {
+      src: "/logos/VelocityOne-Logo.png",
+      alt: "VelocityOne Media",
+      width: 256,
+      height: 94,
     },
   ];
 
@@ -82,14 +94,14 @@ const Contact = () => {
             {duplicatedLogos.map((logo, index) => (
               <div
                 key={`${logo.alt}-${index}`}
-                className="flex-shrink-0 flex items-center justify-center h-16 w-32 opacity-70 hover:opacity-100 transition-opacity duration-300"
+                className="flex-shrink-0 flex items-center justify-center h-32 w-64 opacity-70 hover:opacity-100 transition-opacity duration-300"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
                   width={logo.width}
                   height={logo.height}
-                  className="max-h-12 w-auto object-contain"
+                  className="max-h-24 w-auto object-contain"
                 />
               </div>
             ))}

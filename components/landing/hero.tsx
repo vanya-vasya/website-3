@@ -60,8 +60,7 @@ const Hero = () => {
 
       <style jsx global>{`
         :root {
-          --contact-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-                          Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+          --contact-font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
 
         .hero-heading {

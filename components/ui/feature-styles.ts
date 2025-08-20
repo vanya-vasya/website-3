@@ -1,17 +1,17 @@
 export const inputStyles = {
-  base: "border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent focus:outline-none focus:border-0 focus:shadow-none focus-within:outline-none focus-within:ring-0 focus-within:border-0 text-white font-medium bg-transparent",
-  container: "rounded-lg border border-indigo-500/30 w-full p-4 px-3 md:px-6 focus-within:shadow-lg focus-within:shadow-indigo-500/30 focus-within:border-indigo-400 transition bg-indigo-950/40 backdrop-blur-sm",
+  base: "border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent focus:outline-none focus:border-0 focus:shadow-none focus-within:outline-none focus-within:ring-0 focus-within:border-0 text-black font-medium bg-transparent",
+  container: "rounded-lg border border-gray-300 w-full p-4 px-3 md:px-6 bg-gray-100",
 };
 
 export const buttonStyles = {
-  base: "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-md hover:shadow-indigo-500/30 font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]",
+  base: "bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:from-cyan-300 hover:via-blue-400 hover:to-indigo-500 text-white shadow-md hover:shadow-indigo-500/30 font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]",
   secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
   outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
 };
 
 export const cardStyles = {
   base: "rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-all duration-300",
-  interactive: "cursor-pointer hover:scale-[1.02] active:scale-[0.98]",
+  interactive: "cursor-poiter hover:scale-[1.02] active:scale-[0.98]",
 };
 
 export const contentStyles = {

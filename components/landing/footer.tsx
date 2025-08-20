@@ -71,12 +71,12 @@ const Footer = () => {
             <div className="pr-4 pl-4">
               <div className="footer-widget__column footer-widget__about">
                 <div className="footer-widget__logo">
-                  <Image width={"150"} height={"60"} src="/logo.png" alt="" />
+                  <Image width={"75"} height={"30"} src="/logos/NexusHub-Logo.png" alt="" />
                 </div>
                 <p 
                   className="footer-widget__about-text"
                   style={{
-
+                    fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                     fontWeight: 600,
                     lineHeight: 1.2,
                     letterSpacing: '0.01em',
@@ -95,7 +95,7 @@ const Footer = () => {
                   <h3 
                     className="footer-widget__title"
                     style={{
-  
+                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                       lineHeight: 1.2,
                       letterSpacing: '0.01em',
                       textTransform: 'none',
@@ -110,7 +110,7 @@ const Footer = () => {
                         <Link 
                           href={route.href}
                           style={{
-        
+                            fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                             fontWeight: 600,
                             lineHeight: 1.2,
                             letterSpacing: '0.01em',
@@ -130,7 +130,7 @@ const Footer = () => {
                   <h3 
                     className="footer-widget__title"
                     style={{
-  
+                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                       lineHeight: 1.2,
                       letterSpacing: '0.01em',
                       textTransform: 'none',
@@ -145,7 +145,7 @@ const Footer = () => {
                         <Link 
                           href={link.href}
                           style={{
-        
+                            fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                             fontWeight: 600,
                             lineHeight: 1.2,
                             letterSpacing: '0.01em',
@@ -165,7 +165,7 @@ const Footer = () => {
                   <h3 
                     className="footer-widget__title"
                     style={{
-  
+                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                       lineHeight: 1.2,
                       letterSpacing: '0.01em',
                       textTransform: 'none',
@@ -180,7 +180,7 @@ const Footer = () => {
                         key={detail.name} 
                         className="flex text-sm"
                         style={{
-      
+                          fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                           fontWeight: 600,
                           lineHeight: 1.2,
                           letterSpacing: '0.01em',
@@ -205,7 +205,7 @@ const Footer = () => {
             <p 
               className="text-center"
               style={{
-
+                fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                 fontWeight: 600,
                 lineHeight: 1.2,
                 letterSpacing: '0.01em',

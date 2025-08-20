@@ -22,10 +22,8 @@ const ImageGenerativeFillPage = async () => {
     <div className="bg-white">
       <FeatureContainer
       title="Generative Fill"
-      description={`Automatically adjust and fill your images to fit any aspect ratio.  (Price: ${MODEL_GENERATIONS_PRICE.imageGenerativeFill} credits)`}
+      description={`Automatically adjust and fill your images to fit any aspect ratio\nPrice: ${MODEL_GENERATIONS_PRICE.imageGenerativeFill} credits`}
       iconName={"PaintBucket"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
     >
       <div className={contentStyles.base}>
         <TransformationForm 

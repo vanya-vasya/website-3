@@ -7,16 +7,14 @@ const PaymentHistoryPage = async () => {
   return (
     <div className="bg-white">
       <FeatureContainer
-      title="Payment History"
-      description={`Monitor, track, and manage your payment history with ease. View all your transactions in one place.`}
+      title="Payments"
+      description={`Payment history made easy, all in one place`}
       iconName={"Banknote"}
-      iconColor="text-purple-500"
-      bgColor="bg-purple-500/10"
     >
       <div className={contentStyles.base}>
         {!transactions || transactions.length === 0 ? (
           <h3 className="text-center text-gray-300">
-            You haven’t made any payments yet
+            It's empty ¯\_(ツ)_/¯
           </h3>
         ) : (
           <div className="bg-indigo-900/20 border border-indigo-500/20 backdrop-blur-sm rounded-xl">

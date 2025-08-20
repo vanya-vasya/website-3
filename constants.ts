@@ -215,7 +215,7 @@ export const tools = [
     icon: Clapperboard,
     description:
       "Generate industry-ready scripts and storyboards for your videos",
-    color: "text-black",
+    color: "from-cyan-400 via-blue-500 to-indigo-600",
     bgColor: "bg-violet-600/10",
     href: "/dashboard/conversation",
     professions: ["video"],
@@ -247,7 +247,7 @@ export const tools = [
     label: "Design Partner",
     icon: Palette,
     description:
-      "Get AI assistance composing melodies, chord progressions, and full arrangements",
+      "Create stunning concept art and illustrations for your projects",
     color: "text-pink-600",
     bgColor: "bg-pink-600/10",
     href: "/dashboard/image-generation",
@@ -268,7 +268,7 @@ export const tools = [
     id: "digital-painting",
     label: "Painting Enhance",
     icon: Paintbrush,
-    description: "Create unique sound effects for your music tracks and productions",
+    description: "Enhance and refine your digital paintings with AI-powered artistic improvements",
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
     href: "/dashboard/digital-painting-enhancement",

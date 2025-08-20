@@ -25,16 +25,16 @@ import { MODEL_GENERATIONS_PRICE } from "@/constants";
 const toolConfigs = {
   'video-generation': {
     title: 'Video Generation',
-    description: `Turn your prompt into video. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits)`,
+    description: `Turn your prompt into video. Generation can take from 1 to 5 minutes\nPrice: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits`,
     iconName: 'FileVideo2',
     iconColor: 'text-indigo-600',
     bgColor: 'bg-indigo-600/10',
     placeholder: 'Clown fish swimming in a coral reef'
   },
   'video-creation': {
-    title: 'Video Creation',
-    description: `Generate engaging video content from your ideas and scripts. (Price: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits)`,
-    iconName: 'PlayCircle',
+    title: 'Video Maker',
+    description: `Turn ideas and scripts into engaging video content automatically\nPrice: ${MODEL_GENERATIONS_PRICE.videoGeneration} credits`,
+    iconName: 'Video',
     iconColor: 'text-purple-600',
     bgColor: 'bg-purple-600/10',
     placeholder: 'A cinematic aerial view of a futuristic city at sunset'
@@ -88,8 +88,6 @@ const VideoPage = () => {
       title={currentTool.title}
       description={currentTool.description}
       iconName={currentTool.iconName as keyof typeof import("lucide-react")}
-      iconColor={currentTool.iconColor}
-      bgColor={currentTool.bgColor}
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -134,7 +132,7 @@ const VideoPage = () => {
               <Loader />
             </div>
           )}
-          {!video && !isLoading && <Empty label="No video files generated." />}
+          {!video && !isLoading && <Empty label="It's empty ¯\_(ツ)_/¯" />}
           {video && (
             <video
               controls

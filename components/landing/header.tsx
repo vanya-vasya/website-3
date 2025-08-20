@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { GuestMobileSidebar } from "@/components/guest-mobile-sidebar";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const routes = [
   {
@@ -25,7 +26,7 @@ const Header = () => {
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-3 lg:px-6 gap-1">
         <div className="flex">
           <Link href="/" className="-m-1.5 p-1.5">
-            <Image width={"150"} height={"60"} src="/logo.png" alt=""/>
+            <Image width={"75"} height={"30"} src="/logos/NexusHub-Logo.png" alt=""/>
           </Link>
         </div>
         <div className="flex gap-x-12 ml-12">
@@ -46,20 +47,30 @@ const Header = () => {
             <ul className="main-header__login-sing-up">
               <li>
                 <SignedIn>
-                  <Link
-                    href="/dashboard"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#374151] hover:text-[#6366f1]"
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    Dashboard
-                  </Link>
+                    <Link
+                      href="/dashboard"
+                      className="nav-link"
+                    >
+                      Dashboard
+                    </Link>
+                  </motion.div>
                 </SignedIn>
                 <SignedOut>
-                  <Link
-                    href="/dashboard"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-[#374151] hover:text-[#6366f1]"
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    Sign In / Sign Up
-                  </Link>
+                    <Link
+                      href="/dashboard"
+                      className="nav-link"
+                    >
+                      Sign In / Sign Up
+                    </Link>
+                  </motion.div>
                 </SignedOut>
               </li>
             </ul>
@@ -70,10 +81,8 @@ const Header = () => {
 
       <style jsx global>{`
         :root {
-          --nav-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-                      Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-          --contact-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-                          Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+          --nav-font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+          --contact-font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
 
         .nav-container {
@@ -95,6 +104,19 @@ const Header = () => {
           padding: 8px 16px;
           border-radius: 9999px;
           transition: all 500ms ease-in-out;
+        }
+
+        .main-header__login-sing-up .nav-link {
+          font-family: var(--contact-font) !important;
+          font-weight: 600 !important;
+          font-size: 16px !important;
+          line-height: 1.1 !important;
+          letter-spacing: 0.01em !important;
+          text-transform: none !important;
+          color: #0f172a !important;
+          padding: 8px 16px !important;
+          border-radius: 9999px !important;
+          border: none !important;
         }
 
         .nav-link:hover {

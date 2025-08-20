@@ -25,27 +25,27 @@ import { MODEL_GENERATIONS_PRICE } from "@/constants";
 const toolConfigs = {
   'speech-generation': {
     title: 'Speech Generation',
-    description: `Turn your prompt into speech. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits)`,
+    description: `Turn your prompt into speech. Generation can take from 1 to 5 minutes\nPrice: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits`,
     iconName: 'Mic',
     iconColor: 'text-fuchsia-600',
     bgColor: 'bg-fuchsia-600/10',
     placeholder: 'Text to be read aloud...'
   },
   'video-voiceover': {
-    title: 'Video Voiceover Creation',
-    description: `Create professional narration and voiceovers for your videos. (Price: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits)`,
-    iconName: 'Megaphone',
+    title: 'AI Voiceover',
+    description: `Deliver broadcast-quality voiceovers for every video\nPrice: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits`,
+    iconName: 'Mic2',
     iconColor: 'text-violet-500',
     bgColor: 'bg-violet-500/10',
     placeholder: 'Welcome to my YouTube channel! Today we are exploring the fascinating world of AI...'
   },
   'voice-melody': {
-    title: 'Voice Melody Creator',
-    description: `Generate vocal melodies and harmonies for your musical compositions. (Price: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits)`,
+    title: 'Melody Maker',
+    description: `Generate vocal melodies and harmonies for your musical compositions\nPrice: ${MODEL_GENERATIONS_PRICE.speecGeneration} credits`,
     iconName: 'Mic',
     iconColor: 'text-blue-400',
     bgColor: 'bg-blue-400/10',
-    placeholder: 'Sing the following lyrics with a gentle melody: "Beneath the stars, we find our way..."'
+    placeholder: 'Sing these lyrics with a gentle melody: "Beneath the stars, we find our way"'
   }
 };
 
@@ -95,8 +95,7 @@ const SpeechPage = () => {
       title={currentTool.title}
       description={currentTool.description}
       iconName={currentTool.iconName as keyof typeof import("lucide-react")}
-      iconColor={currentTool.iconColor}
-      bgColor={currentTool.bgColor}
+
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -142,7 +141,7 @@ const SpeechPage = () => {
             </div>
           )}
           {speechList.length === 0 && !isLoading && (
-            <Empty label="No speech generated." />
+            <Empty label="It's empty ¯\_(ツ)_/¯" />
           )}
           <div className="space-y-4">
             {speechList.map((speech, index) => (

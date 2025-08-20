@@ -32,27 +32,27 @@ import { MODEL_GENERATIONS_PRICE } from "@/constants";
 const toolConfigs = {
   'music-generation': {
     title: 'Music Generation',
-    description: `Turn your prompt into music. Generation can take from 1 to 5 minutes. (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`,
-    iconName: 'FileAudio',
+    description: `Turn your prompt into music. Generation can take from 1 to 5 minutes\nPrice: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits`,
+    iconName: 'Music',
     iconColor: 'text-violet-500',
     bgColor: 'bg-violet-500/10',
     placeholder: 'Piano solo'
   },
   'music-composition': {
-    title: 'Music Composition Assistant',
-    description: `Get help composing melodies, chord progressions, and arrangements. (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`,
+    title: 'Compose Assist',
+    description: `Get AI assistance composing melodies, chord progressions, and full arrangements\nPrice: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits`,
     iconName: 'Music',
     iconColor: 'text-blue-500',
     bgColor: 'bg-blue-500/10',
-    placeholder: 'A dramatic orchestral piece with strings and percussion'
+    placeholder: 'Dramatic orchestral composition featuring strings and percussion'
   },
   'sound-effects': {
-    title: 'Sound Effect Generator',
-    description: `Create unique sound effects for your music tracks and productions. (Price: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits)`,
-    iconName: 'FileAudio',
+    title: 'SFX Generator',
+    description: `Create unique sound effects for your music tracks and productions\nPrice: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits`,
+    iconName: 'Volume2',
     iconColor: 'text-indigo-500',
     bgColor: 'bg-indigo-500/10',
-    placeholder: 'Futuristic spaceship engine sounds'
+    placeholder: 'Epic spaceship engine roar'
   }
 };
 
@@ -103,8 +103,7 @@ const MusicPage = () => {
       title={currentTool.title}
       description={currentTool.description}
       iconName={currentTool.iconName as keyof typeof import("lucide-react")}
-      iconColor={currentTool.iconColor}
-      bgColor={currentTool.bgColor}
+
     >
       <div className={contentStyles.base}>
         <Form {...form}>
@@ -177,7 +176,7 @@ const MusicPage = () => {
             </div>
           )}
           {musicList.length === 0 && !isLoading && (
-            <Empty label="No music generated." />
+            <Empty label="It's empty ¯\_(ツ)_/¯" />
           )}
           <div className="space-y-4">
             {musicList.map((music, index) => (
