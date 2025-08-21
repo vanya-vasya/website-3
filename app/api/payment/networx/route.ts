@@ -57,18 +57,16 @@ export async function POST(request: NextRequest) {
       testMode
     });
     
-    console.log('API Version: 3, Authentication: HTTP Basic');
+    console.log('API Version: 1, Authentication: HTTP Basic');
 
-    // Updated request structure according to Networx Pay API v3 documentation
+    // Request structure according to Networx Pay API v1 documentation
     const requestData = {
-      type: "payment",
+      shop_id: shopId,
       amount: amount * 100, // Amount in cents
       currency: currency,
       description: description || 'Payment for order',
       order_id: orderId,
-      customer: {
-        email: customerEmail
-      },
+      customer_email: customerEmail,
       return_url: returnUrl,
       cancel_url: cancelUrl,
       notification_url: webhookUrl,
@@ -110,7 +108,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Make real API call to Networx Pay (Production mode)
-    const networxApiUrl = `${apiUrl}/v3/transactions`;  // Correct API endpoint
+    const networxApiUrl = `${apiUrl}/api/v1/payment/create`;  // Correct API endpoint according to Networx Pay docs
     console.log('Making request to:', networxApiUrl);
 
     try {
