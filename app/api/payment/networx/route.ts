@@ -60,33 +60,19 @@ export async function POST(request: NextRequest) {
     
     console.log('API Version: 1, Authentication: HTTP Basic');
 
-    // Request structure according to Networx Pay API v1 documentation
+    // Request structure according to official Networx Pay documentation
+    const currentDate = new Date();
+    const expiredAt = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // +24 hours
+    
     const requestData = {
-      shop_id: shopId,
-      amount: amount * 100, // Amount in cents
+      amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
       currency: currency,
       description: description || 'Payment for order',
-      order_id: orderId,
-      customer_email: customerEmail,
-      return_url: returnUrl,
-      cancel_url: cancelUrl,
-      notification_url: webhookUrl,
-      test_mode: testMode ? 1 : 0
+      test: testMode,
+      expired_at: expiredAt.toISOString()
     };
 
-    console.log('Request data before signature:', requestData);
-    
-    // Create signature according to Networx Pay documentation
-    const signature = createSignature(requestData, secretKey);
-    console.log('Generated signature:', signature);
-
-    // Add signature to request data
-    const finalRequestData = {
-      ...requestData,
-      signature: signature,
-    };
-
-    console.log('Final request data:', finalRequestData);
+    console.log('Final request data:', requestData);
     
     // FOR DEVELOPMENT: Use test mode implementation until correct API endpoints are confirmed
     if (testMode) {
@@ -109,7 +95,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Make real API call to Networx Pay (Production mode)
-    const networxApiUrl = `${apiUrl}/payment/create`;  // Try simplified endpoint
+    const networxApiUrl = `${apiUrl}/beyag/transactions/payments`;  // Correct endpoint from official docs
     console.log('Making request to:', networxApiUrl);
 
     try {
@@ -120,7 +106,7 @@ export async function POST(request: NextRequest) {
           'Accept': 'application/json',
           'Authorization': `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`,
         },
-        body: JSON.stringify(finalRequestData),
+        body: JSON.stringify(requestData),
       });
 
       if (!networxResponse.ok) {
