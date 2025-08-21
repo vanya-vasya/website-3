@@ -42,6 +42,7 @@ export const FreeCounter = ({
             onClick={proModal.onOpen}
             variant="premium"
             className="w-full"
+            style={{fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"}}
           >
             Buy More
             <Zap className="w-4 h-4 ml-2 fill-white" />

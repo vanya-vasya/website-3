@@ -15,6 +15,7 @@ export const BuyGenerationsButton = () => {
     <Button
     onClick={proModal.onOpen}
     variant="premium"
+    style={{fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"}}
   >
     Buy More Generations
     <Zap className="w-4 h-4 ml-2 fill-white" />

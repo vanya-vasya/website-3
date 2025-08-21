@@ -152,19 +152,19 @@ export const ProModal = () => {
 
   return (
     <Dialog open={proModal.isOpen} onOpenChange={handleModalClose}>
-      <DialogContent className="bg-slate-900 border-slate-800">
+      <DialogContent className="bg-white border-gray-200" style={{fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"}}>
         <DialogHeader>
-          <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2 bg-slate-900">
-            <div className="flex items-center gap-x-2 font-bold text-xl text-white bg-slate-900">
+          <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2 bg-white">
+            <div className="flex items-center gap-x-2 font-bold text-xl text-gray-900 bg-white">
               {showPaymentWidget ? "Complete Payment" : "Buy More Generations"}
             </div>
           </DialogTitle>
           {!showPaymentWidget && (
-            <DialogDescription className="text-center pt-2 space-y-2 text-white font-medium">
+            <DialogDescription className="text-center pt-2 space-y-2 text-gray-700 font-medium">
               {toolsModal.map((tool) => (
                 <Card
                   key={tool.href}
-                  className="p-3 border-black/5 flex items-center justify-between bg-slate-800 text-white"
+                  className="p-3 border-gray-200 flex items-center justify-between bg-white text-gray-900"
                 >
                   <div className="flex items-center gap-x-4">
                     <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
@@ -329,7 +329,7 @@ export const ProModal = () => {
                 {...register("policies")}
                 checked={watch("policies")}
                 onChange={handleCheckboxChange}
-                className="group block w-[1rem] h-[1rem] rounded border border-slate-800 bg-slate-800 data-[checked]:bg-primary"
+                className="group block w-[1rem] h-[1rem] rounded border border-gray-300 bg-white data-[checked]:bg-gradient-to-r data-[checked]:from-cyan-400 data-[checked]:via-blue-500 data-[checked]:to-indigo-600"
               >
                 <svg
                   className="stroke-white opacity-0 group-data-[checked]:opacity-100"
@@ -345,19 +345,19 @@ export const ProModal = () => {
                 </svg>
               </Checkbox>
               <Label
-                className={"text-sm leading-loose tracking-tight text-white"}
+                className={"text-sm leading-loose tracking-tight text-gray-700"}
               >
                 I agree to the{" "}
                 <a
                   href="/terms-and-conditions"
-                  className=" hover:text-primary hover:underline hover:underline-offset-4 "
+                  className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent hover:underline hover:underline-offset-4"
                 >
                   Terms of Service
                 </a>{" "}
                 and{" "}
                 <a
                   href="/privacy-policy"
-                  className=" hover:text-primary hover:underline hover:underline-offset-4 "
+                  className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent hover:underline hover:underline-offset-4"
                 >
                   Privacy Policy
                 </a>
@@ -377,9 +377,8 @@ export const ProModal = () => {
               <Button
                 disabled={loading}
                 size="lg"
-                variant="premium"
                 type="submit"
-                className="w-full"
+                className="w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:from-cyan-500 hover:via-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Buy Generations
                 <Zap className="w-4 h-4 ml-2 fill-white" />
@@ -398,7 +397,7 @@ export const ProModal = () => {
               width={CardLogo.width}
               height={CardLogo.height}
             />
-            <Label className="text-center font-normal text-xs text-white/30">
+            <Label className="text-center font-normal text-xs text-gray-400">
               GROWTHPIXEL LTD - 128 City Road, <br />
               London, United Kingdom, EC1V 2NX
             </Label>

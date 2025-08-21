@@ -183,10 +183,10 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto bg-white border-gray-200" style={{fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"}}>
       <CardHeader>
-        <CardTitle>Payment via Networx</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-gray-900">Payment via Networx</CardTitle>
+        <CardDescription className="text-gray-600">
           Amount to pay: {amount} {currency}
         </CardDescription>
       </CardHeader>
@@ -194,7 +194,7 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
         {!paymentToken ? (
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email for notifications</Label>
+              <Label htmlFor="email" className="text-gray-700">Email for notifications</Label>
               <Input
                 id="email"
                 type="email"
@@ -203,6 +203,7 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
                 required
+                className="bg-white border-gray-300 text-gray-900"
               />
             </div>
 
@@ -220,7 +221,7 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
             <Button
               onClick={createPaymentToken}
               disabled={isLoading || !email}
-              className="w-full"
+              className="w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:from-cyan-500 hover:via-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
               {isLoading ? (
                 <>
@@ -246,7 +247,7 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
             <div className="space-y-2">
               <Button
                 onClick={openPaymentWidget}
-                className="w-full"
+                className="w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:from-cyan-500 hover:via-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 disabled={!paymentUrl}
               >
                 Open Payment Window
@@ -255,13 +256,13 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
               <Button
                 onClick={checkPaymentStatus}
                 variant="outline"
-                className="w-full"
+                className="w-full border-gray-300 text-gray-700 hover:bg-gray-50"
               >
                 Check Payment Status
               </Button>
             </div>
 
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-gray-600">
               <p>• Payment window will open in a new tab</p>
               <p>• You will be redirected back after payment</p>
               <p>• Use real bank cards for payment</p>
