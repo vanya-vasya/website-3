@@ -13,7 +13,7 @@ const nunito = Nunito({
 
 export default function NotFound() {
   return (
-    <main className={cn("bg-[#0f172a] text-[#A1AAC9] overflow-x-hidden h-full flex flex-col justify-between", nunito.className)}>
+    <main className={cn("bg-white text-[#A1AAC9] overflow-x-hidden h-full flex flex-col justify-between", nunito.className)}>
     <Header/>
       <Empty label="Page not found." />
     <Footer/> 

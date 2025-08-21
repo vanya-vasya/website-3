@@ -6,13 +6,11 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
-  X,
-  FileAudio,
-  FileVideo2,
-  PaintBucket,
+  Video,
+  Palette,
+  Music,
+  Lightbulb,
   Menu,
-  LayoutDashboard,
-  BrushIcon,
   Banknote,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -73,65 +71,46 @@ export function MobileNav({
   const proModal = useProModal();
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="xl:hidden h-10 w-10 rounded-xl bg-indigo-900/20 hover:bg-indigo-900/40 border border-indigo-500/20 backdrop-blur-sm"
+    <div 
+      style={{
+        fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+      }}
+    >
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="xl:hidden h-10 w-10 rounded-xl bg-gray-100 hover:bg-gray-200 border border-gray-300"
+            style={{
+              fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+            }}
+          >
+            <Menu className="h-5 w-5 text-black" />
+            <span className="sr-only">Toggle Menu</span>
+          </Button>
+        </SheetTrigger>
+        <SheetContent
+          side="left"
+          className="w-[300px] p-0 bg-white border-r border-gray-200"
+          style={{
+            fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+          }}
         >
-          <Menu className="h-5 w-5 text-indigo-300" />
-          <span className="sr-only">Toggle Menu</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent
-        side="left"
-        className="w-[300px] p-0 bg-gradient-to-b from-gray-900 to-black/95 backdrop-blur border-r border-indigo-500/20"
-      >
-        <SheetHeader className="p-5 border-b border-indigo-500/10">
-          <div className="flex justify-between items-center">
-            <Image
-              src="/logos/nerbixa-logo.png"
-              alt="Nerbixa Logo"
-              width={150}
-              height={50}
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(false)}
-              className="h-8 w-8 rounded-full bg-indigo-900/20 hover:bg-indigo-900/40"
-            >
-              <X className="h-4 w-4 text-indigo-300" />
-            </Button>
-          </div>
-        </SheetHeader>
+          <SheetHeader className="p-5 border-b border-gray-200">
+            <div className="flex justify-between items-center">
+              <Image
+                src="/logos/nerbixa-logo.png"
+                alt="nerbixa Logo"
+                width={150}
+                height={50}
+              />
+            </div>
+          </SheetHeader>
 
         <div className="flex flex-col h-[calc(100vh-4rem)]">
           <div className="flex-1 overflow-y-auto">
             <div className="p-4">
-              <div className="mb-6">
-                <Link
-                  href="/dashboard"
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "flex items-center gap-3 rounded-xl p-3 mb-2 transition-colors bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/10",
-                    pathname === "/dashboard" &&
-                      "bg-indigo-500/20 border-indigo-500/30"
-                  )}
-                >
-                  <div className="h-8 w-8 rounded-lg bg-indigo-500/20 flex items-center justify-center">
-                    <LayoutDashboard className="h-4 w-4 text-indigo-300" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-white">Creator Studio</p>
-                    <p className="text-xs text-indigo-300">
-                      All creative tools
-                    </p>
-                  </div>
-                </Link>
-              </div>
-
               <div className="w-full mb-4">
                 <UsageProgress
                   initialUsedGenerations={initialUsedGenerations}
@@ -143,35 +122,43 @@ export function MobileNav({
             <Collapsible
               open={videoToolsOpen}
               onOpenChange={setVideoToolsOpen}
-              className="border-y border-indigo-500/10"
+              className="border-y border-gray-200"
             >
-              <CollapsibleTrigger className="flex w-full items-center justify-between p-4 font-medium text-white hover:bg-violet-900/30 transition-colors">
+              <CollapsibleTrigger 
+                className="flex w-full items-center justify-between p-4 font-medium text-black hover:bg-gray-50 transition-colors"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                }}
+              >
                 <div className="flex items-center gap-2">
-                  <FileVideo2 className="h-4 w-4 text-violet-400" />
-                  Video Creators
+                  <Video className="h-4 w-4 text-blue-600" />
+                  Co-Director
                 </div>
                 <ChevronRight
                   className={cn(
-                    "h-4 w-4 transition-transform duration-200 text-violet-400",
+                    "h-4 w-4 transition-transform duration-200 text-blue-600",
                     videoToolsOpen && "rotate-90"
                   )}
                 />
               </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 p-2 bg-violet-950/20">
+              <CollapsibleContent className="space-y-1 p-2 bg-gray-50">
                 {videoCreatorTools.map((item) => (
                   <Link
                     key={item.id}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-violet-900/30 transition-colors",
+                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-gray-100 transition-colors",
                       pathname === item.href
-                        ? "bg-violet-900/40 text-white"
-                        : "text-gray-300"
+                        ? "bg-gray-100 text-black"
+                        : "text-black"
                     )}
+                    style={{
+                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                    }}
                   >
-                    <div className="h-7 w-7 rounded-md bg-violet-500/10 flex items-center justify-center">
-                      <item.icon className="h-4 w-4 text-violet-300" />
+                    <div className="h-7 w-7 rounded-md bg-blue-100 flex items-center justify-center">
+                      <item.icon className="h-4 w-4 text-blue-600" />
                     </div>
                     {item.label}
                   </Link>
@@ -182,35 +169,43 @@ export function MobileNav({
             <Collapsible
               open={artToolsOpen}
               onOpenChange={setArtToolsOpen}
-              className="border-b border-indigo-500/10"
+              className="border-b border-gray-200"
             >
-              <CollapsibleTrigger className="flex w-full items-center justify-between p-4 font-medium text-white hover:bg-pink-900/30 transition-colors">
+              <CollapsibleTrigger 
+                className="flex w-full items-center justify-between p-4 font-medium text-black hover:bg-gray-50 transition-colors"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                }}
+              >
                 <div className="flex items-center gap-2">
-                  <BrushIcon className="h-4 w-4 text-pink-400" />
-                  Digital Artists
+                  <Palette className="h-4 w-4 text-blue-600" />
+                  Design Partner
                 </div>
                 <ChevronRight
                   className={cn(
-                    "h-4 w-4 transition-transform duration-200 text-pink-400",
+                    "h-4 w-4 transition-transform duration-200 text-blue-600",
                     artToolsOpen && "rotate-90"
                   )}
                 />
               </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 p-2 bg-pink-950/20">
+              <CollapsibleContent className="space-y-1 p-2 bg-gray-50">
                 {digitalArtistTools.map((item) => (
                   <Link
                     key={item.id}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-pink-900/30 transition-colors",
+                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-gray-100 transition-colors",
                       pathname === item.href
-                        ? "bg-pink-900/40 text-white"
-                        : "text-gray-300"
+                        ? "bg-gray-100 text-black"
+                        : "text-black"
                     )}
+                    style={{
+                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                    }}
                   >
-                    <div className="h-7 w-7 rounded-md bg-pink-500/10 flex items-center justify-center">
-                      <item.icon className="h-4 w-4 text-pink-300" />
+                    <div className="h-7 w-7 rounded-md bg-blue-100 flex items-center justify-center">
+                      <item.icon className="h-4 w-4 text-blue-600" />
                     </div>
                     {item.label}
                   </Link>
@@ -221,35 +216,43 @@ export function MobileNav({
             <Collapsible
               open={musicToolsOpen}
               onOpenChange={setMusicToolsOpen}
-              className="border-b border-indigo-500/10"
+              className="border-b border-gray-200"
             >
-              <CollapsibleTrigger className="flex w-full items-center justify-between p-4 font-medium text-white hover:bg-blue-900/30 transition-colors">
+              <CollapsibleTrigger 
+                className="flex w-full items-center justify-between p-4 font-medium text-black hover:bg-gray-50 transition-colors"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                }}
+              >
                 <div className="flex items-center gap-2">
-                  <FileAudio className="h-4 w-4 text-blue-400" />
-                  Musicians
+                  <Music className="h-4 w-4 text-blue-600" />
+                  Co-Composer
                 </div>
                 <ChevronRight
                   className={cn(
-                    "h-4 w-4 transition-transform duration-200 text-blue-400",
+                    "h-4 w-4 transition-transform duration-200 text-blue-600",
                     musicToolsOpen && "rotate-90"
                   )}
                 />
               </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 p-2 bg-blue-950/20">
+              <CollapsibleContent className="space-y-1 p-2 bg-gray-50">
                 {musicianTools.map((item) => (
                   <Link
                     key={item.id}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-blue-900/30 transition-colors",
+                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-gray-100 transition-colors",
                       pathname === item.href
-                        ? "bg-blue-900/40 text-white"
-                        : "text-gray-300"
+                        ? "bg-gray-100 text-black"
+                        : "text-black"
                     )}
+                    style={{
+                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                    }}
                   >
-                    <div className="h-7 w-7 rounded-md bg-blue-500/10 flex items-center justify-center">
-                      <item.icon className="h-4 w-4 text-blue-300" />
+                    <div className="h-7 w-7 rounded-md bg-blue-100 flex items-center justify-center">
+                      <item.icon className="h-4 w-4 text-blue-600" />
                     </div>
                     {item.label}
                   </Link>
@@ -260,35 +263,43 @@ export function MobileNav({
             <Collapsible
               open={contentToolsOpen}
               onOpenChange={setContentToolsOpen}
-              className="border-b border-indigo-500/10"
+              className="border-b border-gray-200"
             >
-              <CollapsibleTrigger className="flex w-full items-center justify-between p-4 font-medium text-white hover:bg-emerald-900/30 transition-colors">
+              <CollapsibleTrigger 
+                className="flex w-full items-center justify-between p-4 font-medium text-black hover:bg-gray-50 transition-colors"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                }}
+              >
                 <div className="flex items-center gap-2">
-                  <PaintBucket className="h-4 w-4 text-emerald-400" />
-                  Content Creators
+                  <Lightbulb className="h-4 w-4 text-blue-600" />
+                  Creative Partner
                 </div>
                 <ChevronRight
                   className={cn(
-                    "h-4 w-4 transition-transform duration-200 text-emerald-400",
+                    "h-4 w-4 transition-transform duration-200 text-blue-600",
                     contentToolsOpen && "rotate-90"
                   )}
                 />
               </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 p-2 bg-emerald-950/20">
+              <CollapsibleContent className="space-y-1 p-2 bg-gray-50">
                 {contentCreatorTools.map((item) => (
                   <Link
                     key={item.id}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-emerald-900/30 transition-colors",
+                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-gray-100 transition-colors",
                       pathname === item.href
-                        ? "bg-emerald-900/40 text-white"
-                        : "text-gray-300"
+                        ? "bg-gray-100 text-black"
+                        : "text-black"
                     )}
+                    style={{
+                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+                    }}
                   >
-                    <div className="h-7 w-7 rounded-md bg-emerald-500/10 flex items-center justify-center">
-                      <item.icon className="h-4 w-4 text-emerald-300" />
+                    <div className="h-7 w-7 rounded-md bg-blue-100 flex items-center justify-center">
+                      <item.icon className="h-4 w-4 text-blue-600" />
                     </div>
                     {item.label}
                   </Link>
@@ -296,35 +307,38 @@ export function MobileNav({
               </CollapsibleContent>
             </Collapsible>
             <Link
-              href={"/dashboard/billing/payment-history"}
+              href={"http://localhost:30001/dashboard/billing/payment-history"}
               onClick={() => setIsOpen(false)}
               className={cn(
-                "flex w-full items-center p-4 font-medium text-white hover:bg-amber-900/30 transition-colors",
+                "flex w-full items-center p-4 font-medium text-black hover:bg-gray-50 transition-colors",
                 pathname === "/dashboard/billing/payment-history"
-                  ? "bg-amber-900/40 text-white"
-                  : "text-gray-300"
+                  ? "bg-gray-100 text-black"
+                  : "text-black"
               )}
+              style={{
+                fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+              }}
             >
-              <div className="h-7 w-7 rounded-md flex items-center">
-                <Banknote className="h-4 w-4 text-amber-300" />
+              <div className="h-7 w-7 rounded-md flex items-center mr-3">
+                <Banknote className="h-4 w-4 text-blue-600" />
               </div>
-              Payment History
+              Payments
             </Link>
           </div>
 
-          {/* <div className="p-4 border-t border-indigo-500/10">
+          {/* <div className="p-4 border-t border-gray-200">
             <div
-              className="rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/20 p-4 cursor-pointer"
+              className="rounded-xl bg-gradient-to-r from-indigo-100 to-purple-100 p-4 cursor-pointer"
               onClick={() => {
                 proModal.onOpen();
                 setIsOpen(false);
               }}
             >
-              <div className="flex items-center gap-2 text-indigo-300 mb-2">
+              <div className="flex items-center gap-2 text-indigo-600 mb-2">
                 <Zap className="h-4 w-4" />
                 <p className="text-sm font-medium">Creator Pro Plan</p>
               </div>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-600">
                 Unlimited access to all creative tools and priority rendering
               </p>
             </div>
@@ -332,5 +346,6 @@ export function MobileNav({
         </div>
       </SheetContent>
     </Sheet>
+    </div>
   );
 }

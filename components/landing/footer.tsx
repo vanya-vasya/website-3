@@ -71,7 +71,7 @@ const Footer = () => {
             <div className="pr-4 pl-4">
               <div className="footer-widget__column footer-widget__about">
                 <div className="footer-widget__logo">
-                  <Image width={"98"} height={"39"} src="/logos/nerbixa-logo.png" alt="" />
+                  <Image width={"98"} height={"39"} src="/logos/nerbixa-logo.png" alt="nerbixa Logo" />
                 </div>
                 <p 
                   className="footer-widget__about-text"

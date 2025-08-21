@@ -18,8 +18,13 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Neuvisia AI",
+  title: "nerbixa",
   description: "AI-powered creative tools for everyone",
+  icons: {
+    icon: "/logos/nerbixa-logo.png",
+    shortcut: "/logos/nerbixa-logo.png",
+    apple: "/logos/nerbixa-logo.png",
+  },
 };
 
 export default function RootLayout({
