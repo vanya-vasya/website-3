@@ -167,12 +167,12 @@ export const ProModal = () => {
                   className="p-3 border-gray-200 flex items-center justify-between bg-white text-gray-900"
                 >
                   <div className="flex items-center gap-x-4">
-                    <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
-                      <tool.icon className={cn("w-6 h-6", tool.color)} />
+                    <div className="p-2 w-fit rounded-md bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600">
+                      <tool.icon className="w-6 h-6 text-white" />
                     </div>
                     <div className="font-semibold text-sm">{tool.label}</div>
                   </div>
-                  <Check className="text-primary w-5 h-5" />
+                  <Check className="w-5 h-5 text-white bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 p-1 rounded" />
                 </Card>
               ))}
             </DialogDescription>
@@ -186,11 +186,11 @@ export const ProModal = () => {
                 onClick={handleBackToForm}
                 variant="outline"
                 size="sm"
-                className="text-white border-slate-600 hover:bg-slate-800"
+                className="text-black border-gray-300 hover:bg-gray-50"
               >
                 ← Back to Selection
               </Button>
-              <div className="text-white text-sm">
+              <div className="text-black text-sm">
                 {watch("generations")} Generations - {(watch("generations") * generationPrice).toFixed(2)} {watch("currency")}
               </div>
             </div>
@@ -210,9 +210,9 @@ export const ProModal = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full items-center gap-1.5">
             <div className="grid grid-cols-2">
-              <p className="text-sm font-medium leading-sm text-white">Price</p>
+              <p className="text-sm font-medium leading-sm text-black">Price</p>
               <div className="flex gap-2 justify-end">
-                <p className="text-sm font-medium leading-sm text-end text-white">
+                <p className="text-sm font-medium leading-sm text-end text-black">
                   {(watch("generations") * generationPrice).toFixed(2)}
                 </p>
                 <Listbox
@@ -225,32 +225,31 @@ export const ProModal = () => {
                     <ListboxButton
                       className={`w-[60px] h-[24px] text-center rounded-md sm:rounded-lg
                       border text-sm font-medium flex items-center justify-center
-                      bg-slate-800 text-white
+                      bg-white text-black
                       ${
                         watch("currency")
-                          ? "border-pink-600"
-                          : "border-slate-800"
+                          ? "border-cyan-500"
+                          : "border-gray-300"
                       }
                       outline-none ring-0 focus:outline-none focus:ring-0 active:ring-0
-                      hover:outline-none hover:ring-0 hover:border-slate-800 hover:bg-slate-800
-                      focus:border-slate-800 active:border-slate-800
-                      transition-none appearance-none shadow-none`}
+                      hover:outline-none hover:ring-0 hover:border-gray-400 hover:bg-gray-50
+                      focus:border-gray-400 active:border-gray-400
+                      transition-all duration-200 appearance-none shadow-sm`}
                     >
                       {watch("currency")}
                     </ListboxButton>
-                    <ListboxOptions className="absolute left-0 z-10 mt-1 grid w-full origin-top-right gap-0.5 rounded-md sm:rounded-lg border border-slate-800 bg-slate-800 p-1 shadow-large outline-none dark:border-gray-700 dark:bg-light-dark">
+                    <ListboxOptions className="absolute left-0 z-10 mt-1 grid w-full origin-top-right gap-0.5 rounded-md sm:rounded-lg border border-gray-300 bg-white p-1 shadow-lg outline-none">
                       {currencies.map((currency, idx) => (
                         <ListboxOption
                           key={idx}
                           className={({ active }) =>
                             `flex cursor-pointer items-center justify-center rounded-md text-sm transition
-                            bg-slate-800 text-white
+                            bg-white text-black
                             ${
                               active
-                                ? "border border-pink-600 font-medium"
-                                : "border border-transparent hover:border-gray-300"
-                            }
-                            dark:text-gray-400`
+                                ? "bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white font-medium"
+                                : "border border-transparent hover:bg-gray-50"
+                            }`
                           }
                           value={currency}
                         >
@@ -262,13 +261,13 @@ export const ProModal = () => {
                 </Listbox>
               </div>
             </div>
-            <div className="grid grid-cols-2 pb-2 text-white">
+            <div className="grid grid-cols-2 pb-2 text-black">
               <p className="text-sm font-medium leading-sm">Generations</p>
               <p className="text-sm font-medium leading-sm text-end">
                 {watch("generations")} Generations
               </p>
             </div>
-            <Label htmlFor="generations" className="text-white">
+            <Label htmlFor="generations" className="text-black">
               Choose generations option
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-2">
@@ -280,13 +279,13 @@ export const ProModal = () => {
                   onClick={() => handleButtonClick(value)}
                   variant="ghost"
                   className={classNames(
-                    "!bg-slate-800 !text-white !border !border-slate-800",
-                    "!hover:bg-slate-800 !hover:text-white !hover:border-slate-800",
-                    "!focus:bg-slate-800 !focus:text-white !focus:border-slate-800",
-                    "!active:bg-slate-800 !active:text-white !active:border-slate-800",
-                    "focus:outline-none ring-0 focus:ring-0 active:ring-0 transition-none shadow-none appearance-none",
+                    "!bg-white !text-gray-700 !border !border-gray-300",
+                    "!hover:bg-gray-50 !hover:text-gray-900 !hover:border-gray-400",
+                    "!focus:bg-gray-50 !focus:text-gray-900 !focus:border-gray-400",
+                    "!active:bg-gray-50 !active:text-gray-900 !active:border-gray-400",
+                    "focus:outline-none ring-0 focus:ring-0 active:ring-0 transition-all duration-300 shadow-sm",
                     {
-                      "!border-pink-600 !text-pink-600 bg-accent":
+                      "!bg-gradient-to-r !from-cyan-400 !via-blue-500 !to-indigo-600 !text-white !border-transparent !shadow-lg":
                         activeButton === value,
                     }
                   )}
@@ -297,6 +296,7 @@ export const ProModal = () => {
               <Input
                 disabled={loading}
                 type="number"
+                className="bg-white border-gray-300 text-black"
                 id="generations"
                 placeholder="Other"
                 {...register("generations", { valueAsNumber: true })}
@@ -397,9 +397,8 @@ export const ProModal = () => {
               width={CardLogo.width}
               height={CardLogo.height}
             />
-            <Label className="text-center font-normal text-xs text-gray-400">
-              GROWTHPIXEL LTD - 128 City Road, <br />
-              London, United Kingdom, EC1V 2NX
+            <Label className="text-center font-normal text-xs text-black">
+            GUARАNTЕЕD GRЕAT SЕRVICЕ LTD - Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA
             </Label>
           </>
         )}
