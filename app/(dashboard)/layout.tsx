@@ -8,6 +8,7 @@ import {
 import { UsageProgress } from "@/components/usage-progress";
 import { AnimatedLayout, AnimatedPage } from "@/components/animated-layout";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function DashboardLayout({
   children,
@@ -135,7 +136,7 @@ export default async function DashboardLayout({
             </div>
           </div>
           <div className="flex justify-center mt-6">
-            <img src="/cards.svg" alt="cards" width={300} height={100} />
+            <Image src="/cards.svg" alt="cards" width={300} height={100} />
           </div>
         </div>
       </footer>

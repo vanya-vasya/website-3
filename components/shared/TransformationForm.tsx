@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { aspectRatioOptions, transformationTypes } from "@/constants";
 import { CustomField } from "./CustomField";
 import { useEffect, useState, useTransition } from "react";
+import Image from "next/image";
 import { AspectRatioKey, debounce, deepMergeObjects } from "@/lib/utils";
 import MediaUploader from "./MediaUploader";
 import TransformedImage from "./TransformedImage";
@@ -348,7 +349,7 @@ const TransformationForm = ({
                   className="p-14-medium px-2 absolute top-0 right-0" 
                   onClick={() => window.open(transformedImageUrl, '_blank')}
                 >
-                  <img 
+                  <Image 
                     src="/assets/icons/download.svg"
                     alt="Download"
                     width={24}
@@ -358,9 +359,11 @@ const TransformationForm = ({
                 </button>
               </div>
               <div className="relative">
-                <img 
+                <Image 
                   src={transformedImageUrl}
                   alt="AI-Generated Style Transfer"
+                  width={400}
+                  height={300}
                   className="rounded-lg overflow-hidden h-72 md:h-full w-full object-cover"
                 />
               </div>

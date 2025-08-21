@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const ChatInterface = () => {
   return (
@@ -6,7 +7,7 @@ const ChatInterface = () => {
       {/* User message */}
       <div className="flex gap-4 max-w-3xl mx-auto">
         <div className="w-8 h-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
-          <img
+          <Image
             src="/images/icons/user.png"
             alt="Text Icon"
             width={18}
@@ -25,7 +26,7 @@ const ChatInterface = () => {
       {/* Model response */}
       <div className="flex gap-4 max-w-3xl mx-auto">
         <div className="w-8 h-8 rounded-full bg-primary flex-shrink-0 flex items-center justify-center">
-          <img
+          <Image
             src="/images/icons/ai.png"
             alt="Text Icon"
             width={20}

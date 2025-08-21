@@ -14,7 +14,7 @@ const PaymentHistoryPage = async () => {
       <div className={contentStyles.base}>
         {!transactions || transactions.length === 0 ? (
           <h3 className="text-center text-gray-300">
-            It's empty ¯\_(ツ)_/¯
+            It&apos;s empty ¯\_(ツ)_/¯
           </h3>
         ) : (
           <div className="bg-indigo-900/20 border border-indigo-500/20 backdrop-blur-sm rounded-xl">

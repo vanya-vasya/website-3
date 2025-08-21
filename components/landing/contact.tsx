@@ -96,7 +96,7 @@ const Contact = () => {
                 key={`${logo.alt}-${index}`}
                 className="flex-shrink-0 flex items-center justify-center h-32 w-64 opacity-70 hover:opacity-100 transition-opacity duration-300"
               >
-                <img
+                <Image
                   src={logo.src}
                   alt={logo.alt}
                   width={logo.width}
