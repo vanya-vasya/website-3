@@ -31,6 +31,11 @@ export async function POST(request: NextRequest) {
     console.log('Request body:', body);
     
     const { amount, currency = 'USD', orderId, description, customerEmail } = body;
+    
+    // Get client IP address for gateway selection
+    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+                     request.headers.get('x-real-ip') || 
+                     '127.0.0.1';
 
     if (!amount || !orderId) {
       console.log('Missing required fields:', { amount, orderId });
@@ -69,6 +74,16 @@ export async function POST(request: NextRequest) {
         amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
         currency: currency,
         description: description || 'Payment for order',
+        tracking_id: orderId, // Required: unique identifier for transaction tracking
+        ip: clientIP, // Customer IP address (required for gateway selection)
+        language: 'en', // Payment page language
+        notification_url: webhookUrl, // Webhook URL for payment notifications
+        return_url: returnUrl, // URL to redirect after successful payment
+        ...(customerEmail && {
+          customer: {
+            email: customerEmail // Customer email can help with gateway selection
+          }
+        }),
         method: {
           type: 'card' // Required field - must be an object with type property
         },
