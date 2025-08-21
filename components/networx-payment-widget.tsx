@@ -89,62 +89,15 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
     }
   };
 
-  // Function to open payment widget
+  // Function to redirect to hosted payment page
   const openPaymentWidget = () => {
     if (!paymentUrl) return;
 
-    // Open payment page in new window
-    const paymentWindow = window.open(
-      paymentUrl,
-      'networx_payment',
-      'width=800,height=600,scrollbars=yes,resizable=yes'
-    );
-
-    if (!paymentWindow) {
-      toast.error('Failed to open payment window. Please check your browser settings.');
-      return;
-    }
-
-    // Listen for messages from payment window
-    const handleMessage = (event: MessageEvent) => {
-      // Check message origin for security
-      const widgetUrl = process.env.NEXT_PUBLIC_NETWORX_WIDGET_URL || 'https://checkout.networxpay.com';
-      if (event.origin !== widgetUrl) {
-        return;
-      }
-
-      const { type, data } = event.data;
-
-      switch (type) {
-        case 'payment_success':
-          paymentWindow.close();
-          toast.success('Payment completed successfully!');
-          onSuccess?.(data);
-          break;
-
-        case 'payment_error':
-          paymentWindow.close();
-          toast.error('Payment processing error');
-          onError?.(data);
-          break;
-
-        case 'payment_cancel':
-          paymentWindow.close();
-          toast('Payment cancelled');
-          onCancel?.();
-          break;
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-
-    // Clean up handler when window closes
-    const checkClosed = setInterval(() => {
-      if (paymentWindow.closed) {
-        clearInterval(checkClosed);
-        window.removeEventListener('message', handleMessage);
-      }
-    }, 1000);
+    toast('Redirecting to payment page...');
+    
+    // Direct redirect to Networx Pay hosted payment page
+    // This is the official recommended approach
+    window.location.href = paymentUrl;
   };
 
   // Function to check payment status
@@ -250,7 +203,7 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
                 className="w-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 hover:from-cyan-500 hover:via-blue-600 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 disabled={!paymentUrl}
               >
-                Open Payment Window
+                Proceed to Payment
               </Button>
 
               <Button
@@ -263,9 +216,9 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
             </div>
 
             <div className="text-xs text-gray-600">
-              <p>• Payment window will open in a new tab</p>
-              <p>• You will be redirected back after payment</p>
-              <p>• Use real bank cards for payment</p>
+              <p>• You will be redirected to the secure payment page</p>
+              <p>• Complete your payment with credit/debit card</p>
+              <p>• You will return here after payment completion</p>
             </div>
           </div>
         )}
