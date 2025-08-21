@@ -25,6 +25,8 @@ interface PaymentResponse {
   payment_url?: string;
   error?: string;
   details?: any;
+  mock?: boolean;
+  message?: string;
 }
 
 export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
