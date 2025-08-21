@@ -56,6 +56,8 @@ export async function POST(request: NextRequest) {
       returnUrl,
       testMode
     });
+    
+    console.log('API Version: 3, Authentication: HTTP Basic');
 
     // Параметры для Networx Payment Gateway API
     const tokenData = {
@@ -94,8 +96,9 @@ export async function POST(request: NextRequest) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${secretKey}`,
-          'X-Shop-ID': shopId,
+          'Accept': 'application/json',
+          'X-API-Version': '3',
+          'Authorization': `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`,
         },
         body: JSON.stringify(requestData),
       });
@@ -197,8 +200,9 @@ export async function GET(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${secretKey}`,
-        'X-Shop-ID': shopId,
+        'Accept': 'application/json',
+        'X-API-Version': '3',
+        'Authorization': `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`,
       },
       body: JSON.stringify(requestData),
     });
