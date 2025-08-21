@@ -130,21 +130,21 @@ export async function POST(req: Request) {
             to: body.transaction.customer.email,
             subject: `Receipt #${
               String(body.transaction.uid).split("-").pop() || "42f7fj3u48rh"
-            } - Neuvisia Tokens Purchase`,
+            } - Nerbixa Tokens Purchase`,
             text: `Hi there,
 
-We’re excited to welcome you to Neuvisia — thanks so much for your recent order on neuvisia.com!
+We're excited to welcome you to Nerbixa — thanks so much for your recent order on nerbixa.com!
 
 You’ll find your transaction receipt attached to this message. Be sure to keep it in case you need it later.
 
-If you run into any issues, have questions about your token usage, or need guidance, our support team is just an email away at support@neuvisia.com. We’re always ready to help.
+If you run into any issues, have questions about your token usage, or need guidance, our support team is just an email away at support@nerbixa.com. We're always ready to help.
 
 We’re honored to be part of your creative journey.
 
 With appreciation,
-The Neuvisia Team
-neuvisia.com
-support@neuvisia.com`,
+The Nerbixa Team
+nerbixa.com
+support@nerbixa.com`,
             attachments: [
               {
                 filename:

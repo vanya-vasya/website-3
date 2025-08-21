@@ -12,9 +12,9 @@ NETWORX_SHOP_ID=29959
 NETWORX_SECRET_KEY=dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950
 NETWORX_API_URL=https://gateway.networxpay.com
 NETWORX_TEST_MODE=false
-NETWORX_RETURN_URL=https://website-2-fl3pjwurp-vladis-projects-8c520e18.vercel.app/payment/success
-NETWORX_CANCEL_URL=https://website-2-fl3pjwurp-vladis-projects-8c520e18.vercel.app/payment/cancel
-NETWORX_WEBHOOK_URL=https://website-2-fl3pjwurp-vladis-projects-8c520e18.vercel.app/api/webhooks/networx
+NETWORX_RETURN_URL=https://nerbixa.com/payment/success
+NETWORX_CANCEL_URL=https://nerbixa.com/payment/cancel
+NETWORX_WEBHOOK_URL=https://nerbixa.com/api/webhooks/networx
 ```
 
 ### Client-side Variables (Public)
@@ -51,7 +51,7 @@ The code has been updated to include fallback values for all environment variabl
 ## Testing
 
 You can test the payment integration at:
-https://website-2-fl3pjwurp-vladis-projects-8c520e18.vercel.app/payment/test
+https://nerbixa.com/payment/test
 
 ## Important Notes
 

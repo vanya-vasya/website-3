@@ -45,9 +45,9 @@ export async function POST(request: NextRequest) {
     const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
     // Force correct API URL - override any incorrect environment variable
     const apiUrl = 'https://api.networxpay.com';  // Updated to correct API URL
-    const returnUrl = process.env.NETWORX_RETURN_URL || 'http://localhost:3001/payment/success';
-    const cancelUrl = process.env.NETWORX_CANCEL_URL || 'http://localhost:3001/payment/cancel';
-    const webhookUrl = process.env.NETWORX_WEBHOOK_URL || 'http://localhost:3001/api/webhooks/networx';
+    const returnUrl = process.env.NETWORX_RETURN_URL || 'https://nerbixa.com/payment/success';
+    const cancelUrl = process.env.NETWORX_CANCEL_URL || 'https://nerbixa.com/payment/cancel';
+    const webhookUrl = process.env.NETWORX_WEBHOOK_URL || 'https://nerbixa.com/api/webhooks/networx';
     const testMode = process.env.NETWORX_TEST_MODE === 'true' ? true : false;
     
     console.log('Environment variables:', {

@@ -307,7 +307,7 @@ export function MobileNav({
               </CollapsibleContent>
             </Collapsible>
             <Link
-              href={"http://localhost:30001/dashboard/billing/payment-history"}
+              href={"https://nerbixa.com/dashboard/billing/payment-history"}
               onClick={() => setIsOpen(false)}
               className={cn(
                 "flex w-full items-center p-4 font-medium text-black hover:bg-gray-50 transition-colors",

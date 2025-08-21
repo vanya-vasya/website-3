@@ -217,7 +217,7 @@ export const tools = [
       "Generate industry-ready scripts and storyboards for your videos",
     color: "from-cyan-400 via-blue-500 to-indigo-600",
     bgColor: "bg-violet-600/10",
-    href: "http://localhost:30001/dashboard/conversation?toolId=video-script",
+    href: "https://nerbixa.com/dashboard/conversation?toolId=video-script",
     professions: ["video"],
   },
   {
@@ -227,7 +227,7 @@ export const tools = [
     description: "Turn ideas and scripts into engaging video content automatically",
     color: "text-purple-600",
     bgColor: "bg-purple-600/10",
-    href: "http://localhost:30001/dashboard/video?toolId=video-creation",
+    href: "https://nerbixa.com/dashboard/video?toolId=video-creation",
     professions: ["video"],
   },
   {
@@ -237,7 +237,7 @@ export const tools = [
     description: "Deliver broadcast-quality narration and voiceovers for every video",
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
-    href: "http://localhost:30001/dashboard/speech?toolId=video-voiceover",
+    href: "https://nerbixa.com/dashboard/speech?toolId=video-voiceover",
     professions: ["video"],
   },
 
@@ -250,7 +250,7 @@ export const tools = [
       "Create stunning concept art and illustrations for your projects",
     color: "text-pink-600",
     bgColor: "bg-pink-600/10",
-    href: "http://localhost:30001/dashboard/image-generation?toolId=concept-art",
+    href: "https://nerbixa.com/dashboard/image-generation?toolId=concept-art",
     professions: ["art"],
   },
   // {
@@ -271,7 +271,7 @@ export const tools = [
     description: "Enhance and refine your digital paintings with AI-powered artistic improvements",
     color: "text-pink-500",
     bgColor: "bg-pink-500/10",
-    href: "http://localhost:30001/dashboard/digital-painting-enhancement?toolId=digital-painting",
+    href: "https://nerbixa.com/dashboard/digital-painting-enhancement?toolId=digital-painting",
     professions: ["art"],
   },
   {
@@ -282,7 +282,7 @@ export const tools = [
       "Generate engaging blog topics and clear outlines for your audience",
     color: "text-rose-500",
     bgColor: "bg-rose-500/10",
-    href: "http://localhost:30001/dashboard/canvas-expansion?toolId=canvas-expansion",
+    href: "https://nerbixa.com/dashboard/canvas-expansion?toolId=canvas-expansion",
     professions: ["art"],
   },
   {
@@ -293,7 +293,7 @@ export const tools = [
       "Clean up and prepare reference images for your artistic creations",
     color: "text-pink-700",
     bgColor: "bg-pink-700/10",
-    href: "http://localhost:30001/dashboard/art-reference-cleanup?toolId=art-reference",
+    href: "https://nerbixa.com/dashboard/art-reference-cleanup?toolId=art-reference",
     professions: ["art"],
   },
 
@@ -305,7 +305,7 @@ export const tools = [
     description: "Generate creative and inspiring lyrics for your music",
     color: "text-blue-600",
     bgColor: "bg-blue-600/10",
-    href: "http://localhost:30001/dashboard/conversation?toolId=song-lyrics",
+    href: "https://nerbixa.com/dashboard/conversation?toolId=song-lyrics",
     professions: ["music"],
   },
   {
@@ -315,7 +315,7 @@ export const tools = [
     description: "Design professional album covers and music artwork",
     color: "text-indigo-600",
     bgColor: "bg-indigo-600/10",
-    href: "http://localhost:30001/dashboard/image-generation?toolId=album-cover",
+    href: "https://nerbixa.com/dashboard/image-generation?toolId=album-cover",
     professions: ["music"],
   },
   {
@@ -326,7 +326,7 @@ export const tools = [
       "Get AI assistance composing melodies, chord progressions, and full arrangements",
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
-    href: "http://localhost:30001/dashboard/music?toolId=music-composition",
+    href: "https://nerbixa.com/dashboard/music?toolId=music-composition",
     professions: ["music"],
   },
   {
@@ -337,7 +337,7 @@ export const tools = [
       "Create unique sound effects for your music tracks and productions",
     color: "text-indigo-500",
     bgColor: "bg-indigo-500/10",
-    href: "http://localhost:30001/dashboard/music?toolId=sound-effects",
+    href: "https://nerbixa.com/dashboard/music?toolId=sound-effects",
     professions: ["music"],
   },
   {
@@ -348,7 +348,7 @@ export const tools = [
       "Generate vocal melodies and harmonies for your musical compositions",
     color: "text-blue-400",
     bgColor: "bg-blue-400/10",
-    href: "http://localhost:30001/dashboard/speech?toolId=voice-melody",
+    href: "https://nerbixa.com/dashboard/speech?toolId=voice-melody",
     professions: ["music"],
   },
 
@@ -360,7 +360,7 @@ export const tools = [
     description: "Generate engaging blog topics and clear outlines for your audience",
     color: "text-emerald-600",
     bgColor: "bg-emerald-600/10",
-    href: "http://localhost:30001/dashboard/conversation?toolId=blog-ideas",
+    href: "https://nerbixa.com/dashboard/conversation?toolId=blog-ideas",
     professions: ["content"],
   },
   {
@@ -370,7 +370,7 @@ export const tools = [
     description: "Create eye-catching graphics optimized for every social platform",
     color: "text-green-600",
     bgColor: "bg-green-600/10",
-    href: "http://localhost:30001/dashboard/image-generation?toolId=social-graphics",
+    href: "https://nerbixa.com/dashboard/image-generation?toolId=social-graphics",
     professions: ["content"],
   },
   {
@@ -381,7 +381,7 @@ export const tools = [
       "Plan and organize your content schedule to maximize engagement",
     color: "text-teal-600",
     bgColor: "bg-teal-600/10",
-    href: "http://localhost:30001/dashboard/conversation?toolId=content-calendar",
+    href: "https://nerbixa.com/dashboard/conversation?toolId=content-calendar",
     professions: ["content"],
   },
   {
@@ -392,7 +392,7 @@ export const tools = [
       "Design attention-grabbing thumbnails that lift click-through rates",
     color: "text-emerald-500",
     bgColor: "bg-emerald-500/10",
-    href: "http://localhost:30001/dashboard/thumbnail-optimizer?toolId=thumbnail-optimizer",
+    href: "https://nerbixa.com/dashboard/thumbnail-optimizer?toolId=thumbnail-optimizer",
     professions: ["content"],
   },
   {
@@ -403,7 +403,7 @@ export const tools = [
       "Write compelling captions that drive measurable engagement",
     color: "text-green-500",
     bgColor: "bg-green-500/10",
-    href: "http://localhost:30001/dashboard/conversation?toolId=caption-generator",
+    href: "https://nerbixa.com/dashboard/conversation?toolId=caption-generator",
     professions: ["content"],
   },
 ];
