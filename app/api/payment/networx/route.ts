@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Make real API call to Networx Pay (Production mode)
-    const networxApiUrl = `${apiUrl}/api/v1/payment/create`;  // Correct API endpoint according to Networx Pay docs
+    const networxApiUrl = `${apiUrl}/payment/create`;  // Try simplified endpoint
     console.log('Making request to:', networxApiUrl);
 
     try {
