@@ -305,13 +305,13 @@ export const ProModal = () => {
                 min={1}
                 className={classNames(
                   "text-center pl-6 py-2 text-sm font-medium",
-                  "!bg-slate-800 !text-white !border !border-slate-800",
-                  "!hover:bg-slate-800 !hover:text-white !hover:border-slate-800",
-                  "!focus:bg-slate-800 !focus:text-white !focus:border-slate-800",
-                  "!active:bg-slate-800 !active:text-white !active:border-slate-800",
-                  "focus:outline-none ring-0 focus:ring-0 active:ring-0 transition-none shadow-none appearance-none",
+                  "!bg-white !text-gray-700 !border !border-gray-300",
+                  "!hover:bg-gray-50 !hover:text-gray-900 !hover:border-gray-400",
+                  "!focus:bg-gray-50 !focus:text-gray-900 !focus:border-gray-400",
+                  "!active:bg-gray-50 !active:text-gray-900 !active:border-gray-400",
+                  "focus:outline-none ring-0 focus:ring-0 active:ring-0 transition-all duration-300 shadow-sm",
                   {
-                    "!border-pink-600 !text-pink-600 bg-accent":
+                    "!bg-gradient-to-r !from-cyan-400 !via-blue-500 !to-indigo-600 !text-white !border-transparent !shadow-lg":
                       activeButton === 999,
                   }
                 )}
