@@ -165,7 +165,8 @@ const Receipt = ({
     <Page size="A4" style={styles.page}>
       <View>
         <View style={styles.header}>
-          <Image src={company.logo} style={styles.headerImage} alt="Company logo" />
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <Image src={company.logo} style={styles.headerImage} />
         </View>
 
         <View style={styles.titleSection}>
