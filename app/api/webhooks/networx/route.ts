@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     console.log('Networx webhook received:', body);
 
-    const secretKey = process.env.NETWORX_SECRET_KEY;
+    const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
     if (!secretKey) {
       console.error('NETWORX_SECRET_KEY not configured');
       return NextResponse.json(

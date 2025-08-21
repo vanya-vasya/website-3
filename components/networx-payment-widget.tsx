@@ -44,10 +44,10 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
   const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
   const [email, setEmail] = useState(customerEmail || '');
 
-  // Функция для создания платежного токена
+  // Function to create payment token
   const createPaymentToken = async () => {
     if (!email) {
-      toast.error('Введите email для продолжения');
+      toast.error('Please enter email to continue');
       return;
     }
 
@@ -74,32 +74,26 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
         setPaymentToken(data.token);
         setPaymentUrl(data.payment_url);
         
-        if (data.mock) {
-          toast.success('Тестовый токен создан (Demo Mode)', {
-            duration: 4000,
-          });
-        } else {
-          toast.success('Токен для оплаты создан');
-        }
+        toast.success('Payment token created successfully');
       } else {
         console.error('Payment token creation failed:', data);
-        toast.error(data.error || 'Ошибка создания токена для оплаты');
+        toast.error(data.error || 'Failed to create payment token');
         onError?.(data);
       }
     } catch (error) {
       console.error('Payment token creation error:', error);
-      toast.error('Ошибка соединения с сервером');
+      toast.error('Server connection error');
       onError?.(error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Функция для открытия платежного виджета
+  // Function to open payment widget
   const openPaymentWidget = () => {
     if (!paymentUrl) return;
 
-    // Открываем платежную страницу в новом окне
+    // Open payment page in new window
     const paymentWindow = window.open(
       paymentUrl,
       'networx_payment',
@@ -107,14 +101,15 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
     );
 
     if (!paymentWindow) {
-      toast.error('Не удалось открыть окно оплаты. Проверьте настройки браузера.');
+      toast.error('Failed to open payment window. Please check your browser settings.');
       return;
     }
 
-    // Слушаем сообщения от платежного окна
+    // Listen for messages from payment window
     const handleMessage = (event: MessageEvent) => {
-      // Проверяем источник сообщения для безопасности
-      if (event.origin !== process.env.NEXT_PUBLIC_NETWORX_WIDGET_URL) {
+      // Check message origin for security
+      const widgetUrl = process.env.NEXT_PUBLIC_NETWORX_WIDGET_URL || 'https://checkout.networxpay.com';
+      if (event.origin !== widgetUrl) {
         return;
       }
 
@@ -123,19 +118,19 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
       switch (type) {
         case 'payment_success':
           paymentWindow.close();
-          toast.success('Платеж успешно завершен!');
+          toast.success('Payment completed successfully!');
           onSuccess?.(data);
           break;
 
         case 'payment_error':
           paymentWindow.close();
-          toast.error('Ошибка при обработке платежа');
+          toast.error('Payment processing error');
           onError?.(data);
           break;
 
         case 'payment_cancel':
           paymentWindow.close();
-          toast('Платеж отменен');
+          toast('Payment cancelled');
           onCancel?.();
           break;
       }
@@ -143,7 +138,7 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
 
     window.addEventListener('message', handleMessage);
 
-    // Очищаем обработчик при закрытии окна
+    // Clean up handler when window closes
     const checkClosed = setInterval(() => {
       if (paymentWindow.closed) {
         clearInterval(checkClosed);
@@ -152,7 +147,7 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
     }, 1000);
   };
 
-  // Функция для проверки статуса платежа
+  // Function to check payment status
   const checkPaymentStatus = async () => {
     if (!paymentToken) return;
 
@@ -166,18 +161,18 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
 
         switch (status) {
           case 'success':
-            toast.success('Платеж успешно завершен!');
+            toast.success('Payment completed successfully!');
             onSuccess?.(data.transaction);
             break;
           case 'failed':
-            toast.error('Платеж не удался');
+            toast.error('Payment failed');
             onError?.(data.transaction);
             break;
           case 'pending':
-            toast('Платеж обрабатывается...');
+            toast('Payment processing...');
             break;
           case 'canceled':
-            toast('Платеж отменен');
+            toast('Payment cancelled');
             onCancel?.();
             break;
         }
@@ -190,16 +185,16 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>Оплата через Networx</CardTitle>
+        <CardTitle>Payment via Networx</CardTitle>
         <CardDescription>
-          Сумма к оплате: {amount} {currency}
+          Amount to pay: {amount} {currency}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {!paymentToken ? (
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email для уведомлений</Label>
+              <Label htmlFor="email">Email for notifications</Label>
               <Input
                 id="email"
                 type="email"
@@ -213,11 +208,11 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
 
             <div className="space-y-2">
               <p className="text-sm text-gray-600">
-                <strong>Заказ:</strong> {orderId}
+                <strong>Order:</strong> {orderId}
               </p>
               {description && (
                 <p className="text-sm text-gray-600">
-                  <strong>Описание:</strong> {description}
+                  <strong>Description:</strong> {description}
                 </p>
               )}
             </div>
@@ -230,10 +225,10 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
               {isLoading ? (
                 <>
                   <Loader />
-                  Создание токена...
+                  Creating token...
                 </>
               ) : (
-                'Создать токен для оплаты'
+                'Create Payment Token'
               )}
             </Button>
           </div>
@@ -241,17 +236,11 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
           <div className="space-y-4">
             <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
               <p className="text-sm text-green-800">
-                ✅ Токен для оплаты создан успешно
+                ✅ Payment token created successfully
               </p>
               <p className="text-xs text-green-600 mt-1">
                 Token: {paymentToken}
               </p>
-              <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
-                <p className="text-xs text-yellow-800">
-                  🧪 <strong>Demo Mode:</strong> Сейчас используется тестовый API. 
-                  Для продакшена потребуется настроить реальный Networx Payment Gateway.
-                </p>
-              </div>
             </div>
 
             <div className="space-y-2">
@@ -260,7 +249,7 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
                 className="w-full"
                 disabled={!paymentUrl}
               >
-                Открыть окно оплаты
+                Open Payment Window
               </Button>
 
               <Button
@@ -268,14 +257,14 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
                 variant="outline"
                 className="w-full"
               >
-                Проверить статус платежа
+                Check Payment Status
               </Button>
             </div>
 
             <div className="text-xs text-gray-500">
-              <p>• Платежное окно откроется в новой вкладке</p>
-              <p>• После оплаты вы будете перенаправлены обратно</p>
-              <p>• В тестовом режиме используйте тестовые карты</p>
+              <p>• Payment window will open in a new tab</p>
+              <p>• You will be redirected back after payment</p>
+              <p>• Use real bank cards for payment</p>
             </div>
           </div>
         )}

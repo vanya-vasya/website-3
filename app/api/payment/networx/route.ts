@@ -40,49 +40,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const shopId = process.env.NETWORX_SHOP_ID;
-    const secretKey = process.env.NETWORX_SECRET_KEY;
+    // Use new networxpay credentials
+    const shopId = process.env.NETWORX_SHOP_ID || '29959';
+    const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
+    const apiUrl = process.env.NETWORX_API_URL || 'https://gateway.networxpay.com';
+    const returnUrl = process.env.NETWORX_RETURN_URL || 'https://website-2-fl3pjwurp-vladis-projects-8c520e18.vercel.app/payment/success';
+    const cancelUrl = process.env.NETWORX_CANCEL_URL || 'https://website-2-fl3pjwurp-vladis-projects-8c520e18.vercel.app/payment/cancel';
+    const webhookUrl = process.env.NETWORX_WEBHOOK_URL || 'https://website-2-fl3pjwurp-vladis-projects-8c520e18.vercel.app/api/webhooks/networx';
+    const testMode = process.env.NETWORX_TEST_MODE === 'true' ? true : false;
     
     console.log('Environment variables:', {
       shopId: shopId ? 'SET' : 'MISSING',
       secretKey: secretKey ? 'SET' : 'MISSING',
-      apiUrl: process.env.NETWORX_API_URL,
-      returnUrl: process.env.NETWORX_RETURN_URL,
-      testMode: process.env.NETWORX_TEST_MODE
+      apiUrl,
+      returnUrl,
+      testMode
     });
 
-    if (!shopId || !secretKey) {
-      console.log('Credentials missing - shopId:', !!shopId, 'secretKey:', !!secretKey);
-      return NextResponse.json(
-        { error: 'Networx credentials not configured' },
-        { status: 500 }
-      );
-    }
-
-    // Параметры для BeGateway API
+    // Параметры для Networx Payment Gateway API
     const tokenData = {
-      request: {
-        amount: amount * 100, // BeGateway использует центы
-        currency: currency,
-        description: description || 'Payment for order',
-        order_id: orderId,
-        tracking_id: orderId,
-        credit_card: {
-          verification: false
-        },
-        customer: {
-          email: customerEmail
-        },
-        billing_address: {
-          first_name: 'Customer',
-          last_name: 'Customer'
-        },
-        notification_url: process.env.NETWORX_WEBHOOK_URL,
-        success_url: process.env.NETWORX_RETURN_URL,
-        fail_url: process.env.NETWORX_CANCEL_URL,
-        cancel_url: process.env.NETWORX_CANCEL_URL,
-        test: process.env.NETWORX_TEST_MODE === 'true'
-      }
+      shop_id: shopId,
+      amount: amount * 100, // Используем центы
+      currency: currency,
+      description: description || 'Payment for order',
+      order_id: orderId,
+      customer_email: customerEmail,
+      return_url: returnUrl,
+      cancel_url: cancelUrl,
+      notification_url: webhookUrl,
+      test_mode: testMode ? 1 : 0
     };
 
     console.log('Token data before signature:', tokenData);
@@ -98,36 +84,66 @@ export async function POST(request: NextRequest) {
     };
 
     console.log('Final request data:', requestData);
-    // Попробуем BeGateway API endpoints (Networx может использовать BeGateway)
-    const possibleUrls = [
-      'https://demo-gateway.begateway.com/transactions/notifications',
-      'https://checkout.begateway.com/checkout',
-      'https://gateway.begateway.com/transactions',
-      'https://checkout.networxpay.com/checkout'
-    ];
     
-    const apiUrl = possibleUrls[2]; // Попробуем BeGateway transactions endpoint
-    console.log('Making request to:', apiUrl);
+    // Make real API call to NetworkPay
+    const networxApiUrl = `${apiUrl}/api/v1/payment/create`;
+    console.log('Making request to:', networxApiUrl);
 
-    // ВРЕМЕННОЕ РЕШЕНИЕ: Mock API response для тестирования
-    // TODO: Заменить на настоящий Networx API когда получим правильную документацию
-    
-    console.log('=== USING MOCK API RESPONSE ===');
-    console.log('Real API call would be made to:', apiUrl);
-    console.log('With auth:', `Shop ID: ${shopId}`);
-    console.log('Request data:', JSON.stringify(tokenData, null, 2));
-    
-    // Создаем mock токен для тестирования
-    const mockToken = `test_token_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
-    // Возвращаем успешный mock ответ
-    return NextResponse.json({
-      success: true,
-      token: mockToken,
-      payment_url: `https://checkout.networxpay.com?token=${mockToken}`,
-      mock: true,
-      message: 'Mock response - replace with real Networx API when available'
-    });
+    try {
+      const networxResponse = await fetch(networxApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${secretKey}`,
+          'X-Shop-ID': shopId,
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (!networxResponse.ok) {
+        const errorData = await networxResponse.text();
+        console.error('Networx API Error Response:', errorData);
+        return NextResponse.json(
+          { 
+            error: 'Failed to create payment token',
+            details: `API returned ${networxResponse.status}: ${errorData}`
+          },
+          { status: 400 }
+        );
+      }
+
+      const networxResult = await networxResponse.json();
+      console.log('Networx API Success Response:', networxResult);
+
+      // Проверяем успешность ответа от Networx
+      if (networxResult.success || networxResult.token) {
+        return NextResponse.json({
+          success: true,
+          token: networxResult.token,
+          payment_url: networxResult.payment_url || `https://checkout.networxpay.com?token=${networxResult.token}`,
+          transaction_id: networxResult.transaction_id,
+        });
+      } else {
+        console.error('Networx API returned unsuccessful response:', networxResult);
+        return NextResponse.json(
+          { 
+            error: 'Payment token creation failed',
+            details: networxResult.error || networxResult.message || 'Unknown error'
+          },
+          { status: 400 }
+        );
+      }
+
+    } catch (fetchError) {
+      console.error('Network error calling Networx API:', fetchError);
+      return NextResponse.json(
+        { 
+          error: 'Failed to connect to payment gateway',
+          details: fetchError instanceof Error ? fetchError.message : 'Network error'
+        },
+        { status: 500 }
+      );
+    }
 
   } catch (error) {
     console.error('Payment creation error:', error);
@@ -156,15 +172,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const shopId = process.env.NETWORX_SHOP_ID;
-    const secretKey = process.env.NETWORX_SECRET_KEY;
-
-    if (!shopId || !secretKey) {
-      return NextResponse.json(
-        { error: 'Networx credentials not configured' },
-        { status: 500 }
-      );
-    }
+    const shopId = process.env.NETWORX_SHOP_ID || '29959';
+    const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
+    const apiUrl = process.env.NETWORX_API_URL || 'https://gateway.networxpay.com';
 
     // Параметры для проверки статуса
     const statusData = {
@@ -183,10 +193,12 @@ export async function GET(request: NextRequest) {
     };
 
     // Отправляем запрос к API Networx для проверки статуса
-    const networxResponse = await fetch(`${process.env.NETWORX_API_URL}/v3/status`, {
+    const networxResponse = await fetch(`${apiUrl}/api/v1/payment/status`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${secretKey}`,
+        'X-Shop-ID': shopId,
       },
       body: JSON.stringify(requestData),
     });

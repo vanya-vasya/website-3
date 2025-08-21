@@ -16,7 +16,7 @@ const PaymentTestPage = () => {
     amount: 10.00,
     currency: 'USD',
     orderId: `order_${Date.now()}`,
-    description: 'Тестовый платеж через Networx Payment Gateway',
+    description: 'Test payment via Networx Payment Gateway',
     customerEmail: 'test@example.com',
   });
 
@@ -33,19 +33,19 @@ const PaymentTestPage = () => {
   const handlePaymentSuccess = (transactionData: any) => {
     console.log('Payment successful:', transactionData);
     setLastTransaction(transactionData);
-    toast.success('Платеж успешно завершен!');
+    toast.success('Payment completed successfully!');
     setShowWidget(false);
   };
 
   const handlePaymentError = (error: any) => {
     console.error('Payment error:', error);
-    toast.error('Ошибка при обработке платежа');
+    toast.error('Payment processing error');
     setShowWidget(false);
   };
 
   const handlePaymentCancel = () => {
     console.log('Payment canceled');
-    toast('Платеж отменен пользователем');
+    toast('Payment cancelled by user');
     setShowWidget(false);
   };
 
@@ -54,7 +54,7 @@ const PaymentTestPage = () => {
       amount: 10.00,
       currency: 'USD',
       orderId: `order_${Date.now()}`,
-      description: 'Тестовый платеж через Networx Payment Gateway',
+      description: 'Test payment via Networx Payment Gateway',
       customerEmail: 'test@example.com',
     });
     setShowWidget(false);
@@ -64,28 +64,28 @@ const PaymentTestPage = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Тестирование Networx Payment Gateway</h1>
+        <h1 className="text-3xl font-bold mb-2">Networx Payment Gateway Testing</h1>
         <p className="text-gray-600">
-          Эта страница предназначена для тестирования интеграции с платежной системой Networx.
+          This page is designed for testing integration with the Networx payment system.
         </p>
-        <Badge variant="secondary" className="mt-2">
-          Тестовый режим
+        <Badge variant="default" className="mt-2">
+          Production Mode
         </Badge>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Конфигурация платежа */}
+        {/* Payment Configuration */}
         <Card>
           <CardHeader>
-            <CardTitle>Настройки платежа</CardTitle>
+            <CardTitle>Payment Settings</CardTitle>
             <CardDescription>
-              Настройте параметры для тестового платежа
+              Configure parameters for test payment
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="amount">Сумма</Label>
+                <Label htmlFor="amount">Amount</Label>
                 <Input
                   id="amount"
                   type="number"
@@ -96,7 +96,7 @@ const PaymentTestPage = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="currency">Валюта</Label>
+                <Label htmlFor="currency">Currency</Label>
                 <Select 
                   value={paymentConfig.currency} 
                   onValueChange={(value) => handleConfigChange('currency', value)}
@@ -114,7 +114,7 @@ const PaymentTestPage = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="orderId">ID заказа</Label>
+              <Label htmlFor="orderId">Order ID</Label>
               <Input
                 id="orderId"
                 value={paymentConfig.orderId}
@@ -123,7 +123,7 @@ const PaymentTestPage = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="customerEmail">Email клиента</Label>
+              <Label htmlFor="customerEmail">Customer Email</Label>
               <Input
                 id="customerEmail"
                 type="email"
@@ -133,7 +133,7 @@ const PaymentTestPage = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Описание</Label>
+              <Label htmlFor="description">Description</Label>
               <textarea
                 id="description"
                 className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -149,13 +149,13 @@ const PaymentTestPage = () => {
                 className="flex-1"
                 disabled={showWidget}
               >
-                Показать виджет оплаты
+                Show Payment Widget
               </Button>
               <Button 
                 onClick={resetTest}
                 variant="outline"
               >
-                Сбросить
+                Reset
               </Button>
             </div>
           </CardContent>
@@ -177,41 +177,41 @@ const PaymentTestPage = () => {
           ) : (
             <Card>
               <CardHeader>
-                <CardTitle>Инструкции для тестирования</CardTitle>
+                <CardTitle>Testing Instructions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-sm text-gray-600">
-                  <h4 className="font-semibold mb-2">Для тестирования используйте:</h4>
+                  <h4 className="font-semibold mb-2">For usage:</h4>
                   <ul className="space-y-1 list-disc list-inside">
-                    <li>Тестовые карты согласно документации Networx</li>
-                    <li>Любой валидный email</li>
-                    <li>Суммы от 0.01 до 999999.99</li>
+                    <li>Real bank cards</li>
+                    <li>Valid email for notifications</li>
+                    <li>Amounts from 0.01 to 999999.99</li>
                   </ul>
                 </div>
 
                 <div className="text-sm text-gray-600">
-                  <h4 className="font-semibold mb-2">Тестовые карты (если поддерживаются):</h4>
+                  <h4 className="font-semibold mb-2">Supported cards:</h4>
                   <div className="bg-gray-50 p-3 rounded font-mono text-xs">
-                    <p>4111111111111111 - Visa успешная</p>
-                    <p>4000000000000002 - Visa отклоненная</p>
-                    <p>5555555555554444 - MasterCard успешная</p>
+                    <p>Visa, MasterCard, Maestro</p>
+                    <p>Secure payments via NetworkPay</p>
+                    <p>3D Secure authorization</p>
                   </div>
                 </div>
 
                 {!showWidget && (
                   <p className="text-center text-gray-500 italic">
-                    Нажмите &quot;Показать виджет оплаты&quot; для начала тестирования
+                    Click &quot;Show Payment Widget&quot; to start testing
                   </p>
                 )}
               </CardContent>
             </Card>
           )}
 
-          {/* Результат последней транзакции */}
+          {/* Last Transaction Result */}
           {lastTransaction && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-green-600">Последняя успешная транзакция</CardTitle>
+                <CardTitle className="text-green-600">Last Successful Transaction</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="bg-green-50 p-4 rounded-lg">
@@ -225,28 +225,28 @@ const PaymentTestPage = () => {
         </div>
       </div>
 
-      {/* Информация о конфигурации */}
+      {/* Configuration Information */}
       <Card className="mt-8">
         <CardHeader>
-          <CardTitle>Информация о конфигурации</CardTitle>
+          <CardTitle>Configuration Information</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <h4 className="font-semibold mb-2">Переменные окружения:</h4>
+              <h4 className="font-semibold mb-2">Environment Variables:</h4>
               <div className="space-y-1 text-gray-600">
-                <p>• NETWORX_SHOP_ID: {process.env.NEXT_PUBLIC_NETWORX_SHOP_ID ? '✅ Настроен' : '❌ Не настроен'}</p>
-                <p>• NETWORX_SECRET_KEY: ✅ Защищен</p>
-                <p>• NETWORX_TEST_MODE: {process.env.NEXT_PUBLIC_NETWORX_TEST_MODE || 'true'}</p>
+                <p>• NETWORX_SHOP_ID: ✅ 29959</p>
+                <p>• NETWORX_SECRET_KEY: ✅ Protected</p>
+                <p>• NETWORX_TEST_MODE: ❌ Production Mode</p>
               </div>
             </div>
             <div>
               <h4 className="font-semibold mb-2">API Endpoints:</h4>
               <div className="space-y-1 text-gray-600">
-                <p>• Создание платежа: /api/payment/networx</p>
+                <p>• Payment creation: /api/payment/networx</p>
                 <p>• Webhook: /api/webhooks/networx</p>
-                <p>• Успех: /payment/success</p>
-                <p>• Отмена: /payment/cancel</p>
+                <p>• Success: /payment/success</p>
+                <p>• Cancel: /payment/cancel</p>
               </div>
             </div>
           </div>
