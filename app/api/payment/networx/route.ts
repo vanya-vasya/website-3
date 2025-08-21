@@ -87,8 +87,28 @@ export async function POST(request: NextRequest) {
 
     console.log('Final request data:', requestData);
     
-    // Make real API call to NetworkPay
-    const networxApiUrl = `${apiUrl}/api/v1/payment/create`;
+    // FOR DEVELOPMENT: Use test mode implementation until correct API endpoints are confirmed
+    if (testMode) {
+      console.log('🧪 TEST MODE: Simulating payment token creation');
+      
+      // Generate a test token for development
+      const testToken = `test_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const testTransactionId = `txn_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      console.log('✅ TEST MODE: Token created successfully:', testToken);
+      
+      return NextResponse.json({
+        success: true,
+        token: testToken,
+        payment_url: `https://checkout.networxpay.com?token=${testToken}`,
+        transaction_id: testTransactionId,
+        test_mode: true,
+        message: 'Test payment token created successfully (development mode)'
+      });
+    }
+    
+    // Make real API call to NetworkPay (Production mode)
+    const networxApiUrl = `${apiUrl}/api/v3/payment/create`;
     console.log('Making request to:', networxApiUrl);
 
     try {
@@ -196,7 +216,7 @@ export async function GET(request: NextRequest) {
     };
 
     // Отправляем запрос к API Networx для проверки статуса
-    const networxResponse = await fetch(`${apiUrl}/api/v1/payment/status`, {
+    const networxResponse = await fetch(`${apiUrl}/api/v3/payment/status`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
