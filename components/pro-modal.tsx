@@ -296,7 +296,6 @@ export const ProModal = () => {
               <Input
                 disabled={loading}
                 type="number"
-                className="bg-white border-gray-300 text-black"
                 id="generations"
                 placeholder="Other"
                 {...register("generations", { valueAsNumber: true })}
