@@ -200,7 +200,7 @@ const PaymentTestPage = () => {
 
                 {!showWidget && (
                   <p className="text-center text-gray-500 italic">
-                    Нажмите "Показать виджет оплаты" для начала тестирования
+                    Нажмите &quot;Показать виджет оплаты&quot; для начала тестирования
                   </p>
                 )}
               </CardContent>
