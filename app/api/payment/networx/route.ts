@@ -43,7 +43,8 @@ export async function POST(request: NextRequest) {
     // Networx Pay API credentials and configuration
     const shopId = process.env.NETWORX_SHOP_ID || '29959';
     const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
-    const apiUrl = process.env.NETWORX_API_URL || 'https://api.networxpay.com';  // Updated to correct API URL
+    // Force correct API URL - override any incorrect environment variable
+    const apiUrl = 'https://api.networxpay.com';  // Updated to correct API URL
     const returnUrl = process.env.NETWORX_RETURN_URL || 'http://localhost:3001/payment/success';
     const cancelUrl = process.env.NETWORX_CANCEL_URL || 'http://localhost:3001/payment/cancel';
     const webhookUrl = process.env.NETWORX_WEBHOOK_URL || 'http://localhost:3001/api/webhooks/networx';
