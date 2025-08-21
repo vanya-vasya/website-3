@@ -71,7 +71,14 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
       if (data.success && data.token && data.payment_url) {
         setPaymentToken(data.token);
         setPaymentUrl(data.payment_url);
-        toast.success('Токен для оплаты создан');
+        
+        if (data.mock) {
+          toast.success('Тестовый токен создан (Demo Mode)', {
+            duration: 4000,
+          });
+        } else {
+          toast.success('Токен для оплаты создан');
+        }
       } else {
         console.error('Payment token creation failed:', data);
         toast.error(data.error || 'Ошибка создания токена для оплаты');
@@ -237,6 +244,12 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
               <p className="text-xs text-green-600 mt-1">
                 Token: {paymentToken}
               </p>
+              <div className="mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
+                <p className="text-xs text-yellow-800">
+                  🧪 <strong>Demo Mode:</strong> Сейчас используется тестовый API. 
+                  Для продакшена потребуется настроить реальный Networx Payment Gateway.
+                </p>
+              </div>
             </div>
 
             <div className="space-y-2">
