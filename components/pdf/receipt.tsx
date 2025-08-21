@@ -135,13 +135,13 @@ const styles = StyleSheet.create({
 });
 
 const company = {
-  name: "Neuvisia",
-  company: "GROWTHPIXEL LTD",
-  address: "128 City Road, London, United Kingdom, EC1V 2NX",
-  website: "neuvisia.com",
-  email: "support@neuvisia.com",
+  name: "Nerbixa",
+  company: "GUARАNTЕЕD GRЕAT SЕRVICЕ LTD",
+  address: "Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA",
+  website: "nerbixa.com",
+  email: "support@nerbixa.com",
   logo: "./public/logo.png", // Official SVG logo
-  companyNumber: "16385052",
+  companyNumber: "15982295",
 };
 
 const Receipt = ({

@@ -54,27 +54,82 @@ export default async function DashboardLayout({
 
       <footer className="py-6 border-t border-gray-200 bg-white">
         <div className="container">
-          <div className="px-4 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 space-y-2 md:space-y-0">
-            <p>
-              GROWTHPIXEL LTD (№16385052) <br /> Email: support@neuvisia.com{" "}
+          <div className="px-4 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+            <p
+              style={{
+                fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                fontWeight: 600,
+                fontSize: '14px',
+                lineHeight: 1.2,
+                letterSpacing: '0.01em',
+                textTransform: 'none',
+                color: '#0f172a'
+              }}
+            >
+            GUARАNTЕЕD GRЕAT SЕRVICЕ LTD (№15982295) <br /> Email: support@nerbixa.com{" "}
               <br />
-              128 City Road, London, United Kingdom, EC1V 2NX, <br />
+              Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA, <br />
               Copyright © {new Date().getFullYear()}. All rights reserved.
             </p>
             <div className="flex space-x-4">
-              <Link href="/privacy-policy" className="hover:text-indigo-600">
+              <Link 
+                href="/privacy-policy" 
+                className="hover:text-indigo-600"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  lineHeight: 1.2,
+                  letterSpacing: '0.01em',
+                  textTransform: 'none',
+                  color: '#0f172a'
+                }}
+              >
                 Privacy Policy
               </Link>
               <Link
                 href="/terms-and-conditions"
                 className="hover:text-indigo-600"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  lineHeight: 1.2,
+                  letterSpacing: '0.01em',
+                  textTransform: 'none',
+                  color: '#0f172a'
+                }}
               >
                 Terms and Conditions
               </Link>
-              <Link href="/return-policy" className="hover:text-indigo-600">
+              <Link 
+                href="/return-policy" 
+                className="hover:text-indigo-600"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  lineHeight: 1.2,
+                  letterSpacing: '0.01em',
+                  textTransform: 'none',
+                  color: '#0f172a'
+                }}
+              >
                 Return Policy
               </Link>
-              <Link href="/cookies-policy" className="hover:text-indigo-600">
+              <Link 
+                href="/cookies-policy" 
+                className="hover:text-indigo-600"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  lineHeight: 1.2,
+                  letterSpacing: '0.01em',
+                  textTransform: 'none',
+                  color: '#0f172a'
+                }}
+              >
                 Cookies Policy
               </Link>
             </div>

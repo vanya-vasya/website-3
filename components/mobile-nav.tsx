@@ -91,8 +91,8 @@ export function MobileNav({
         <SheetHeader className="p-5 border-b border-indigo-500/10">
           <div className="flex justify-between items-center">
             <Image
-              src="/logo.png"
-              alt="Neuvisia Logo"
+              src="/logos/nerbixa-logo.png"
+              alt="Nerbixa Logo"
               width={150}
               height={50}
             />

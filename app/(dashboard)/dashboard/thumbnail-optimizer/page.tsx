@@ -74,7 +74,9 @@ const ThumbnailOptimizerPage = () => {
   return (
     <FeatureContainer
       title="Thumbnail Optimizer"
-      description="Design attention-grabbing thumbnails that lift click-through rates"
+      description="Design attention-grabbing thumbnails that lift click-through rates
+
+Price: 1 credits"
       iconName="Focus"
     >
       <div className={contentStyles.base}>

@@ -88,9 +88,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)'],
-        heading: ['var(--font-heading)'],
-        mono: ['var(--font-mono)'],
+        sans: ['var(--font-sans)', 'Inter', 'system-ui', '-apple-system', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+        heading: ['var(--font-heading)', 'Space Grotesk', 'Inter', 'system-ui', '-apple-system', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
       },
       transitionDuration: {
         '2000': '2000ms',

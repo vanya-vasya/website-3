@@ -2,36 +2,48 @@ import CTA from "@/components/landing/cta";
 
 const ReturnPolicy = () => {
   return (
-    <>
-      <section className="page-title">
+    <div style={{ fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
+      <section className="page-title" style={{ backgroundColor: 'white', position: 'relative' }}>
+        <style dangerouslySetInnerHTML={{__html: `
+          .page-title::before, .page-title::after {
+            display: none !important;
+            content: none !important;
+            background: none !important;
+            filter: none !important;
+          }
+          .page-title__shape-1, .page-title__shape-2, .page-title__shape-3 {
+            display: none !important;
+          }
+          .page-title {
+            background: white !important;
+            position: relative !important;
+          }
+          .page-title * {
+            filter: none !important;
+            background-image: none !important;
+          }
+        `}} />
         <div className="container">
-          <div className="page-title__inner">
-            <div
-              className="page-title__shape-1"
-              style={{
-                backgroundImage: "url(/images/shapes/page-title-shape-1.png)",
-              }}
-            ></div>
+          <div className="page-title__inner" style={{ padding: '60px 0 40px' }}>
             <div className="page-title__title-box">
-              <p className="page-title__sub-title">Return Policy</p>
-              <h3 className="page-title__title">Updated: June 25, 2024</h3>
+              <h3 className="page-title__title" style={{ color: 'black', fontSize: '32px', marginBottom: '20px' }}>Return Policy</h3>
             </div>
-            <p className="page-title__text">
+            <p className="page-title__text" style={{ color: 'black' }}>
               This Return Policy includes important information about the return
               process for our services. Please read it carefully.
             </p>
           </div>
         </div>
       </section>
-      <section className="career-page-top">
+      <section className="career-page-top" style={{ backgroundColor: 'white' }}>
         <div className="container">
           <div className="career-page-top__inner">
             <div className="career-page-top__single">
-              <div className="career-page-top__content-box">
+              <div className="career-page-top__content-box" style={{ backgroundColor: 'white', border: '1px solid #e5e7eb', maxHeight: '70vh', overflowY: 'auto', padding: '30px' }}>
                 <div className="career-page-top__content-box-two">
-                  <h3 className="career-page-top__title-1">Return Policy</h3>
-                  <p className="career-page-top__text-1 pt-8">
-                    At Neuvisia.com, we strive to provide high-quality AI
+
+                  <p className="career-page-top__text-1 pt-8" style={{ color: 'black' }}>
+                    At nerbixa.com, we strive to provide high-quality AI
                     generation services that meet your needs. However, if you
                     are not satisfied with your purchase, we offer a return
                     policy for unused generations. This policy is designed to
@@ -45,13 +57,13 @@ const ReturnPolicy = () => {
                     read the following conditions carefully to understand the
                     requirements for returning unused generations.
                   </p>
-                  <h4 className="career-page-top__title-3">
+                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
                     Conditions for Returns
                   </h4>
                   <ul className="career-page-top__points-list list-unstyled">
                     <li>
                       <div className="career-page-top__points-shape"></div>
-                      <p>
+                                              <p style={{ color: 'black' }}>
                         <strong>Unused Generations:</strong> Only generations
                         that have not been used are eligible for return. Once a
                         generation has been used, it cannot be returned or
@@ -59,12 +71,12 @@ const ReturnPolicy = () => {
                         those that have been utilized in any of our AI
                         generation services, including but not limited to text
                         generation, image creation, or any other AI tool
-                        provided on Neuvisia.com.
+                        provided on nerbixa.com.
                       </p>
                     </li>
                     <li>
                       <div className="career-page-top__points-shape"></div>
-                      <p>
+                                              <p style={{ color: 'black' }}>
                         <strong>14-Day Return Period:</strong> To be eligible
                         for a return, you must request the return within 14 days
                         of the purchase date. This 14-day period begins on the
@@ -75,7 +87,7 @@ const ReturnPolicy = () => {
                     </li>
                     <li>
                       <div className="career-page-top__points-shape"></div>
-                      <p>
+                                              <p style={{ color: 'black' }}>
                         <strong>Proof of Purchase:</strong> You must provide
                         proof of purchase when requesting a return. This can be
                         in the form of an order confirmation email, receipt, or
@@ -84,31 +96,31 @@ const ReturnPolicy = () => {
                       </p>
                     </li>
                   </ul>
-                  <h4 className="career-page-top__title-3">
+                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
                     How to Request a Return
                   </h4>
-                  <p className="career-page-top__text-1">
+                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
                     To initiate a return, please contact our support team
                     through our contact form on the website or by sending an
-                    email to support@neuvisia.com. In your message, include the
+                    email to support@nerbixa.com. In your message, include the
                     following information:
                   </p>
                   <ul className="career-page-top__points-list list-unstyled pt-4">
                     <li>
                       <div className="career-page-top__points-shape"></div>
-                      <p>Your full name and contact information</p>
+                        <p style={{ color: 'black' }}>Your full name and contact information</p>
                     </li>
                     <li>
                       <div className="career-page-top__points-shape"></div>
-                      <p>Order number and date of purchase</p>
+                        <p style={{ color: 'black' }}>Order number and date of purchase</p>
                     </li>
                     <li>
                       <div className="career-page-top__points-shape"></div>
-                      <p>The reason for the return request</p>
+                        <p style={{ color: 'black' }}>The reason for the return request</p>
                     </li>
                     <li>
                       <div className="career-page-top__points-shape"></div>
-                      <p>
+                                              <p style={{ color: 'black' }}>
                         Proof of purchase (e.g., order confirmation email or
                         receipt)
                       </p>
@@ -122,27 +134,27 @@ const ReturnPolicy = () => {
                     days for the refund to appear in your account, depending on
                     your payment provider.
                   </p>
-                  <p className="career-page-top__text-1">
+                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
                     If additional information is required to process your
                     return, our support team will contact you for further
                     details. We are committed to resolving return requests as
                     efficiently as possible to ensure your satisfaction.
                   </p>
-                  <h4 className="career-page-top__title-3">
+                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
                     Non-Refundable Generations
                   </h4>
-                  <p className="career-page-top__text-1">
+                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
                     Please note that any generations that have been used are
                     non-refundable. This policy is in place to maintain the
                     integrity of our service and ensure fair usage. We encourage
                     you to evaluate your needs and usage carefully before making
                     a purchase.
                   </p>
-                  <h4 className="career-page-top__title-3">Contact Us</h4>
-                  <p className="career-page-top__text-1">
+                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>Contact Us</h4>
+                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
                     If you have any questions or need assistance with your
                     return, please contact our support team at
-                    support@neuvisia.com. Our team is available to help you with
+                    support@nerbixa.com. Our team is available to help you with
                     any issues or concerns you may have regarding our return
                     policy or any other aspect of our services.
                   </p>
@@ -157,7 +169,7 @@ const ReturnPolicy = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

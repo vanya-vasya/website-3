@@ -42,19 +42,19 @@ const importantLinks = [
 
 const companyDetails = [
   {
-    name: "Company: GROWTHPIXEL LTD",
+    name: "Company: GUARАNTЕЕD GRЕAT SЕRVICЕ LTD",
     icon: Building,
   },
   {
-    name: "Company Number: 16385052",
+    name: "Company Number: 15982295",
     icon: FileText,
   },
   {
-    name: "support@neuvisia.com",
+    name: "support@nerbixa.com",
     icon: Mail,
   },
   {
-    name: `128 City Road, London, United Kingdom, EC1V 2NX`,
+    name: `Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA`,
     icon: MapPin,
   },
 ];
@@ -71,7 +71,7 @@ const Footer = () => {
             <div className="pr-4 pl-4">
               <div className="footer-widget__column footer-widget__about">
                 <div className="footer-widget__logo">
-                  <Image width={"75"} height={"30"} src="/logos/NexusHub-Logo.png" alt="" />
+                  <Image width={"98"} height={"39"} src="/logos/nerbixa-logo.png" alt="" />
                 </div>
                 <p 
                   className="footer-widget__about-text"
@@ -84,7 +84,7 @@ const Footer = () => {
                     color: '#0f172a'
                   }}
                 >
-                  Power Your Vision. A next-gen AI hub for creators—explore infinite possibilities across words, images, music, and more
+                  Power your vision with a next-gen AI hub that unlocks endless creativity across words, images, music, videos and beyond
                 </p>
               </div>
             </div>
@@ -213,7 +213,7 @@ const Footer = () => {
                 color: '#0f172a'
               }}
             >
-              Chase, Copyright © {year}. All Rights Reserved.
+              Nerbixa, Copyright © {year}. All Rights Reserved.
             </p>
           </div>
         </div>
