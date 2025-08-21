@@ -28,6 +28,7 @@ import { z } from "zod";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { NetworkPaymentWidget } from "@/components/networx-payment-widget";
 import {
   Checkbox,
   Field,
@@ -57,6 +58,7 @@ export const ProModal = () => {
   const [generationPrice, setGenerationPrice] = useState(GENERATIONS_PRICE);
   const [generationsCount, setGenerationsCount] = useState(50);
   const [activeButton, setActiveButton] = useState(50);
+  const [showPaymentWidget, setShowPaymentWidget] = useState(false);
 
   const {
     register,
@@ -76,7 +78,8 @@ export const ProModal = () => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      submitPayment();
+      // Показываем платежный виджет вместо закрытия модала
+      setShowPaymentWidget(true);
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
@@ -117,85 +120,94 @@ export const ProModal = () => {
     setValue("policies", checked); // Обновляем значение в форме
   };
 
-  useEffect(() => {
-    const loadScript = () => {
-      const script = document.createElement("script");
-      script.src = "https://js.networxpay.com/widget/be_gateway.js";
-      script.async = true;
-      document.body.appendChild(script);
-    };
-
-    loadScript();
-  }, []);
-
-  const submitPayment = () => {
+  // Обработчики для платежного виджета
+  const handlePaymentSuccess = (transactionData: any) => {
+    console.log('Payment successful:', transactionData);
     proModal.onClose();
-    const params = {
-      checkout_url: "https://checkout.networxpay.com",
-      checkout: {
-        iframe: true,
-        test: false,
-        transaction_type: "payment",
-        public_key: process.env.NEXT_PUBLIC_SHOP_PUBLIC_KEY,
-        order: {
-          amount: watch("generations") * 5,
-          currency: "EUR",
-          description: `Neuvisia Top Up (${watch("generations")} Tokens)`,
-          tracking_id: userId,
-        },
-        customer: {
-          email: user?.emailAddresses[0].emailAddress || "",
-        },
-        settings: {
-          notification_url: "https://www.neuvisia.com/api/webhooks/payment",
-        },
-      },
+    setShowPaymentWidget(false);
+    router.refresh();
+    toast.success("Generations added successfully!");
+  };
 
-      closeWidget: function (status: any) {
-        if (status === "successful") {
-          router.refresh();
-          toast.success("Generations added successfully");
-        }
-      },
-    };
+  const handlePaymentError = (error: any) => {
+    console.error('Payment error:', error);
+    setShowPaymentWidget(false);
+    toast.error("Payment failed. Please try again.");
+  };
 
-    if (window.BeGateway) {
-      new window.BeGateway(params).createWidget();
-    } else {
-      console.error("BeGateway script is not loaded");
-    }
+  const handlePaymentCancel = () => {
+    console.log('Payment canceled');
+    setShowPaymentWidget(false);
+    toast("Payment was canceled");
+  };
+
+  const handleBackToForm = () => {
+    setShowPaymentWidget(false);
+  };
+
+  const handleModalClose = () => {
+    setShowPaymentWidget(false);
+    proModal.onClose();
   };
 
   return (
-    <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
+    <Dialog open={proModal.isOpen} onOpenChange={handleModalClose}>
       <DialogContent className="bg-slate-900 border-slate-800">
         <DialogHeader>
           <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2 bg-slate-900">
             <div className="flex items-center gap-x-2 font-bold text-xl text-white bg-slate-900">
-              Buy More Generations
-              {/* <Badge variant="default" className="uppercase text-sm py-1">
-                pro
-              </Badge> */}
+              {showPaymentWidget ? "Complete Payment" : "Buy More Generations"}
             </div>
           </DialogTitle>
-          <DialogDescription className="text-center pt-2 space-y-2 text-white font-medium">
-            {toolsModal.map((tool) => (
-              <Card
-                key={tool.href}
-                className="p-3 border-black/5 flex items-center justify-between bg-slate-800 text-white"
-              >
-                <div className="flex items-center gap-x-4">
-                  <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
-                    <tool.icon className={cn("w-6 h-6", tool.color)} />
+          {!showPaymentWidget && (
+            <DialogDescription className="text-center pt-2 space-y-2 text-white font-medium">
+              {toolsModal.map((tool) => (
+                <Card
+                  key={tool.href}
+                  className="p-3 border-black/5 flex items-center justify-between bg-slate-800 text-white"
+                >
+                  <div className="flex items-center gap-x-4">
+                    <div className={cn("p-2 w-fit rounded-md", tool.bgColor)}>
+                      <tool.icon className={cn("w-6 h-6", tool.color)} />
+                    </div>
+                    <div className="font-semibold text-sm">{tool.label}</div>
                   </div>
-                  <div className="font-semibold text-sm">{tool.label}</div>
-                </div>
-                <Check className="text-primary w-5 h-5" />
-              </Card>
-            ))}
-          </DialogDescription>
+                  <Check className="text-primary w-5 h-5" />
+                </Card>
+              ))}
+            </DialogDescription>
+          )}
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        
+        {showPaymentWidget ? (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between mb-4">
+              <Button
+                onClick={handleBackToForm}
+                variant="outline"
+                size="sm"
+                className="text-white border-slate-600 hover:bg-slate-800"
+              >
+                ← Back to Selection
+              </Button>
+              <div className="text-white text-sm">
+                {watch("generations")} Generations - {(watch("generations") * generationPrice).toFixed(2)} {watch("currency")}
+              </div>
+            </div>
+            
+            <NetworkPaymentWidget
+              amount={watch("generations") * generationPrice}
+              currency={watch("currency")}
+              orderId={`gen_${userId}_${Date.now()}`}
+              description={`Neuvisia Generations Purchase (${watch("generations")} Tokens)`}
+              customerEmail={user?.emailAddresses[0].emailAddress || ""}
+              onSuccess={handlePaymentSuccess}
+              onError={handlePaymentError}
+              onCancel={handlePaymentCancel}
+            />
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full items-center gap-1.5">
             <div className="grid grid-cols-2">
               <p className="text-sm font-medium leading-sm text-white">Price</p>
@@ -375,17 +387,23 @@ export const ProModal = () => {
             </motion.div>
           </DialogFooter>
         </form>
-        <Image
-          alt="cards logo"
-          className="w-48 m-auto mt-1"
-          src={CardLogo.src}
-          width={CardLogo.width}
-          height={CardLogo.height}
-        />
-        <Label className="text-center font-normal text-xs text-white/30">
-          GROWTHPIXEL LTD - 128 City Road, <br />
-          London, United Kingdom, EC1V 2NX
-        </Label>
+        )}
+        
+        {!showPaymentWidget && (
+          <>
+            <Image
+              alt="cards logo"
+              className="w-48 m-auto mt-1"
+              src={CardLogo.src}
+              width={CardLogo.width}
+              height={CardLogo.height}
+            />
+            <Label className="text-center font-normal text-xs text-white/30">
+              GROWTHPIXEL LTD - 128 City Road, <br />
+              London, United Kingdom, EC1V 2NX
+            </Label>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );
