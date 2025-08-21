@@ -65,11 +65,13 @@ export async function POST(request: NextRequest) {
     const expiredAt = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // +24 hours
     
     const requestData = {
-      amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
-      currency: currency,
-      description: description || 'Payment for order',
-      test: testMode,
-      expired_at: expiredAt.toISOString()
+      request: {
+        amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
+        currency: currency,
+        description: description || 'Payment for order',
+        test: testMode,
+        expired_at: expiredAt.toISOString()
+      }
     };
 
     console.log('Final request data:', requestData);
