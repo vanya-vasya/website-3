@@ -69,6 +69,7 @@ export async function POST(request: NextRequest) {
         amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
         currency: currency,
         description: description || 'Payment for order',
+        method: 'card', // Required field - specifies payment method type
         test: testMode,
         expired_at: expiredAt.toISOString()
       }
