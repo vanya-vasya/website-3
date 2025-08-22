@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     const apiUrl = 'https://checkout.networxpay.com';  // Correct API URL for hosted payment page
     const returnUrl = process.env.NETWORX_RETURN_URL || 'https://nerbixa.com/payment/success';
     const notificationUrl = process.env.NETWORX_WEBHOOK_URL || 'https://nerbixa.com/api/webhooks/networx';
-    const testMode = true; // Force test mode for development
+    const testMode = false; // Use real NetworkX Pay API
     
     console.log('Environment variables:', {
       shopId: shopId ? 'SET' : 'MISSING',
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     // Request structure for hosted payment page according to working NetworkX Pay example
     const requestData = {
       checkout: {
-        test: testMode,
+        test: true, // Always use NetworkX Pay test mode for development
         transaction_type: "payment",
         order: {
           amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
