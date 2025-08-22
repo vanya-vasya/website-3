@@ -45,6 +45,8 @@ export async function POST(request: NextRequest) {
     const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
     // Force correct API URL for hosted payment page - override any incorrect environment variable
     const apiUrl = 'https://checkout.networxpay.com';  // Correct API URL for hosted payment page
+    const returnUrl = process.env.NETWORX_RETURN_URL || 'https://nerbixa.com/payment/success';
+    const notificationUrl = process.env.NETWORX_WEBHOOK_URL || 'https://nerbixa.com/api/webhooks/networx';
     const testMode = process.env.NETWORX_TEST_MODE === 'true' ? true : false;
     
     console.log('Environment variables:', {
@@ -63,7 +65,15 @@ export async function POST(request: NextRequest) {
         order: {
           amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
           currency: currency,
-          description: description || 'Payment for order'
+          description: description || 'Payment for order',
+          tracking_id: orderId // Связываем платёж с заказом
+        },
+        settings: {
+          return_url: returnUrl, // URL для возврата после успешной оплаты
+          notification_url: notificationUrl // URL для получения webhook уведомлений
+        },
+        payment_method: {
+          types: ["credit_card"] // Ограничиваем только карточными платежами
         },
         test: testMode
       }
@@ -123,12 +133,12 @@ export async function POST(request: NextRequest) {
       console.log('Networx API Success Response:', networxResult);
 
       // Проверяем успешность ответа от Networx hosted payment page
-      if (networxResult.token && networxResult.redirect_url) {
+      if (networxResult.checkout && networxResult.checkout.token && networxResult.checkout.redirect_url) {
         return NextResponse.json({
           success: true,
-          token: networxResult.token,
-          payment_url: networxResult.redirect_url, // hosted payment page uses redirect_url
-          checkout_id: networxResult.id,
+          token: networxResult.checkout.token,
+          payment_url: networxResult.checkout.redirect_url,
+          checkout_id: networxResult.checkout.token, // Используем token как идентификатор
         });
       } else {
         console.error('Networx API returned unsuccessful response:', networxResult);
