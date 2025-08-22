@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
           success: true,
           token: networxResult.checkout.token,
-          payment_url: networxResult.checkout.redirect_url,
+          redirect_url: networxResult.checkout.redirect_url,
           checkout_id: networxResult.checkout.token, // Используем token как идентификатор
         });
       } else {
