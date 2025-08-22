@@ -32,11 +32,6 @@ export async function POST(request: NextRequest) {
     
     const { amount, currency = 'USD', orderId, description, customerEmail } = body;
     
-    // Get client IP address for gateway selection
-    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0] || 
-                     request.headers.get('x-real-ip') || 
-                     '127.0.0.1';
-
     if (!amount || !orderId) {
       console.log('Missing required fields:', { amount, orderId });
       return NextResponse.json(
@@ -50,16 +45,12 @@ export async function POST(request: NextRequest) {
     const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
     // Force correct API URL for hosted payment page - override any incorrect environment variable
     const apiUrl = 'https://checkout.networxpay.com';  // Correct API URL for hosted payment page
-    const returnUrl = process.env.NETWORX_RETURN_URL || 'https://nerbixa.com/payment/success';
-    const cancelUrl = process.env.NETWORX_CANCEL_URL || 'https://nerbixa.com/payment/cancel';
-    const webhookUrl = process.env.NETWORX_WEBHOOK_URL || 'https://nerbixa.com/api/webhooks/networx';
     const testMode = process.env.NETWORX_TEST_MODE === 'true' ? true : false;
     
     console.log('Environment variables:', {
       shopId: shopId ? 'SET' : 'MISSING',
       secretKey: secretKey ? 'SET' : 'MISSING',
       apiUrl,
-      returnUrl,
       testMode
     });
     
@@ -68,23 +59,12 @@ export async function POST(request: NextRequest) {
     // Request structure for hosted payment page according to official Networx Pay documentation
     const requestData = {
       checkout: {
+        transaction_type: "payment",
         order: {
           amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
           currency: currency,
-          description: description || 'Payment for order',
-          tracking_id: orderId, // Required: unique identifier for transaction tracking
+          description: description || 'Payment for order'
         },
-        return_url: returnUrl, // URL to redirect after successful payment
-        notification_url: webhookUrl, // Webhook URL for payment notifications
-        payment_method: {
-          types: ["credit_card"] // Restrict to credit card payments only
-        },
-        ...(customerEmail && {
-          customer: {
-            email: customerEmail // Customer email for notifications
-          }
-        }),
-        language: 'en', // Payment page language
         test: testMode
       }
     };
