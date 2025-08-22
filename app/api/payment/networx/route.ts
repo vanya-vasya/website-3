@@ -48,8 +48,8 @@ export async function POST(request: NextRequest) {
     // Networx Pay API credentials and configuration
     const shopId = process.env.NETWORX_SHOP_ID || '29959';
     const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
-    // Force correct API URL - override any incorrect environment variable
-    const apiUrl = 'https://api.networxpay.com';  // Updated to correct API URL
+    // Force correct API URL for hosted payment page - override any incorrect environment variable
+    const apiUrl = 'https://checkout.networxpay.com';  // Correct API URL for hosted payment page
     const returnUrl = process.env.NETWORX_RETURN_URL || 'https://nerbixa.com/payment/success';
     const cancelUrl = process.env.NETWORX_CANCEL_URL || 'https://nerbixa.com/payment/cancel';
     const webhookUrl = process.env.NETWORX_WEBHOOK_URL || 'https://nerbixa.com/api/webhooks/networx';
@@ -63,33 +63,28 @@ export async function POST(request: NextRequest) {
       testMode
     });
     
-    console.log('API Version: 1, Authentication: HTTP Basic');
+    console.log('API Version: 2, Authentication: HTTP Basic, Using Hosted Payment Page');
 
-    // Request structure according to official Networx Pay documentation
-    const currentDate = new Date();
-    const expiredAt = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000); // +24 hours
-    
+    // Request structure for hosted payment page according to official Networx Pay documentation
     const requestData = {
-      request: {
+      order: {
         amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
         currency: currency,
         description: description || 'Payment for order',
         tracking_id: orderId, // Required: unique identifier for transaction tracking
-        ip: clientIP, // Customer IP address (required for gateway selection)
-        language: 'en', // Payment page language
-        notification_url: webhookUrl, // Webhook URL for payment notifications
-        return_url: returnUrl, // URL to redirect after successful payment
-        ...(customerEmail && {
-          customer: {
-            email: customerEmail // Customer email can help with gateway selection
-          }
-        }),
-        method: {
-          type: 'card' // Required field - must be an object with type property
-        },
-        test: testMode,
-        expired_at: expiredAt.toISOString()
-      }
+      },
+      return_url: returnUrl, // URL to redirect after successful payment
+      notification_url: webhookUrl, // Webhook URL for payment notifications
+      payment_method: {
+        types: ["credit_card"] // Restrict to credit card payments only
+      },
+      ...(customerEmail && {
+        customer: {
+          email: customerEmail // Customer email for notifications
+        }
+      }),
+      language: 'en', // Payment page language
+      test: testMode
     };
 
     console.log('Final request data:', requestData);
@@ -107,15 +102,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         token: testToken,
-        payment_url: `https://checkout.networxpay.com?token=${testToken}`,
-        transaction_id: testTransactionId,
+        payment_url: `https://checkout.networxpay.com/ctp/pay/${testToken}`,
+        checkout_id: testTransactionId,
         test_mode: true,
-        message: 'Test payment token created successfully (development mode)'
+        message: 'Test payment checkout created successfully (development mode)'
       });
     }
     
     // Make real API call to Networx Pay (Production mode)
-    const networxApiUrl = `${apiUrl}/beyag/transactions/payments`;  // Correct endpoint from official docs
+    const networxApiUrl = `${apiUrl}/ctp/api/checkouts`;  // Correct endpoint for hosted payment page
     console.log('Making request to:', networxApiUrl);
 
     try {
@@ -125,6 +120,7 @@ export async function POST(request: NextRequest) {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`,
+          'X-API-Version': '2',
         },
         body: JSON.stringify(requestData),
       });
@@ -144,19 +140,19 @@ export async function POST(request: NextRequest) {
       const networxResult = await networxResponse.json();
       console.log('Networx API Success Response:', networxResult);
 
-      // Проверяем успешность ответа от Networx
-      if (networxResult.success || networxResult.token) {
+      // Проверяем успешность ответа от Networx hosted payment page
+      if (networxResult.token && networxResult.redirect_url) {
         return NextResponse.json({
           success: true,
           token: networxResult.token,
-          payment_url: networxResult.payment_url || `https://checkout.networxpay.com?token=${networxResult.token}`,
-          transaction_id: networxResult.transaction_id,
+          payment_url: networxResult.redirect_url, // hosted payment page uses redirect_url
+          checkout_id: networxResult.id,
         });
       } else {
         console.error('Networx API returned unsuccessful response:', networxResult);
         return NextResponse.json(
           { 
-            error: 'Payment token creation failed',
+            error: 'Payment checkout creation failed',
             details: networxResult.error || networxResult.message || 'Unknown error'
           },
           { status: 400 }
