@@ -22,7 +22,7 @@ interface NetworkPaymentWidgetProps {
 interface PaymentResponse {
   success: boolean;
   token?: string;
-  redirect_url?: string;
+  payment_url?: string;
   error?: string;
   details?: any;
   mock?: boolean;
@@ -70,9 +70,9 @@ export const NetworkPaymentWidget: React.FC<NetworkPaymentWidgetProps> = ({
 
       const data: PaymentResponse = await response.json();
 
-      if (data.success && data.token && data.redirect_url) {
+      if (data.success && data.token && data.payment_url) {
         setPaymentToken(data.token);
-        setPaymentUrl(data.redirect_url);
+        setPaymentUrl(data.payment_url);
         
         toast.success('Payment token created successfully');
       } else {
