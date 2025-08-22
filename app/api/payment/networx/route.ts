@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     
     console.log('API Version: 2, Authentication: HTTP Basic, Using Hosted Payment Page');
 
-    // Request structure for hosted payment page according to official Networx Pay documentation
+    // Request structure for hosted payment page according to working NetworkX Pay example
     const requestData = {
       checkout: {
         test: testMode,
@@ -69,11 +69,9 @@ export async function POST(request: NextRequest) {
           description: description || 'Payment for order',
           tracking_id: orderId // Связываем платёж с заказом
         },
-        ...(customerEmail && {
-          customer: {
-            email: customerEmail
-          }
-        }),
+        customer: {
+          email: customerEmail || 'test@example.com' // Always include customer email
+        },
         settings: {
           return_url: returnUrl, // URL для возврата после успешной оплаты
           notification_url: notificationUrl // URL для получения webhook уведомлений
