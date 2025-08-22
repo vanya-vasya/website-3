@@ -67,24 +67,26 @@ export async function POST(request: NextRequest) {
 
     // Request structure for hosted payment page according to official Networx Pay documentation
     const requestData = {
-      order: {
-        amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
-        currency: currency,
-        description: description || 'Payment for order',
-        tracking_id: orderId, // Required: unique identifier for transaction tracking
-      },
-      return_url: returnUrl, // URL to redirect after successful payment
-      notification_url: webhookUrl, // Webhook URL for payment notifications
-      payment_method: {
-        types: ["credit_card"] // Restrict to credit card payments only
-      },
-      ...(customerEmail && {
-        customer: {
-          email: customerEmail // Customer email for notifications
-        }
-      }),
-      language: 'en', // Payment page language
-      test: testMode
+      checkout: {
+        order: {
+          amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
+          currency: currency,
+          description: description || 'Payment for order',
+          tracking_id: orderId, // Required: unique identifier for transaction tracking
+        },
+        return_url: returnUrl, // URL to redirect after successful payment
+        notification_url: webhookUrl, // Webhook URL for payment notifications
+        payment_method: {
+          types: ["credit_card"] // Restrict to credit card payments only
+        },
+        ...(customerEmail && {
+          customer: {
+            email: customerEmail // Customer email for notifications
+          }
+        }),
+        language: 'en', // Payment page language
+        test: testMode
+      }
     };
 
     console.log('Final request data:', requestData);
