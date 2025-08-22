@@ -61,6 +61,7 @@ export async function POST(request: NextRequest) {
     // Request structure for hosted payment page according to official Networx Pay documentation
     const requestData = {
       checkout: {
+        test: testMode,
         transaction_type: "payment",
         order: {
           amount: amount * 100, // Amount in cents (EUR 2.50 = 250)
@@ -68,14 +69,15 @@ export async function POST(request: NextRequest) {
           description: description || 'Payment for order',
           tracking_id: orderId // Связываем платёж с заказом
         },
+        ...(customerEmail && {
+          customer: {
+            email: customerEmail
+          }
+        }),
         settings: {
           return_url: returnUrl, // URL для возврата после успешной оплаты
           notification_url: notificationUrl // URL для получения webhook уведомлений
-        },
-        payment_method: {
-          types: ["credit_card"] // Ограничиваем только карточными платежами
-        },
-        test: testMode
+        }
       }
     };
 
