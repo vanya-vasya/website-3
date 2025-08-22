@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
           notification_url: notificationUrl // URL для получения webhook уведомлений
         },
         payment_method: {
-          types: ["credit_card"] // Ограничиваем только карточными платежами
+          types: ["card"] // Ограничиваем только карточными платежами
         },
         test: testMode
       }
