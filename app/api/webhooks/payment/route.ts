@@ -1,6 +1,7 @@
 import { transporter } from "@/config/nodemailer";
 import prismadb from "@/lib/prismadb";
 import { generatePdfReceipt } from "@/lib/receiptGeneration";
+import { PUBLIC_KEY } from "@/constants/index";
 import { createPublicKey, verify } from "crypto";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -17,11 +18,7 @@ function chunkSplit(str: string, length: number) {
 export async function POST(req: Request) {
   try {
     const headersList = headers();
-    const shopPublicKey = process.env.SHOP_PUBLIC_KEY;
-
-    if (!shopPublicKey) {
-      throw new Error("Please add SHOP_PUBLIC_KEY to .env or .env.local");
-    }
+    const shopPublicKey = PUBLIC_KEY;
 
     const signature = headersList.get("content-signature");
 
