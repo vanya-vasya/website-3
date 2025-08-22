@@ -175,55 +175,37 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET - Проверка статуса платежа
+// GET - Проверка статуса платежа через HPP API
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
-    const orderId = searchParams.get('orderId');
 
-    if (!token && !orderId) {
+    if (!token) {
       return NextResponse.json(
-        { error: 'Token or orderId is required' },
+        { error: 'Payment token is required' },
         { status: 400 }
       );
     }
 
     const shopId = process.env.NETWORX_SHOP_ID || '29959';
     const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
-    const apiUrl = process.env.NETWORX_API_URL || 'https://gateway.networxpay.com';
+    const apiUrl = 'https://checkout.networxpay.com'; // HPP API URL
 
-    // Параметры для проверки статуса
-    const statusData = {
-      shop_id: shopId,
-      ...(token && { token }),
-      ...(orderId && { order_id: orderId }),
-    };
-
-    // Создаем подпись
-    const signature = createSignature(statusData, secretKey);
-
-    // Добавляем подпись к данным
-    const requestData = {
-      ...statusData,
-      signature: signature,
-    };
-
-    // Send request to Networx API for status check
-    const networxResponse = await fetch(`${apiUrl}/v3/transactions/status`, {
-      method: 'POST',
+    // Send request to Networx HPP API for status check
+    const networxResponse = await fetch(`${apiUrl}/ctp/api/checkouts/${token}`, {
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`,
+        'X-API-Version': '2',
       },
-      body: JSON.stringify(requestData),
     });
 
     const networxResult = await networxResponse.json();
 
     if (!networxResponse.ok) {
-      console.error('Networx Status API Error:', networxResult);
+      console.error('Networx HPP Status API Error:', networxResult);
       return NextResponse.json(
         { error: 'Failed to check payment status', details: networxResult },
         { status: 400 }
