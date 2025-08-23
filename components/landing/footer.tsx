@@ -42,7 +42,7 @@ const importantLinks = [
 
 const companyDetails = [
   {
-    name: "Company: GUARАNTЕЕD GRЕAT SЕRVICЕ LTD",
+    name: "Company: GUΑRΑΝТЕЕD GRЕΑТ SЕRVIСЕ LТD",
     icon: Building,
   },
   {

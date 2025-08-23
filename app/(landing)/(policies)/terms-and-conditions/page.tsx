@@ -46,7 +46,7 @@ const TermsAndConditions = () => {
                   <p className="career-page-top__text-1 pt-8" style={{ color: 'black' }}>
                     Welcome to nerbixa.com! These Terms and Conditions
                     (&quot;Terms&quot;) constitute a distance agreement between
-                    GUARАNTЕЕD GRЕAT SЕRVICЕ LTD (&quot;Company&quot;), a company registered
+                    GUΑRΑΝТЕЕD GRЕΑТ SЕRVIСЕ LТD (&quot;Company&quot;), a company registered
                     under the laws of England and Wales, Company Number:
                     15982295, with its registered address at Dept 6162 43 Owston Road,
                     Carcroft, Doncaster, United Kingdom, DN6 8DA, and you

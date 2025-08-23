@@ -35,6 +35,13 @@ import {
   Lightbulb,
   Share2,
   Focus,
+  Crown,
+  Sparkles,
+  Zap,
+  Star,
+  Diamond,
+  Award,
+  Gem,
 } from "lucide-react";
 
 export const GENERATIONS_PRICE = 0.05;
@@ -64,7 +71,7 @@ export const professions = [
     borderColor: "border-transparent",
     textColor: "text-white",
     iconColor: "text-white",
-    icon: FileVideo2,
+    icon: Crown,
   },
   {
     id: "art",
@@ -73,7 +80,7 @@ export const professions = [
     borderColor: "border-transparent",
     textColor: "text-white",
     iconColor: "text-white",
-    icon: BrushIcon,
+    icon: Sparkles,
   },
   {
     id: "music",
@@ -82,7 +89,7 @@ export const professions = [
     borderColor: "border-transparent",
     textColor: "text-white",
     iconColor: "text-white",
-    icon: FileAudio,
+    icon: Disc,
   },
   {
     id: "content",
@@ -91,7 +98,7 @@ export const professions = [
     borderColor: "border-transparent",
     textColor: "text-white",
     iconColor: "text-white",
-    icon: PaintBucket,
+    icon: Diamond,
   },
 ];
 
@@ -101,7 +108,7 @@ export const tools = [
   {
     id: "chat-assistant",
     label: "Chat Assistant",
-    icon: MessageSquare,
+    icon: Zap,
     description:
       "An AI assistant that sparks content ideas and helps you overcome creative block",
     href: "/dashboard/conversation",
@@ -112,7 +119,7 @@ export const tools = [
   {
     id: "image-generation",
     label: "Image Generation",
-    icon: Image,
+    icon: Sparkles,
     description:
       "Generate custom visuals for blogs, videos, and social media with a single prompt",
     color: "text-orange-700",
@@ -178,7 +185,7 @@ export const tools = [
   {
     id: "video-generation",
     label: "Video Generation",
-    icon: FileVideo2,
+    icon: Star,
     description:
       "Create engaging short-form videos tailored to your social channels",
     color: "text-indigo-600",
@@ -189,7 +196,7 @@ export const tools = [
   {
     id: "music-generation",
     label: "Music Generation",
-    icon: Music,
+    icon: Disc,
     description: "Produce custom background music for videos and podcasts in minutes",
     href: "/dashboard/music",
     color: "text-violet-500",
@@ -199,7 +206,7 @@ export const tools = [
   {
     id: "speech-generation",
     label: "Speech Generation",
-    icon: Mic,
+    icon: Award,
     description:
       "Create professional voiceovers and narration for your videos",
     color: "text-fuchsia-600",
@@ -356,7 +363,7 @@ export const tools = [
   {
     id: "blog-ideas",
     label: "Blog Ideas",
-    icon: Lightbulb,
+    icon: Gem,
     description: "Generate engaging blog topics and clear outlines for your audience",
     color: "text-emerald-600",
     bgColor: "bg-emerald-600/10",
@@ -410,39 +417,32 @@ export const tools = [
 
 export const toolsModal = [
   {
-    label: "Conversation",
-    icon: MessageSquare,
+    label: "Co-Director",
+    icon: Crown,
     href: "/dashboard/conversation",
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
   },
   {
-    label: "Images",
-    icon: Image,
+    label: "Design Partner",
+    icon: Sparkles,
     color: "text-pink-700",
     bgColor: "bg-pink-700/10",
     href: "/dashboard/image-generation",
   },
   {
-    label: "Video Generation",
-    icon: FileVideo2,
+    label: "Co-Composer",
+    icon: Disc,
     color: "text-orange-700",
     bgColor: "bg-orange-700/10",
     href: "/dashboard/video",
   },
   {
-    label: "Music Generation",
-    icon: Music,
+    label: "Creative Partner",
+    icon: Diamond,
     href: "/dashboard/music",
     color: "text-emerald-500",
     bgColor: "bg-emerald-500/10",
-  },
-  {
-    label: "Speech Generation",
-    icon: Mic,
-    color: "text-cyan-600",
-    bgColor: "bg-cyan-600/10",
-    href: "/dashboard/speech",
   },
 ];
 
@@ -615,3 +615,5 @@ export const defaultValues = {
 };
 
 export const creditFee = -1;
+
+

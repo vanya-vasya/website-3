@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Zap } from "lucide-react";
+import { Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 import classNames from "classnames";
@@ -156,25 +156,24 @@ export const ProModal = () => {
         <DialogHeader>
           <DialogTitle className="flex justify-center items-center flex-col gap-y-4 pb-2 bg-white">
             <div className="flex items-center gap-x-2 font-bold text-xl text-gray-900 bg-white">
-              {showPaymentWidget ? "Complete Payment" : "Buy More Generations"}
+              {showPaymentWidget ? "Complete Payment" : "Buy More"}
             </div>
           </DialogTitle>
           {!showPaymentWidget && (
-            <DialogDescription className="text-center pt-2 space-y-2 text-gray-700 font-medium">
-              {toolsModal.map((tool) => (
-                <Card
-                  key={tool.href}
-                  className="p-3 border-gray-200 flex items-center justify-between bg-white text-gray-900"
-                >
-                  <div className="flex items-center gap-x-4">
-                    <div className="p-2 w-fit rounded-md bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600">
-                      <tool.icon className="w-6 h-6 text-white" />
+            <DialogDescription className="text-center pt-2 text-gray-700 font-medium">
+              <div className="grid grid-cols-2 gap-3">
+                {toolsModal.map((tool) => (
+                  <Card
+                    key={tool.href}
+                    className="p-4 border-gray-200 flex flex-col items-center justify-center bg-white text-gray-900 hover:shadow-md transition-shadow"
+                  >
+                    <div className="p-3 w-fit rounded-lg bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 mb-3">
+                      <tool.icon className="w-8 h-8 text-white" />
                     </div>
-                    <div className="font-semibold text-sm">{tool.label}</div>
-                  </div>
-                  <Check className="w-5 h-5 text-white bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 p-1 rounded" />
-                </Card>
-              ))}
+                    <div className="font-semibold text-sm text-center">{tool.label}</div>
+                  </Card>
+                ))}
+              </div>
             </DialogDescription>
           )}
         </DialogHeader>
@@ -397,7 +396,7 @@ export const ProModal = () => {
               height={CardLogo.height}
             />
             <Label className="text-center font-normal text-xs text-black">
-            GUARАNTЕЕD GRЕAT SЕRVICЕ LTD - Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA
+            GUΑRΑΝТЕЕD GRЕΑТ SЕRVIСЕ LТD - Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA
             </Label>
           </>
         )}

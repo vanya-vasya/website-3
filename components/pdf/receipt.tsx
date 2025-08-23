@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
 
 const company = {
   name: "Nerbixa",
-  company: "GUARАNTЕЕD GRЕAT SЕRVICЕ LTD",
+  company: "GUΑRΑΝТЕЕD GRЕΑТ SЕRVIСЕ LТD",
   address: "Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA",
   website: "nerbixa.com",
   email: "support@nerbixa.com",
