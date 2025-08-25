@@ -67,7 +67,7 @@ export default async function DashboardLayout({
                 color: '#0f172a'
               }}
             >
-            GUΑRΑΝТЕЕD GRЕΑТ SЕRVIСЕ LТD (№15982295) <br /> Email: support@nerbixa.com{" "}
+            GUΑRΑΝТЕЕD GRЕΑТ SЕRVIСЕ LТD (№15982295) <br /> Email: support@zinvero.com{" "}
               <br />
               Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA, <br />
               Copyright © {new Date().getFullYear()}. All rights reserved.
