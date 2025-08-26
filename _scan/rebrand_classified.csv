@@ -1,0 +1,38 @@
+risk,path,line,preview
+CRITICAL,./app/api/payment/networx/route.ts,48,const returnUrl = process.env.NETWORX_RETURN_URL || 'https://nerbixa.com/payment/success';
+CRITICAL,./app/api/payment/networx/route.ts,49,const notificationUrl = process.env.NETWORX_WEBHOOK_URL || 'https://nerbixa.com/api/webhooks/networx';
+CRITICAL,./app/api/webhooks/payment/route.ts,130,"} - Nerbixa Tokens Purchase`,"
+CRITICAL,./app/api/webhooks/payment/route.ts,133,We're excited to welcome you to Nerbixa — thanks so much for your recent order on nerbixa.com!
+CRITICAL,./app/api/webhooks/payment/route.ts,137,"If you run into any issues, have questions about your token usage, or need guidance, our support team is just an email away at support@nerbixa.com. We're always ready to help."
+CRITICAL,./app/api/webhooks/payment/route.ts,142,The Nerbixa Team
+CRITICAL,./app/api/webhooks/payment/route.ts,143,nerbixa.com
+CRITICAL,./app/api/webhooks/payment/route.ts,144,"support@nerbixa.com`,"
+CRITICAL,./app/(landing)/(policies)/privacy-policy/page.tsx,97,nerbixa.com.
+CRITICAL,./NETWORX_ENV_SETUP.md,15,NETWORX_RETURN_URL=https://nerbixa.com/payment/success
+CRITICAL,./NETWORX_ENV_SETUP.md,16,NETWORX_CANCEL_URL=https://nerbixa.com/payment/cancel
+CRITICAL,./NETWORX_ENV_SETUP.md,17,NETWORX_WEBHOOK_URL=https://nerbixa.com/api/webhooks/networx
+CRITICAL,./NETWORX_ENV_SETUP.md,54,https://nerbixa.com/payment/test
+LOW,./components/shared/MediaUploader.tsx,69,"uploadPreset=""neuvisia"""
+CRITICAL,./components/mobile-nav.tsx,310,"href={""https://nerbixa.com/dashboard/billing/payment-history""}"
+LOW,./package-lock.json,2,"""name"": ""neuvisia"","
+LOW,./package-lock.json,8,"""name"": ""neuvisia"","
+LOW,./package.json,2,"""name"": ""neuvisia"","
+CRITICAL,./constants.ts,227,"href: ""https://nerbixa.com/dashboard/conversation?toolId=video-script"","
+CRITICAL,./constants.ts,237,"href: ""https://nerbixa.com/dashboard/video?toolId=video-creation"","
+CRITICAL,./constants.ts,247,"href: ""https://nerbixa.com/dashboard/speech?toolId=video-voiceover"","
+CRITICAL,./constants.ts,260,"href: ""https://nerbixa.com/dashboard/image-generation?toolId=concept-art"","
+CRITICAL,./constants.ts,281,"href: ""https://nerbixa.com/dashboard/digital-painting-enhancement?toolId=digital-painting"","
+CRITICAL,./constants.ts,292,"href: ""https://nerbixa.com/dashboard/canvas-expansion?toolId=canvas-expansion"","
+CRITICAL,./constants.ts,303,"href: ""https://nerbixa.com/dashboard/art-reference-cleanup?toolId=art-reference"","
+CRITICAL,./constants.ts,315,"href: ""https://nerbixa.com/dashboard/conversation?toolId=song-lyrics"","
+CRITICAL,./constants.ts,325,"href: ""https://nerbixa.com/dashboard/image-generation?toolId=album-cover"","
+CRITICAL,./constants.ts,336,"href: ""https://nerbixa.com/dashboard/music?toolId=music-composition"","
+CRITICAL,./constants.ts,347,"href: ""https://nerbixa.com/dashboard/music?toolId=sound-effects"","
+CRITICAL,./constants.ts,358,"href: ""https://nerbixa.com/dashboard/speech?toolId=voice-melody"","
+CRITICAL,./constants.ts,370,"href: ""https://nerbixa.com/dashboard/conversation?toolId=blog-ideas"","
+CRITICAL,./constants.ts,380,"href: ""https://nerbixa.com/dashboard/image-generation?toolId=social-graphics"","
+CRITICAL,./constants.ts,391,"href: ""https://nerbixa.com/dashboard/conversation?toolId=content-calendar"","
+CRITICAL,./constants.ts,402,"href: ""https://nerbixa.com/dashboard/thumbnail-optimizer?toolId=thumbnail-optimizer"","
+CRITICAL,./constants.ts,413,"href: ""https://nerbixa.com/dashboard/conversation?toolId=caption-generator"","
+CRITICAL,./.github/workflows/deploy.yml,35,TARGET_DIR: /var/www/neuvisia
+CRITICAL,./.github/workflows/deploy.yml,36,APP_NAME: neuvisia #should match the name of the server block

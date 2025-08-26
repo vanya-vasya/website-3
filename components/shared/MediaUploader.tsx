@@ -66,7 +66,7 @@ const MediaUploader = ({
 
   return (
     <CldUploadWidget
-      uploadPreset="neuvisia"
+      uploadPreset="zinvero"
       options={{
         multiple: false,
         resourceType: "image",

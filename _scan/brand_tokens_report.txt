@@ -1,0 +1,37 @@
+./app/api/payment/networx/route.ts:48:    const returnUrl = process.env.NETWORX_RETURN_URL || 'https://nerbixa.com/payment/success';
+./app/api/payment/networx/route.ts:49:    const notificationUrl = process.env.NETWORX_WEBHOOK_URL || 'https://nerbixa.com/api/webhooks/networx';
+./app/api/webhooks/payment/route.ts:130:            } - Nerbixa Tokens Purchase`,
+./app/api/webhooks/payment/route.ts:133:We're excited to welcome you to Nerbixa — thanks so much for your recent order on nerbixa.com!
+./app/api/webhooks/payment/route.ts:137:If you run into any issues, have questions about your token usage, or need guidance, our support team is just an email away at support@nerbixa.com. We're always ready to help.
+./app/api/webhooks/payment/route.ts:142:The Nerbixa Team
+./app/api/webhooks/payment/route.ts:143:nerbixa.com
+./app/api/webhooks/payment/route.ts:144:support@nerbixa.com`,
+./app/(landing)/(policies)/privacy-policy/page.tsx:97:                        nerbixa.com.
+./NETWORX_ENV_SETUP.md:15:NETWORX_RETURN_URL=https://nerbixa.com/payment/success
+./NETWORX_ENV_SETUP.md:16:NETWORX_CANCEL_URL=https://nerbixa.com/payment/cancel
+./NETWORX_ENV_SETUP.md:17:NETWORX_WEBHOOK_URL=https://nerbixa.com/api/webhooks/networx
+./NETWORX_ENV_SETUP.md:54:https://nerbixa.com/payment/test
+./components/shared/MediaUploader.tsx:69:      uploadPreset="neuvisia"
+./components/mobile-nav.tsx:310:              href={"https://nerbixa.com/dashboard/billing/payment-history"}
+./package-lock.json:2:  "name": "neuvisia",
+./package-lock.json:8:      "name": "neuvisia",
+./package.json:2:  "name": "neuvisia",
+./constants.ts:227:    href: "https://nerbixa.com/dashboard/conversation?toolId=video-script",
+./constants.ts:237:    href: "https://nerbixa.com/dashboard/video?toolId=video-creation",
+./constants.ts:247:    href: "https://nerbixa.com/dashboard/speech?toolId=video-voiceover",
+./constants.ts:260:    href: "https://nerbixa.com/dashboard/image-generation?toolId=concept-art",
+./constants.ts:281:    href: "https://nerbixa.com/dashboard/digital-painting-enhancement?toolId=digital-painting",
+./constants.ts:292:    href: "https://nerbixa.com/dashboard/canvas-expansion?toolId=canvas-expansion",
+./constants.ts:303:    href: "https://nerbixa.com/dashboard/art-reference-cleanup?toolId=art-reference",
+./constants.ts:315:    href: "https://nerbixa.com/dashboard/conversation?toolId=song-lyrics",
+./constants.ts:325:    href: "https://nerbixa.com/dashboard/image-generation?toolId=album-cover",
+./constants.ts:336:    href: "https://nerbixa.com/dashboard/music?toolId=music-composition",
+./constants.ts:347:    href: "https://nerbixa.com/dashboard/music?toolId=sound-effects",
+./constants.ts:358:    href: "https://nerbixa.com/dashboard/speech?toolId=voice-melody",
+./constants.ts:370:    href: "https://nerbixa.com/dashboard/conversation?toolId=blog-ideas",
+./constants.ts:380:    href: "https://nerbixa.com/dashboard/image-generation?toolId=social-graphics",
+./constants.ts:391:    href: "https://nerbixa.com/dashboard/conversation?toolId=content-calendar",
+./constants.ts:402:    href: "https://nerbixa.com/dashboard/thumbnail-optimizer?toolId=thumbnail-optimizer",
+./constants.ts:413:    href: "https://nerbixa.com/dashboard/conversation?toolId=caption-generator",
+./.github/workflows/deploy.yml:35:          TARGET_DIR: /var/www/neuvisia
+./.github/workflows/deploy.yml:36:          APP_NAME: neuvisia #should match the name of the server block

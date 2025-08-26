@@ -1,0 +1,11 @@
+file,count
+./.github/workflows/deploy.yml,2
+./app/(landing)/(policies)/privacy-policy/page.tsx,1
+./app/api/payment/networx/route.ts,2
+./app/api/webhooks/payment/route.ts,6
+./components/mobile-nav.tsx,1
+./components/shared/MediaUploader.tsx,1
+./constants.ts,17
+./NETWORX_ENV_SETUP.md,4
+./package-lock.json,2
+./package.json,1

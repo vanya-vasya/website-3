@@ -1,0 +1,16 @@
+PATCH GENERATION ANALYSIS
+==================================================
+
+Truly safe UI-only changes: 0
+
+Questionable 'LOW' risk changes: 4
+  ./components/shared/MediaUploader.tsx:69 - uploadPreset="neuvisia"...
+  ./package-lock.json:2 - "name": "neuvisia",...
+  ./package-lock.json:8 - "name": "neuvisia",...
+  ./package.json:2 - "name": "neuvisia",...
+
+RECOMMENDATION:
+No truly safe UI-only changes detected. All 'LOW' risk changes involve:
+- External service integrations (Cloudinary uploadPreset)
+- Build system configuration (package.json name)
+- These should be reclassified as CRITICAL or MEDIUM risk.
