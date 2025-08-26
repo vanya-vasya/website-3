@@ -130,18 +130,18 @@ export async function POST(req: Request) {
             } - Nerbixa Tokens Purchase`,
             text: `Hi there,
 
-We're excited to welcome you to Nerbixa — thanks so much for your recent order on nerbixa.com!
+We're excited to welcome you to Nerbixa — thanks so much for your recent order on zinvero.com!
 
 You’ll find your transaction receipt attached to this message. Be sure to keep it in case you need it later.
 
-If you run into any issues, have questions about your token usage, or need guidance, our support team is just an email away at support@nerbixa.com. We're always ready to help.
+If you run into any issues, have questions about your token usage, or need guidance, our support team is just an email away at support@zinvero.com. We're always ready to help.
 
 We’re honored to be part of your creative journey.
 
 With appreciation,
 The Nerbixa Team
-nerbixa.com
-support@nerbixa.com`,
+zinvero.com
+support@zinvero.com`,
             attachments: [
               {
                 filename:

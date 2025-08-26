@@ -94,7 +94,7 @@ const PrivacyPolicy = () => {
                         <strong>To Communicate with You:</strong> We may use
                         your email address to send you updates, newsletters, and
                         other communications related to your use of
-                        nerbixa.com.
+                        zinvero.com.
                       </p>
                     </li>
                     <li>

@@ -45,8 +45,8 @@ export async function POST(request: NextRequest) {
     const secretKey = process.env.NETWORX_SECRET_KEY || 'dbfb6f4e977f49880a6ce3c939f1e7be645a5bb2596c04d9a3a7b32d52378950';
     // Force correct API URL for hosted payment page - override any incorrect environment variable
     const apiUrl = 'https://checkout.networxpay.com';  // Correct API URL for hosted payment page
-    const returnUrl = process.env.NETWORX_RETURN_URL || 'https://nerbixa.com/payment/success';
-    const notificationUrl = process.env.NETWORX_WEBHOOK_URL || 'https://nerbixa.com/api/webhooks/networx';
+    const returnUrl = process.env.NETWORX_RETURN_URL || 'https://zinvero.com/payment/success';
+    const notificationUrl = process.env.NETWORX_WEBHOOK_URL || 'https://zinvero.com/api/webhooks/networx';
     const testMode = false; // Use real NetworkX Pay API
     
     console.log('Environment variables:', {
