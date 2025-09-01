@@ -9,36 +9,36 @@ import Link from "next/link";
 
 const creativeTools = [
   {
-    title: "Co-Composer",
-    description: "Create original music and melodies for your projects with AI-powered composition",
+    title: "Master Chief",
+    description: "Turn a photo of ingredients into a ready-to-cook recipe",
     image: "/images/resource/music/music-production.jpg",
     type: "image",
     color: "from-cyan-400 via-blue-500 to-indigo-600",
   },
   {
-    title: "Co-Director", 
-    description: "Create professional video scripts, storyboards and scenarios for your next production",
+    title: "Master Nutritionist", 
+    description: "Personalized nutrition that adapts to your age, goals, and allergies",
     image: "/images/resource/video-production.jpg",
     type: "image",
     color: "from-cyan-400 via-blue-500 to-indigo-600",
   },
   {
-    title: "Design Partner",
-    description: "Generate stunning concept art and illustrations for your creative projects",
+    title: "Cal Tracker",
+    description: "Computer-vision macros and calorie counts in real time",
     image: "/images/resource/tiktok.jpg",
     type: "image", 
     color: "from-cyan-400 via-blue-500 to-indigo-600",
   },
   {
-    title: "Creative Partner",
-    description: "Generate engaging social media posts, captions, and content calendars for your brand",
+    title: "Digest",
+    description: "Coming Soon",
     image: "/images/resource/digital_artist.jpg",
     type: "image",
     color: "from-cyan-400 via-blue-500 to-indigo-600",
   },
 ];
 
-const Solutions = () => {
+const Products = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
 
@@ -66,7 +66,7 @@ const Solutions = () => {
     index === creativeTools.length - 1 ? 0 : index + 1;
 
   return (
-    <section id="solutions"  className="relative overflow-hidden py-16 md:py-24 lg:py-32 bg-slate-50">
+    <section id="products"  className="relative overflow-hidden py-16 md:py-24 lg:py-32 bg-slate-50">
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:30px_30px]"></div>
 
       {/* Background elements */}
@@ -89,8 +89,8 @@ const Solutions = () => {
               marginBottom: '1rem'
             }}
           >
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600">
-              It is your AI creative assistant
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-green-500 to-green-600">
+              OUR CORE PRODUCTS
             </span>
           </motion.h2>
         </div>
@@ -186,15 +186,21 @@ const Solutions = () => {
                         {tool.description}
                       </p>
 
-                      <Link href="/dashboard">
-                        <motion.button
+                      <div className="main-header__login-sing-up">
+                        <motion.div
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.98 }}
-                          className={`px-6 py-3 rounded-full bg-gradient-to-r ${tool.color} text-white font-semibold shadow-lg`}
                         >
-                          Explore
-                        </motion.button>
-                      </Link>
+                          <div className="nav-container-green">
+                            <Link
+                              href="/dashboard"
+                              className="nav-link"
+                            >
+                              Begin
+                            </Link>
+                          </div>
+                        </motion.div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -219,8 +225,53 @@ const Solutions = () => {
           ))}
         </div>
       </div>
+
+      <style jsx global>{`
+        .nav-container-green {
+          display: flex;
+          background-color: #86efac;
+          border-radius: 9999px;
+          padding: 4px;
+          gap: 4px;
+        }
+
+        .nav-link {
+          font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 1.1;
+          letter-spacing: 0.01em;
+          text-transform: none;
+          color: #0f172a;
+          padding: 8px 16px;
+          border-radius: 9999px;
+          transition: all 500ms ease-in-out;
+          text-decoration: none;
+        }
+
+        .main-header__login-sing-up .nav-link {
+          font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+          font-weight: 600 !important;
+          font-size: 16px !important;
+          line-height: 1.1 !important;
+          letter-spacing: 0.01em !important;
+          text-transform: none !important;
+          color: #0f172a !important;
+          padding: 8px 16px !important;
+          border-radius: 9999px !important;
+          border: none !important;
+        }
+
+        .nav-link:hover {
+          background: linear-gradient(to right, #10b981, #059669, #047857);
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          text-decoration: none;
+        }
+      `}</style>
     </section>
   );
 };
 
-export default Solutions;
+export default Products;

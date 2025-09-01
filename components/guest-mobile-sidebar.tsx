@@ -22,8 +22,8 @@ const routes = [
     href: "#faq",
   },
   {
-    label: "Solutions",
-    href: "#solutions",
+    label: "Products",
+    href: "#products",
   },
   {
     label: "Testimonials",

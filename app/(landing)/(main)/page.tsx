@@ -1,17 +1,15 @@
 import Hero from "@/components/landing/hero";
-import Slider from "@/components/landing/slider";
-import Solutions from "@/components/landing/solutions";
-import Testimonials from "@/components/landing/testimonials";
-import Contact from "@/components/landing/contact";
+import Products from "@/components/landing/products";
+import Pricing from "@/components/landing/pricing";
+import Logo from "@/components/landing/logo";
 
 const LandingPage = () => {
   return (
     <div className="bg-slate-50">
       <Hero />
-      <Contact />
-      <Solutions />
-      <Slider />
-      <Testimonials />
+      <Logo />
+      <Products />
+      <Pricing />
     </div>
   );
 };

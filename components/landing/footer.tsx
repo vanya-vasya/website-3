@@ -8,8 +8,8 @@ const routes = [
     href: "/#home",
   },
   {
-    name: "Solutions",
-    href: "/#solutions",
+    name: "Products",
+    href: "/#products",
   },
   {
     name: "Products",
@@ -71,7 +71,7 @@ const Footer = () => {
             <div className="pr-4 pl-4">
               <div className="footer-widget__column footer-widget__about">
                 <div className="footer-widget__logo">
-                  <Image width={"98"} height={"39"} src="/logos/zinvero-logo.png" alt="zinvero Logo" />
+                  <Image width={"98"} height={"39"} src="/logos/TechFlow-Logo.png" alt="TechFlow Logo" />
                 </div>
                 <p 
                   className="footer-widget__about-text"
@@ -84,7 +84,7 @@ const Footer = () => {
                     color: '#0f172a'
                   }}
                 >
-                  Power your vision with a next-gen AI hub that unlocks endless creativity across words, images, music, videos and beyond
+                  AI sidekick counts the calories, imagines recipes, and guides you toward a healthier happily-ever-after
                 </p>
               </div>
             </div>
