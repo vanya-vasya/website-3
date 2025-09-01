@@ -227,7 +227,7 @@ const Pricing = () => {
                         fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                       }}
                     >
-                      What's Included
+                      What&apos;s Included
                     </h4>
                     <ul className="space-y-2">
                       {tier.features.map((feature, featureIndex) => (

@@ -507,7 +507,7 @@ export const transformationTypes = {
   fill: {
     type: "fill",
     title: "Generative Fill",
-    subTitle: "Enhance an image's dimensions using AI outpainting",
+    subTitle: "Enhance an image&apos;s dimensions using AI outpainting",
     config: { fillBackground: true },
     icon: "stars.svg",
   },
