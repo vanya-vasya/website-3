@@ -68,13 +68,13 @@ const toolConfigs = {
 const ConversationPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const toolId = searchParams.get('toolId') || 'chat-assistant';
+  const toolId = searchParams.get('toolId') || 'master-chef';
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
   // Получаем конфигурацию для текущего инструмента
-  const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['chat-assistant'];
+  const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['master-chef'];
   
   // Dynamic button styles based on current tool
   const dynamicButtonStyles = currentTool.gradient 
