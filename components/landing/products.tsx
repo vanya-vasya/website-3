@@ -79,19 +79,17 @@ const Products = () => {
             transition={{ duration: 0.6 }}
             className="text-center"
             style={{
-              fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+              fontFamily: "var(--contact-font)",
               fontWeight: 600,
               fontSize: '2.5rem',
               lineHeight: 1.1,
               letterSpacing: '0.01em',
               textTransform: 'none',
-              color: '#0f172a',
+              color: '#1e293b',
               marginBottom: '1rem'
             }}
           >
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-green-500 to-green-600">
-              OUR CORE PRODUCTS
-            </span>
+            Our Core Products
           </motion.h2>
         </div>
 

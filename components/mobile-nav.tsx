@@ -6,12 +6,14 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
-  Video,
-  Palette,
-  Music,
-  Lightbulb,
+  Crown,
+  Activity,
+  Target,
+  BookOpen,
+
   Menu,
   Banknote,
+  CreditCard,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -27,32 +29,56 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useProModal } from "@/hooks/use-pro-modal";
+
 import Image from "next/image";
-import { tools } from "@/constants";
 
-// Инструменты для видео-креаторов
-const videoCreatorTools = tools.filter((tool) =>
-  tool.professions.includes("video")
-);
 
-// Инструменты для цифровых художников
-const digitalArtistTools = tools.filter((tool) =>
-  tool.professions.includes("art")
-);
 
-// Инструменты для музыкантов
-const musicianTools = tools.filter((tool) =>
-  tool.professions.includes("music")
-);
 
-// Инструменты для контент-креаторов
-const contentCreatorTools = tools.filter((tool) =>
-  tool.professions.includes("content")
-);
 
-// Общие инструменты
-const commonTools = tools.filter((tool) => tool.professions.includes("all"));
+
+
+
+
+
+// Product items matching the header
+const productItems = [
+  {
+    name: "Master Chef",
+    href: "/dashboard/conversation?toolId=master-chef",
+    icon: Crown,
+  },
+  {
+    name: "Master Nutritionist",
+    href: "/dashboard/conversation?toolId=master-nutritionist",
+    icon: Activity,
+  },
+  {
+    name: "Cal Tracker",
+    href: "/dashboard/conversation?toolId=cal-tracker",
+    icon: Target,
+  },
+  {
+    name: "Digest",
+    href: "/dashboard",
+    icon: BookOpen,
+    comingSoon: true,
+  },
+];
+
+// Page routes matching the header
+const pageRoutes = [
+  {
+    name: "Our Story",
+    href: "/story",
+    icon: BookOpen,
+  },
+  {
+    name: "Pricing",
+    href: "/#pricing",
+    icon: CreditCard,
+  },
+];
 
 export function MobileNav({
   initialUsedGenerations,
@@ -62,13 +88,11 @@ export function MobileNav({
   initialAvailableGenerations: number;
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [videoToolsOpen, setVideoToolsOpen] = React.useState(false);
-  const [artToolsOpen, setArtToolsOpen] = React.useState(false);
-  const [musicToolsOpen, setMusicToolsOpen] = React.useState(false);
-  const [contentToolsOpen, setContentToolsOpen] = React.useState(false);
+  const [productsOpen, setProductsOpen] = React.useState(false);
+
   const pathname = usePathname();
 
-  const proModal = useProModal();
+
 
   return (
     <div 
@@ -86,7 +110,7 @@ export function MobileNav({
               fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
             }}
           >
-            <Menu className="h-5 w-5 text-black" />
+            <Menu className="h-5 w-5 text-green-600" />
             <span className="sr-only">Toggle Menu</span>
           </Button>
         </SheetTrigger>
@@ -119,56 +143,10 @@ export function MobileNav({
               </div>
             </div>
 
+            {/* Products Section - Matching Header */}
             <Collapsible
-              open={videoToolsOpen}
-              onOpenChange={setVideoToolsOpen}
-              className="border-y border-gray-200"
-            >
-              <CollapsibleTrigger 
-                className="flex w-full items-center justify-between p-4 font-medium text-black hover:bg-gray-50 transition-colors"
-                style={{
-                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <Video className="h-4 w-4 text-blue-600" />
-                  Co-Director
-                </div>
-                <ChevronRight
-                  className={cn(
-                    "h-4 w-4 transition-transform duration-200 text-blue-600",
-                    videoToolsOpen && "rotate-90"
-                  )}
-                />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 p-2 bg-gray-50">
-                {videoCreatorTools.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-gray-100 transition-colors",
-                      pathname === item.href
-                        ? "bg-gray-100 text-black"
-                        : "text-black"
-                    )}
-                    style={{
-                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-                    }}
-                  >
-                    <div className="h-7 w-7 rounded-md bg-blue-100 flex items-center justify-center">
-                      <item.icon className="h-4 w-4 text-blue-600" />
-                    </div>
-                    {item.label}
-                  </Link>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
-
-            <Collapsible
-              open={artToolsOpen}
-              onOpenChange={setArtToolsOpen}
+              open={productsOpen}
+              onOpenChange={setProductsOpen}
               className="border-b border-gray-200"
             >
               <CollapsibleTrigger 
@@ -178,20 +156,20 @@ export function MobileNav({
                 }}
               >
                 <div className="flex items-center gap-2">
-                  <Palette className="h-4 w-4 text-blue-600" />
-                  Design Partner
+                  <CreditCard className="h-4 w-4 text-green-600" />
+                  Products
                 </div>
                 <ChevronRight
                   className={cn(
-                    "h-4 w-4 transition-transform duration-200 text-blue-600",
-                    artToolsOpen && "rotate-90"
+                    "h-4 w-4 transition-transform duration-200 text-green-600",
+                    productsOpen && "rotate-90"
                   )}
                 />
               </CollapsibleTrigger>
               <CollapsibleContent className="space-y-1 p-2 bg-gray-50">
-                {digitalArtistTools.map((item) => (
+                {productItems.map((item) => (
                   <Link
-                    key={item.id}
+                    key={item.name}
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={cn(
@@ -204,110 +182,48 @@ export function MobileNav({
                       fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
                     }}
                   >
-                    <div className="h-7 w-7 rounded-md bg-blue-100 flex items-center justify-center">
-                      <item.icon className="h-4 w-4 text-blue-600" />
+                    <div className="h-7 w-7 rounded-md bg-green-100 flex items-center justify-center">
+                      <item.icon className="h-4 w-4 text-green-600" />
                     </div>
-                    {item.label}
+                    <div className="flex items-center justify-between flex-1">
+                      <span>{item.name}</span>
+                      {item.comingSoon && (
+                        <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">
+                          Coming Soon
+                        </span>
+                      )}
+                    </div>
                   </Link>
                 ))}
               </CollapsibleContent>
             </Collapsible>
 
-            <Collapsible
-              open={musicToolsOpen}
-              onOpenChange={setMusicToolsOpen}
-              className="border-b border-gray-200"
-            >
-              <CollapsibleTrigger 
-                className="flex w-full items-center justify-between p-4 font-medium text-black hover:bg-gray-50 transition-colors"
+            {/* Page Routes - Matching Header */}
+            {pageRoutes.map((route) => (
+              <Link
+                key={route.name}
+                href={route.href}
+                onClick={() => setIsOpen(false)}
+                className={cn(
+                  "flex w-full items-center p-4 font-medium text-black hover:bg-gray-50 transition-colors border-b border-gray-200",
+                  pathname === route.href
+                    ? "bg-gray-100 text-black"
+                    : "text-black"
+                )}
                 style={{
                   fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
                 }}
               >
-                <div className="flex items-center gap-2">
-                  <Music className="h-4 w-4 text-blue-600" />
-                  Co-Composer
+                <div className="h-7 w-7 rounded-md flex items-center mr-3">
+                  <route.icon className="h-4 w-4 text-green-600" />
                 </div>
-                <ChevronRight
-                  className={cn(
-                    "h-4 w-4 transition-transform duration-200 text-blue-600",
-                    musicToolsOpen && "rotate-90"
-                  )}
-                />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 p-2 bg-gray-50">
-                {musicianTools.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-gray-100 transition-colors",
-                      pathname === item.href
-                        ? "bg-gray-100 text-black"
-                        : "text-black"
-                    )}
-                    style={{
-                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-                    }}
-                  >
-                    <div className="h-7 w-7 rounded-md bg-blue-100 flex items-center justify-center">
-                      <item.icon className="h-4 w-4 text-blue-600" />
-                    </div>
-                    {item.label}
-                  </Link>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
+                {route.name}
+              </Link>
+            ))}
 
-            <Collapsible
-              open={contentToolsOpen}
-              onOpenChange={setContentToolsOpen}
-              className="border-b border-gray-200"
-            >
-              <CollapsibleTrigger 
-                className="flex w-full items-center justify-between p-4 font-medium text-black hover:bg-gray-50 transition-colors"
-                style={{
-                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <Lightbulb className="h-4 w-4 text-blue-600" />
-                  Creative Partner
-                </div>
-                <ChevronRight
-                  className={cn(
-                    "h-4 w-4 transition-transform duration-200 text-blue-600",
-                    contentToolsOpen && "rotate-90"
-                  )}
-                />
-              </CollapsibleTrigger>
-              <CollapsibleContent className="space-y-1 p-2 bg-gray-50">
-                {contentCreatorTools.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm hover:bg-gray-100 transition-colors",
-                      pathname === item.href
-                        ? "bg-gray-100 text-black"
-                        : "text-black"
-                    )}
-                    style={{
-                      fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
-                    }}
-                  >
-                    <div className="h-7 w-7 rounded-md bg-blue-100 flex items-center justify-center">
-                      <item.icon className="h-4 w-4 text-blue-600" />
-                    </div>
-                    {item.label}
-                  </Link>
-                ))}
-              </CollapsibleContent>
-            </Collapsible>
+
             <Link
-              href={"https://zinvero.com/dashboard/billing/payment-history"}
+              href={"http://localhost:3000/dashboard/billing/payment-history"}
               onClick={() => setIsOpen(false)}
               className={cn(
                 "flex w-full items-center p-4 font-medium text-black hover:bg-gray-50 transition-colors",
@@ -320,7 +236,7 @@ export function MobileNav({
               }}
             >
               <div className="h-7 w-7 rounded-md flex items-center mr-3">
-                <Banknote className="h-4 w-4 text-blue-600" />
+                <Banknote className="h-4 w-4 text-green-600" />
               </div>
               Payments
             </Link>

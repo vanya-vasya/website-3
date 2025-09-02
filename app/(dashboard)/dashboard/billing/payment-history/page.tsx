@@ -10,6 +10,7 @@ const PaymentHistoryPage = async () => {
       title="Payments"
       description={`Payment history made easy, all in one place`}
       iconName={"Banknote"}
+      gradient="from-green-400 via-green-500 to-green-600"
     >
       <div className={contentStyles.base}>
         {!transactions || transactions.length === 0 ? (
@@ -17,7 +18,7 @@ const PaymentHistoryPage = async () => {
             It&apos;s empty ¯\_(ツ)_/¯
           </h3>
         ) : (
-          <div className="bg-indigo-900/20 border border-indigo-500/20 backdrop-blur-sm rounded-xl">
+          <div className="bg-green-900/20 border border-green-500/20 backdrop-blur-sm rounded-xl">
             <div className="mx-auto max-w-7xl">
               <div className=" py-6">
                 <div className="whitespace-nowrap">

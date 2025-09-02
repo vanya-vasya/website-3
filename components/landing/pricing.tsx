@@ -9,7 +9,7 @@ const pricingTiers = [
     id: "Tracker",
     name: "Cal Tracker",
     description: "For a quick start",
-    price: "£10",
+    price: "£25",
     tokens: "1,000 Tokens",
     generations: "~20 Macros Generations",
     features: [
@@ -26,7 +26,6 @@ const pricingTiers = [
     tokens: "2,000 Tokens",
     generations: "~40 Recipe Generations",
     features: [
-      "~20 Macros Generations",
       "~20 Recipe Generations"
     ],
     popular: true,
@@ -36,13 +35,11 @@ const pricingTiers = [
     id: "master-nutritionist",
     name: "Master Nutritionist",
     description: "Perfect for your specific needs.",
-    price: "£100",
-    tokens: "6,000 Tokens",
+    price: "£75",
+    tokens: "3,000 Tokens",
     generations: "~120 Recipe Generations",
     features: [
-      "~40 Macros Generations",
-      "~40 Recipe Generations",
-      "~40 Nutritional Consulting Generations"
+      "~20 Consulting Generations"
     ],
     popular: false,
     color: "from-blue-600 to-violet-600",
@@ -78,7 +75,17 @@ const Pricing = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-bold text-4xl sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900"
+            className="text-center"
+            style={{
+              fontFamily: 'var(--contact-font)',
+              fontWeight: 600,
+              fontSize: '2.5rem',
+              lineHeight: 1.1,
+              letterSpacing: '0.01em',
+              textTransform: 'none',
+              color: '#1e293b', // slate-900 for light background
+              marginBottom: '1rem'
+            }}
           >
             Pay-As-You-Go
           </motion.h2>
@@ -87,13 +94,13 @@ const Pricing = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-2xl text-slate-600"
+            className="max-w-4xl text-base text-center"
             style={{
-              fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-              fontWeight: 500,
-              fontSize: '1.125rem',
-              lineHeight: 1.6,
+              fontFamily: 'var(--contact-font)',
+              fontWeight: 600,
               letterSpacing: '0.01em',
+              textTransform: 'none',
+              color: '#475569' // slate-600 for light background
             }}
           >
             Just pay-as-you-go tokens, with bigger packs for better value
@@ -251,6 +258,12 @@ const Pricing = () => {
           ))}
         </div>
       </div>
+
+      <style jsx global>{`
+        :root {
+          --contact-font: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+      `}</style>
     </section>
   );
 };

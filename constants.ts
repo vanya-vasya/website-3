@@ -6,42 +6,42 @@ import {
   MessageSquare,
   PlayCircle,
   Mic,
-  FileAudio,
-  FileVideo2,
+
+
   PaintBucket,
   ArchiveRestore,
   ImageMinus,
   BrushIcon,
   Scissors,
-  Palette,
+
   Layers,
   Pencil,
   Music,
   BookOpen,
-  Calendar,
+
   Megaphone,
   Book,
   Wand2,
-  Type,
+
   LayoutGrid,
   Clapperboard,
-  Video,
-  Mic2,
+
+
   Paintbrush,
   Expand,
-  Eraser,
+
   Disc,
-  Volume2,
+
   Lightbulb,
   Share2,
-  Focus,
+
   Crown,
   Sparkles,
   Zap,
   Star,
   Diamond,
   Award,
-  Gem,
+
 } from "lucide-react";
 
 export const GENERATIONS_PRICE = 0.05;
@@ -54,14 +54,14 @@ export const MODEL_GENERATIONS_PRICE = {
   imageObjectRecolor: 16,
   imageObjectRemove: 28,
   imageRestore: 11,
-  videoGeneration: 20,
+
   musicGeneration: 11,
   speecGeneration: 13,
   codeGeneration: 5,
 };
 
 // Определение типов профессий для фильтров
-export type Profession = "video" | "art" | "music" | "content" | "all";
+export type Profession = "video" | "art" | "content" | "all";
 
 export const professions = [
   {
@@ -73,24 +73,8 @@ export const professions = [
     iconColor: "text-white",
     icon: Crown,
   },
-  {
-    id: "art",
-    label: "Design Partner",
-    bgColor: "bg-gradient-to-r from-blue-400 via-cyan-500 to-indigo-600",
-    borderColor: "border-transparent",
-    textColor: "text-white",
-    iconColor: "text-white",
-    icon: Sparkles,
-  },
-  {
-    id: "music",
-    label: "Co-Composer",
-    bgColor: "bg-gradient-to-r from-blue-400 via-cyan-500 to-indigo-600",
-    borderColor: "border-transparent",
-    textColor: "text-white",
-    iconColor: "text-white",
-    icon: Disc,
-  },
+
+
   {
     id: "content",
     label: "Creative Partner",
@@ -163,7 +147,7 @@ export const tools = [
   {
     id: "image-object-recolor",
     label: "Image Object Recolor",
-    icon: Palette,
+    icon: PaintBucket,
     description:
       "Recolor objects to match your brand’s palette and visual identity",
     color: "text-cyan-600",
@@ -182,17 +166,7 @@ export const tools = [
     href: "/dashboard/image-object-remove",
     professions: ["all"],
   },
-  {
-    id: "video-generation",
-    label: "Video Generation",
-    icon: Star,
-    description:
-      "Create engaging short-form videos tailored to your social channels",
-    color: "text-indigo-600",
-    bgColor: "bg-indigo-600/10",
-    href: "/dashboard/video",
-    professions: ["all"],
-  },
+
   {
     id: "music-generation",
     label: "Music Generation",
@@ -227,39 +201,10 @@ export const tools = [
     href: "https://zinvero.com/dashboard/conversation?toolId=video-script",
     professions: ["video"],
   },
-  {
-    id: "video-creation",
-    label: "Video Maker",
-    icon: Video,
-    description: "Turn ideas and scripts into engaging video content automatically",
-    color: "text-purple-600",
-    bgColor: "bg-purple-600/10",
-    href: "https://zinvero.com/dashboard/video?toolId=video-creation",
-    professions: ["video"],
-  },
-  {
-    id: "video-voiceover",
-    label: "AI Voiceover",
-    icon: Mic2,
-    description: "Deliver broadcast-quality narration and voiceovers for every video",
-    color: "text-violet-500",
-    bgColor: "bg-violet-500/10",
-    href: "https://zinvero.com/dashboard/speech?toolId=video-voiceover",
-    professions: ["video"],
-  },
 
-  // Design Partners
-  {
-    id: "concept-art",
-    label: "Design Partner",
-    icon: Palette,
-    description:
-      "Create stunning concept art and illustrations for your projects",
-    color: "text-pink-600",
-    bgColor: "bg-pink-600/10",
-    href: "https://zinvero.com/dashboard/image-generation?toolId=concept-art",
-    professions: ["art"],
-  },
+
+
+
   // {
   //   id: "art-style-transfer",
   //   label: "Art Style Transfer",
@@ -271,105 +216,19 @@ export const tools = [
   //   href: "/dashboard/art-style-transfer",
   //   professions: ["art"],
   // },
-  {
-    id: "digital-painting",
-    label: "Painting Enhance",
-    icon: Paintbrush,
-    description: "Enhance and refine your digital paintings with AI-powered artistic improvements",
-    color: "text-pink-500",
-    bgColor: "bg-pink-500/10",
-    href: "https://zinvero.com/dashboard/digital-painting-enhancement?toolId=digital-painting",
-    professions: ["art"],
-  },
-  {
-    id: "canvas-expansion",
-    label: "Canvas Expand",
-    icon: Expand,
-    description:
-      "Generate engaging blog topics and clear outlines for your audience",
-    color: "text-rose-500",
-    bgColor: "bg-rose-500/10",
-    href: "https://zinvero.com/dashboard/canvas-expansion?toolId=canvas-expansion",
-    professions: ["art"],
-  },
-  {
-    id: "art-reference",
-    label: "Reference Cleanup",
-    icon: Eraser,
-    description:
-      "Clean up and prepare reference images for your artistic creations",
-    color: "text-pink-700",
-    bgColor: "bg-pink-700/10",
-    href: "https://zinvero.com/dashboard/art-reference-cleanup?toolId=art-reference",
-    professions: ["art"],
-  },
 
-  // Co-Composers
-  {
-    id: "song-lyrics",
-    label: "Lyric Writer",
-    icon: FileAudio,
-    description: "Generate creative and inspiring lyrics for your music",
-    color: "text-blue-600",
-    bgColor: "bg-blue-600/10",
-    href: "https://zinvero.com/dashboard/conversation?toolId=song-lyrics",
-    professions: ["music"],
-  },
-  {
-    id: "album-cover",
-    label: "Cover Art",
-    icon: Disc,
-    description: "Design professional album covers and music artwork",
-    color: "text-indigo-600",
-    bgColor: "bg-indigo-600/10",
-    href: "https://zinvero.com/dashboard/image-generation?toolId=album-cover",
-    professions: ["music"],
-  },
-  {
-    id: "music-composition",
-    label: "Compose Assist",
-    icon: Music,
-    description:
-      "Get AI assistance composing melodies, chord progressions, and full arrangements",
-    color: "text-blue-500",
-    bgColor: "bg-blue-500/10",
-    href: "https://zinvero.com/dashboard/music?toolId=music-composition",
-    professions: ["music"],
-  },
-  {
-    id: "sound-effects",
-    label: "SFX Generator",
-    icon: Volume2,
-    description:
-      "Create unique sound effects for your music tracks and productions",
-    color: "text-indigo-500",
-    bgColor: "bg-indigo-500/10",
-    href: "https://zinvero.com/dashboard/music?toolId=sound-effects",
-    professions: ["music"],
-  },
-  {
-    id: "voice-melody",
-    label: "Melody Maker",
-    icon: Mic,
-    description:
-      "Generate vocal melodies and harmonies for your musical compositions",
-    color: "text-blue-400",
-    bgColor: "bg-blue-400/10",
-    href: "https://zinvero.com/dashboard/speech?toolId=voice-melody",
-    professions: ["music"],
-  },
+
+
+
+
+
+
+
+
+
 
   // Content Creators
-  {
-    id: "blog-ideas",
-    label: "Blog Ideas",
-    icon: Gem,
-    description: "Generate engaging blog topics and clear outlines for your audience",
-    color: "text-emerald-600",
-    bgColor: "bg-emerald-600/10",
-    href: "https://zinvero.com/dashboard/conversation?toolId=blog-ideas",
-    professions: ["content"],
-  },
+
   {
     id: "social-graphics",
     label: "Social Graphics",
@@ -380,39 +239,9 @@ export const tools = [
     href: "https://zinvero.com/dashboard/image-generation?toolId=social-graphics",
     professions: ["content"],
   },
-  {
-    id: "content-calendar",
-    label: "Content Planner",
-    icon: Calendar,
-    description:
-      "Plan and organize your content schedule to maximize engagement",
-    color: "text-teal-600",
-    bgColor: "bg-teal-600/10",
-    href: "https://zinvero.com/dashboard/conversation?toolId=content-calendar",
-    professions: ["content"],
-  },
-  {
-    id: "thumbnail-optimizer",
-    label: "Thumbnail Optimizer",
-    icon: Focus,
-    description:
-      "Design attention-grabbing thumbnails that lift click-through rates",
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
-    href: "https://zinvero.com/dashboard/thumbnail-optimizer?toolId=thumbnail-optimizer",
-    professions: ["content"],
-  },
-  {
-    id: "caption-generator",
-    label: "Caption Generator",
-    icon: Type,
-    description:
-      "Write compelling captions that drive measurable engagement",
-    color: "text-green-500",
-    bgColor: "bg-green-500/10",
-    href: "https://zinvero.com/dashboard/conversation?toolId=caption-generator",
-    professions: ["content"],
-  },
+
+
+
 ];
 
 export const toolsModal = [
@@ -423,20 +252,8 @@ export const toolsModal = [
     color: "text-violet-500",
     bgColor: "bg-violet-500/10",
   },
-  {
-    label: "Design Partner",
-    icon: Sparkles,
-    color: "text-pink-700",
-    bgColor: "bg-pink-700/10",
-    href: "/dashboard/image-generation",
-  },
-  {
-    label: "Co-Composer",
-    icon: Disc,
-    color: "text-orange-700",
-    bgColor: "bg-orange-700/10",
-    href: "/dashboard/video",
-  },
+
+
   {
     label: "Creative Partner",
     icon: Diamond,

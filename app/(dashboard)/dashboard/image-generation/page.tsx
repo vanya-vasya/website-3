@@ -41,14 +41,7 @@ const toolConfigs = {
     bgColor: 'bg-orange-700/10',
     placeholder: 'A picture of a horse in Swiss alps'
   },
-  'concept-art': {
-    title: 'Design Partner',
-    description: `Create stunning concept art and illustrations for your projects\nPrice: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits`,
-    iconName: 'Palette',
-    iconColor: 'text-pink-600',
-    bgColor: 'bg-pink-600/10',
-    placeholder: 'A sci-fi character design for a futuristic warrior'
-  },
+
   'social-graphics': {
     title: 'Social Graphics',
     description: `Create eye-catching graphics for your social media platforms\nPrice: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits`,
@@ -57,14 +50,7 @@ const toolConfigs = {
     bgColor: 'bg-green-600/10',
     placeholder: 'Promotional banner for summer sale with bright colors and modern design'
   },
-  'album-cover': {
-    title: 'Cover Art',
-    description: `Design professional album covers and music artwork\nPrice: ${MODEL_GENERATIONS_PRICE.imageGeneration} credits`,
-    iconName: 'Disc',
-    iconColor: 'text-indigo-600',
-    bgColor: 'bg-indigo-600/10',
-    placeholder: 'Create stunning album artwork for your music release'
-  }
+
 };
 
 const PhotoPage = () => {

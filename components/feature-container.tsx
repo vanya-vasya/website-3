@@ -9,6 +9,7 @@ interface FeatureContainerProps {
   title: string;
   description: string;
   iconName: keyof typeof LucideIcons;
+  gradient?: string;
 }
 
 const container = {
@@ -31,6 +32,7 @@ export function FeatureContainer({
   title,
   description,
   iconName,
+  gradient = "from-cyan-400 via-blue-500 to-indigo-600",
 }: FeatureContainerProps) {
   const IconComponent = LucideIcons[iconName] as React.ComponentType<{ className?: string }>;
   
@@ -44,13 +46,13 @@ export function FeatureContainer({
       <div className="space-y-4">
         <div className="flex items-center gap-4 justify-center">
           <div className="relative w-12 h-12 flex items-center justify-center">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 opacity-20 blur-lg"></div>
-            <div className="relative bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 p-3 rounded-full backdrop-blur-sm">
+            <div className={`absolute inset-0 rounded-full bg-gradient-to-r ${gradient} opacity-20 blur-lg`}></div>
+            <div className={`relative bg-gradient-to-r ${gradient} p-3 rounded-full backdrop-blur-sm`}>
               <IconComponent className="w-6 h-6 text-white" />
             </div>
           </div>
           <h1 className="text-3xl md:text-4xl font-heading font-bold">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 inline">
+          <span className={`bg-clip-text text-transparent bg-gradient-to-r ${gradient} inline`}>
             {title}
             </span>
           </h1>

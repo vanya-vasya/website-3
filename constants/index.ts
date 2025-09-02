@@ -2,7 +2,6 @@ import {
   LucideIcon,
   MessageSquare,
   ImageIcon,
-  VideoIcon,
   Music,
   Code,
   Settings,
@@ -37,15 +36,7 @@ export const tools: Tool[] = [
     description:
       "Generate stunning images from text descriptions using state-of-the-art AI.",
   },
-  {
-    label: "Video Generation",
-    icon: VideoIcon,
-    href: "/dashboard/video",
-    color: "text-orange-700",
-    bgColor: "bg-orange-700/10",
-    description:
-      "Create engaging videos from text prompts with AI-powered animation.",
-  },
+
   {
     label: "Music Generation",
     icon: Music,
@@ -258,7 +249,7 @@ export const MODEL_GENERATIONS_PRICE = {
   code: 0.01,
   music: 0.02,
   speech: 0.02,
-  video: 0.05,
+
 };
 
 // NetworkX Pay Public Key for webhook signature verification

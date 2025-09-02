@@ -35,7 +35,7 @@ export const GuestMobileSidebar = () => {
   return (
     <Sheet>
     <SheetTrigger asChild>
-      <Button variant="sidebar" size="icon" className="lg:hidden text-white">
+      <Button variant="sidebar" size="icon" className="lg:hidden text-green-600">
         <Menu stroke="currentColor" />
       </Button>
     </SheetTrigger>

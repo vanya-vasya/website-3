@@ -100,10 +100,7 @@ const TermsAndConditions = () => {
                       <div className="career-page-top__points-shape"></div>
                       <p style={{ color: 'black' }}>Image Generation: 10 generations per image</p>
                     </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Video Generation: 20 generations per video</p>
-                    </li>
+
                     <li>
                       <div className="career-page-top__points-shape"></div>
                       <p style={{ color: 'black' }}>Music Generation: 15 generations per music piece</p>

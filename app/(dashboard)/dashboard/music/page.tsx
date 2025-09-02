@@ -38,22 +38,8 @@ const toolConfigs = {
     bgColor: 'bg-violet-500/10',
     placeholder: 'Piano solo'
   },
-  'music-composition': {
-    title: 'Compose Assist',
-    description: `Get AI assistance composing melodies, chord progressions, and full arrangements\nPrice: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits`,
-    iconName: 'Music',
-    iconColor: 'text-blue-500',
-    bgColor: 'bg-blue-500/10',
-    placeholder: 'Dramatic orchestral composition featuring strings and percussion'
-  },
-  'sound-effects': {
-    title: 'SFX Generator',
-    description: `Create unique sound effects for your music tracks and productions\nPrice: ${MODEL_GENERATIONS_PRICE.musicGeneration} credits`,
-    iconName: 'Volume2',
-    iconColor: 'text-indigo-500',
-    bgColor: 'bg-indigo-500/10',
-    placeholder: 'Epic spaceship engine roar'
-  }
+
+
 };
 
 const MusicPage = () => {

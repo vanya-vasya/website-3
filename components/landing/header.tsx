@@ -8,8 +8,8 @@ import { useState, useEffect } from "react";
 
 const routes = [
   {
-    name: "About",
-    href: "/#products",
+    name: "Our Story",
+    href: "/story",
   },
   {
     name: "Pricing",
@@ -32,7 +32,7 @@ const productItems = [
   },
   {
     name: "Digest",
-    href: "/dashboard",
+    href: "",
     comingSoon: true,
   },
 ];

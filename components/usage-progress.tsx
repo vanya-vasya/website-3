@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Progress } from "@/components/ui/progress";
 import { useProModal } from "@/hooks/use-pro-modal";
-import { Sparkles } from "lucide-react";
+import { Coins } from "lucide-react";
 
 interface UsageProgressProps {
   initialUsedGenerations: number;
@@ -34,9 +34,9 @@ export function UsageProgress({
         <div className="flex items-center justify-between text-xs text-black">
           <div className="flex items-center gap-1.5">
             <div className="relative w-6 h-6 flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 opacity-20 blur-lg"></div>
-              <div className="relative bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 p-1.5 rounded-full backdrop-blur-sm">
-                <Sparkles className="w-3 h-3 text-white" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 opacity-20 blur-lg"></div>
+              <div className="relative bg-gradient-to-r from-green-400 via-green-500 to-green-600 p-1.5 rounded-full backdrop-blur-sm">
+                <Coins className="w-3 h-3 text-white" />
               </div>
             </div>
             <span className="font-medium">Credits</span>
@@ -48,7 +48,7 @@ export function UsageProgress({
 
         <div className="relative w-full h-2 rounded-full overflow-hidden bg-gray-800/60">
           <div
-            className="absolute top-0 left-0 h-full bg-gradient-to-r from-indigo-500 to-purple-500"
+            className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-500 to-green-600"
             style={{ width: `${Math.min(usagePercentage, 100)}%` }}
           />
         </div>

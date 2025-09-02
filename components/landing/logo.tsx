@@ -71,7 +71,7 @@ const Logo = () => {
   const duplicatedLogos = [...partnerLogos, ...partnerLogos];
 
   return (
-    <section id="partners" className="bg-white py-2 sm:py-3">
+    <section id="partners" className="bg-white py-1 sm:py-1.5">
       <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
 
 

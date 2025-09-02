@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -23,7 +22,7 @@ model User {
 model Transaction {
   id                  String    @id @default(cuid())
   tracking_id         String
-  userId              String?
+  userId              String
   status              String?
   amount              Int?
   currency            String?
@@ -33,5 +32,5 @@ model Transaction {
   message             String?
   paid_at             DateTime?
   receipt_url         String?
-  user                User      @relation(fields: [tracking_id], references: [clerkId])
+  user                User      @relation(fields: [userId], references: [clerkId])
 }
