@@ -70,7 +70,7 @@ const StoryPage = () => {
         >
           <div>
             <h3 className="text-2xl font-bold tracking-tight text-gray-900 mb-6">
-              The Problem We're Solving
+              The Problem We&apos;re Solving
             </h3>
             <div className="space-y-4">
               <motion.p 
