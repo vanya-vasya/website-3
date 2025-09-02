@@ -5,8 +5,8 @@
 Create a `.env` file in the root directory with the following variables:
 
 ```env
-# Database
-DATABASE_URL="file:./prisma/dev.db"
+# Database (PostgreSQL for production)
+DATABASE_URL="postgresql://user:password@host:5432/database?sslmode=require"
 
 # Clerk Auth (Get these from https://clerk.com)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_xxxxxxxxxxxxxxxxxx"
@@ -47,10 +47,10 @@ For production (Vercel), you need a proper database service. SQLite files don't 
    - Go to your project settings
    - Go to Environment Variables
    - Add `DATABASE_URL` with your connection string
-5. Update your Prisma schema provider if needed:
+5. Schema is already configured for PostgreSQL:
    ```prisma
    datasource db {
-     provider = "postgresql" // or "mysql"
+     provider = "postgresql"
      url      = env("DATABASE_URL")
    }
    ```
