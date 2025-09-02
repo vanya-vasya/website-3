@@ -198,7 +198,7 @@ export const tools = [
       "Generate industry-ready scripts and storyboards for your videos",
     color: "from-cyan-400 via-blue-500 to-indigo-600",
     bgColor: "bg-violet-600/10",
-    href: "https://zinvero.com/dashboard/conversation?toolId=video-script",
+    href: "https://yum-mi.com/dashboard/conversation?toolId=video-script",
     professions: ["video"],
   },
 
@@ -236,7 +236,7 @@ export const tools = [
     description: "Create eye-catching graphics optimized for every social platform",
     color: "text-green-600",
     bgColor: "bg-green-600/10",
-    href: "https://zinvero.com/dashboard/image-generation?toolId=social-graphics",
+    href: "https://yum-mi.com/dashboard/image-generation?toolId=social-graphics",
     professions: ["content"],
   },
 

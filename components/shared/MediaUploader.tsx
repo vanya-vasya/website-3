@@ -66,7 +66,7 @@ const MediaUploader = ({
 
   return (
     <CldUploadWidget
-      uploadPreset="neuvisia"
+      uploadPreset="yum-mi"
       options={{
         multiple: false,
         resourceType: "image",

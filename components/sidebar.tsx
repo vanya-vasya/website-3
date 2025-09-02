@@ -33,7 +33,7 @@ export const Sidebar = ({
             height={"60"}
             className="mr-4"
             alt="Logo"
-            src="/logos/zinvero-logo.png"
+            src="/logos/yum-mi-onigiri-logo.png"
           />
         </Link>
         <div className="space-y-1">

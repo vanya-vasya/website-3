@@ -18,12 +18,12 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "zinvero",
+  title: "Yum-mi",
   description: "AI-powered creative tools for everyone",
   icons: {
-    icon: "/logos/zinvero-logo.png",
-    shortcut: "/logos/zinvero-logo.png",
-    apple: "/logos/zinvero-logo.png",
+    icon: "/logos/yum-mi-onigiri-logo.png",
+    shortcut: "/logos/yum-mi-onigiri-logo.png",
+    apple: "/logos/yum-mi-onigiri-logo.png",
   },
 };
 

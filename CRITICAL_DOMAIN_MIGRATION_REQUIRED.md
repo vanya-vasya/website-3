@@ -1,8 +1,8 @@
 # 🚨 CRITICAL: DOMAIN MIGRATION REQUIRED
 
-## Changes Applied: "nerbixa" → "zinvero" (32 occurrences)
+## Changes Applied: "yum-mi" → "yum-mi" (32 occurrences)
 
-All 32 occurrences of "nerbixa" have been replaced with "zinvero" in the following files:
+All 32 occurrences of "yum-mi" have been replaced with "yum-mi" in the following files:
 
 ### 📁 Files Modified
 1. `app/api/payment/networx/route.ts` - Payment URLs and webhooks
@@ -17,20 +17,20 @@ All 32 occurrences of "nerbixa" have been replaced with "zinvero" in the followi
 ## 🚨 BREAKING CHANGES: IMMEDIATE COORDINATION REQUIRED
 
 ### 1. **Domain Infrastructure** 
-**Critical Impact**: All URLs now point to `zinvero.com` instead of `nerbixa.com`
+**Critical Impact**: All URLs now point to `yum-mi.com` instead of `yum-mi.com`
 
 **⚠️ REQUIRED ACTIONS**:
-- **Purchase/Setup zinvero.com domain**
-- **Configure DNS for zinvero.com** 
-- **SSL certificates for zinvero.com**
+- **Purchase/Setup yum-mi.com domain**
+- **Configure DNS for yum-mi.com** 
+- **SSL certificates for yum-mi.com**
 - **Update hosting/CDN configurations**
 - **Without this**: All external links will be broken immediately
 
 ### 2. **Payment System URLs**
 **File**: `app/api/payment/networx/route.ts`
 **Changes**:
-- `NETWORX_RETURN_URL=https://nerbixa.com/payment/success` → `https://zinvero.com/payment/success`
-- `NETWORX_WEBHOOK_URL=https://nerbixa.com/api/webhooks/networx` → `https://zinvero.com/api/webhooks/networx`
+- `NETWORX_RETURN_URL=https://yum-mi.com/payment/success` → `https://yum-mi.com/payment/success`
+- `NETWORX_WEBHOOK_URL=https://yum-mi.com/api/webhooks/networx` → `https://yum-mi.com/api/webhooks/networx`
 
 **⚠️ REQUIRED ACTIONS**:
 - **Update payment provider (Networx) configuration**
@@ -41,12 +41,12 @@ All 32 occurrences of "nerbixa" have been replaced with "zinvero" in the followi
 ### 3. **Email System**
 **File**: `app/api/webhooks/payment/route.ts`
 **Changes**:
-- `support@nerbixa.com` → `support@zinvero.com`
-- Email templates referencing `nerbixa.com` → `zinvero.com`
+- `support@yum-mi.com` → `support@yum-mi.com`
+- Email templates referencing `yum-mi.com` → `yum-mi.com`
 
 **⚠️ REQUIRED ACTIONS**:
-- **Setup email infrastructure for zinvero.com**
-- **Configure support@zinvero.com email address**
+- **Setup email infrastructure for yum-mi.com**
+- **Configure support@yum-mi.com email address**
 - **Update email DNS records (MX, SPF, DKIM)**
 - **Test email delivery**
 - **Without this**: Customer support emails will fail
@@ -54,10 +54,10 @@ All 32 occurrences of "nerbixa" have been replaced with "zinvero" in the followi
 ### 4. **Dashboard URLs (17+ occurrences)**
 **File**: `constants.ts`
 **All dashboard tool URLs changed from**:
-- `https://nerbixa.com/dashboard/*` → `https://zinvero.com/dashboard/*`
+- `https://yum-mi.com/dashboard/*` → `https://yum-mi.com/dashboard/*`
 
 **⚠️ REQUIRED ACTIONS**:
-- **Ensure all dashboard routes work on zinvero.com**
+- **Ensure all dashboard routes work on yum-mi.com**
 - **Update any external integrations pointing to these URLs**
 - **Test all tool integrations**
 
@@ -74,10 +74,10 @@ All 32 occurrences of "nerbixa" have been replaced with "zinvero" in the followi
 ## 🚦 DEPLOYMENT SEQUENCE (CRITICAL)
 
 ### Phase 1: Infrastructure Setup
-1. Purchase and configure `zinvero.com` domain
+1. Purchase and configure `yum-mi.com` domain
 2. Setup DNS, SSL certificates
 3. Configure hosting/CDN for new domain
-4. Setup email infrastructure (support@zinvero.com)
+4. Setup email infrastructure (support@yum-mi.com)
 
 ### Phase 2: External Services  
 1. Update payment processor (Networx) webhook URLs
@@ -85,7 +85,7 @@ All 32 occurrences of "nerbixa" have been replaced with "zinvero" in the followi
 3. Test payment flows in staging environment
 
 ### Phase 3: Testing
-1. Full end-to-end testing on staging with zinvero.com
+1. Full end-to-end testing on staging with yum-mi.com
 2. Test all payment flows
 3. Test email delivery
 4. Test all dashboard tools
@@ -101,13 +101,13 @@ All 32 occurrences of "nerbixa" have been replaced with "zinvero" in the followi
 
 ```bash
 # Update these in production environment
-NETWORX_RETURN_URL=https://zinvero.com/payment/success
-NETWORX_CANCEL_URL=https://zinvero.com/payment/cancel  
-NETWORX_WEBHOOK_URL=https://zinvero.com/api/webhooks/networx
+NETWORX_RETURN_URL=https://yum-mi.com/payment/success
+NETWORX_CANCEL_URL=https://yum-mi.com/payment/cancel  
+NETWORX_WEBHOOK_URL=https://yum-mi.com/api/webhooks/networx
 
 # Email configuration
-SUPPORT_EMAIL=support@zinvero.com
-COMPANY_DOMAIN=zinvero.com
+SUPPORT_EMAIL=support@yum-mi.com
+COMPANY_DOMAIN=yum-mi.com
 ```
 
 ---
@@ -115,23 +115,23 @@ COMPANY_DOMAIN=zinvero.com
 ## ⚠️ ROLLBACK PLAN
 
 If issues occur:
-1. Keep nerbixa.com infrastructure running in parallel
+1. Keep yum-mi.com infrastructure running in parallel
 2. Quick rollback: revert this commit and redeploy
-3. DNS failover back to nerbixa.com if needed
+3. DNS failover back to yum-mi.com if needed
 
 ---
 
 ## 🎯 Testing Checklist
 
-- [ ] zinvero.com domain resolves correctly
-- [ ] SSL certificate valid for zinvero.com
+- [ ] yum-mi.com domain resolves correctly
+- [ ] SSL certificate valid for yum-mi.com
 - [ ] Payment flows work end-to-end
 - [ ] Webhook notifications received
-- [ ] Email delivery from support@zinvero.com works
+- [ ] Email delivery from support@yum-mi.com works
 - [ ] All dashboard tools load and function
 - [ ] Privacy policy displays correctly
 - [ ] No broken links in application
 
 ---
 
-**🚨 CRITICAL**: Do not deploy to production until ALL infrastructure and external services are properly configured for zinvero.com domain.
+**🚨 CRITICAL**: Do not deploy to production until ALL infrastructure and external services are properly configured for yum-mi.com domain.

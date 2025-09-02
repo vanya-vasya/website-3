@@ -35,7 +35,7 @@ type ChatCompletionRequestMessage = {
 const toolConfigs = {
   'master-chef': {
     title: 'Master Chef',
-    description: 'Your personal nutrition coach providing expert meal planning, dietary analysis, and personalized nutrition strategies for optimal health\nPrice: 50 Tokens',
+    description: 'Your personal nutrition coach providing expert meal planning, dietary analysis, and personalized nutrition strategies for optimal health\nPrice: 100 Tokens',
     iconName: 'Crown',
     iconColor: 'text-amber-600',
     bgColor: 'bg-amber-600/10',
@@ -45,33 +45,13 @@ const toolConfigs = {
   },
   'master-nutritionist': {
     title: 'Master Nutritionist',
-    description: 'Advanced nutritional analysis and meal optimization with scientific precision, macro tracking, and health goal alignment\nPrice: 50 Tokens',
+    description: 'Advanced nutritional analysis and meal optimization with scientific precision, macro tracking, and health goal alignment\nPrice: 150 Tokens',
     iconName: 'Activity',
     iconColor: 'text-emerald-600',
     bgColor: 'bg-emerald-600/10',
     gradient: 'from-emerald-400 via-green-500 to-teal-600',
     bgGradient: 'from-emerald-400/10 via-green-500/10 to-teal-600/10',
     placeholder: 'Ask me for nutritional analysis, macro tracking, meal optimization, or health goal planning...'
-  },
-  'chat-assistant': {
-    title: 'Chat Assistant',
-    description: `Our most advanced conversation model\nPrice: ${MODEL_GENERATIONS_PRICE.conversation} credits`,
-    iconName: 'MessageSquare',
-    iconColor: 'text-red-600',
-    bgColor: 'bg-red-600/10',
-    gradient: 'from-red-400 via-red-500 to-red-600',
-    bgGradient: 'from-red-400/10 via-red-500/10 to-red-600/10',
-    placeholder: 'Ask me anything - from complex problems to creative brainstorming...'
-  },
-  'video-script': {
-    title: 'Script Builder',
-    description: `Generate industry-ready scripts and storyboards for your videos\nPrice: ${MODEL_GENERATIONS_PRICE.conversation} credits`,
-    iconName: 'Clapperboard',
-    iconColor: 'text-black',
-    bgColor: 'bg-violet-600/10',
-    gradient: 'from-violet-400 via-violet-500 to-violet-600',
-    bgGradient: 'from-violet-400/10 via-violet-500/10 to-violet-600/10',
-    placeholder: 'Write a compelling video script about sustainable travel for millennials...'
   },
   'cal-tracker': {
     title: 'Cal Tracker',

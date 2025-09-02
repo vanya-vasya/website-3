@@ -11,30 +11,26 @@ const creativeTools = [
   {
     title: "Master Chef",
     description: "Turn a photo of ingredients into a ready-to-cook recipe",
-    image: "/images/resource/music/music-production.jpg",
+    image: "/images/resource/master-chef-transformation.jpg",
     type: "image",
-    color: "from-cyan-400 via-blue-500 to-indigo-600",
   },
   {
     title: "Master Nutritionist", 
     description: "Personalized nutrition that adapts to your age, goals, and allergies",
-    image: "/images/resource/video-production.jpg",
+    image: "/images/resource/master-nutritionist-personalized.jpg",
     type: "image",
-    color: "from-cyan-400 via-blue-500 to-indigo-600",
   },
   {
     title: "Cal Tracker",
     description: "Computer-vision macros and calorie counts in real time",
-    image: "/images/resource/tiktok.jpg",
+    image: "/images/resource/cal-tracker-computer-vision.jpg",
     type: "image", 
-    color: "from-cyan-400 via-blue-500 to-indigo-600",
   },
   {
     title: "Digest",
     description: "Coming Soon",
-    image: "/images/resource/digital_artist.jpg",
+    image: "/images/resource/digest-recommendations-coming-soon.jpg",
     type: "image",
-    color: "from-cyan-400 via-blue-500 to-indigo-600",
   },
 ];
 
@@ -160,7 +156,7 @@ const Products = () => {
 
                   {/* Glowing border */}
                   <div
-                    className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${tool.color} opacity-0 hover:opacity-20 blur transition-opacity`}
+                    className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 opacity-0 hover:opacity-20 blur transition-opacity"
                   ></div>
 
                   {/* Content */}

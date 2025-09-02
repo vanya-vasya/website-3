@@ -12,12 +12,8 @@ const routes = [
     href: "/#products",
   },
   {
-    name: "Products",
-    href: "/#features",
-  },
-  {
-    name: "Why Us",
-    href: "/#testimonials",
+    name: "Our Story",
+    href: "/story",
   },
 ];
 
@@ -50,7 +46,7 @@ const companyDetails = [
     icon: FileText,
   },
   {
-    name: "support@zinvero.com",
+    name: "support@yum-mi.com",
     icon: Mail,
   },
   {
@@ -71,7 +67,7 @@ const Footer = () => {
             <div className="pr-4 pl-4">
               <div className="footer-widget__column footer-widget__about">
                 <div className="footer-widget__logo">
-                  <Image width={"98"} height={"39"} src="/logos/TechFlow-Logo.png" alt="TechFlow Logo" />
+                  <Image width={"98"} height={"39"} src="/logos/yum-mi-onigiri-logo.png" alt="Yum-mi Logo" />
                 </div>
                 <p 
                   className="footer-widget__about-text"
@@ -213,7 +209,7 @@ const Footer = () => {
                 color: '#0f172a'
               }}
             >
-              Zinvero, Copyright © {year}. All Rights Reserved.
+              Yum-mi, Copyright © {year}. All Rights Reserved.
             </p>
           </div>
         </div>

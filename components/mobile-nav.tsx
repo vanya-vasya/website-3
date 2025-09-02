@@ -124,10 +124,10 @@ export function MobileNav({
           <SheetHeader className="p-5 border-b border-gray-200">
             <div className="flex justify-between items-center">
               <Image
-                src="/logos/zinvero-logo.png"
-                alt="zinvero Logo"
-                width={150}
-                height={50}
+                src="/logos/yum-mi-onigiri-logo.png"
+                alt="Yum-mi Logo"
+                width={98}
+                height={39}
               />
             </div>
           </SheetHeader>

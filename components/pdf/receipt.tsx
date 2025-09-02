@@ -135,12 +135,12 @@ const styles = StyleSheet.create({
 });
 
 const company = {
-  name: "Zinvero",
+  name: "Yum-mi",
   company: "GUΑRΑΝТЕЕD GRЕΑТ SЕRVIСЕ LТD",
   address: "Dept 6162 43 Owston Road, Carcroft, Doncaster, United Kingdom, DN6 8DA",
-  website: "zinvero.com",
-  email: "support@zinvero.com",
-  logo: "./public/logos/zinvero-logo.png", // Official company logo
+  website: "yum-mi.com",
+  email: "support@yum-mi.com",
+  logo: "./public/logos/yum-mi-onigiri-logo.png", // Official company logo
   companyNumber: "15982295",
 };
 

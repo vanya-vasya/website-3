@@ -142,8 +142,8 @@ const StoryPage = () => {
           <div className="relative">
             <div className="aspect-[4/3] overflow-hidden rounded-lg bg-gray-100">
               <Image
-                src="/images/creator-empty.png"
-                alt="Empty creative workspace"
+                src="/images/resource/fragmented-food-decisions.png"
+                alt="Fragmented food decisions across different platforms and tools"
                 width={600}
                 height={450}
                 className="h-full w-full object-cover"
@@ -163,8 +163,8 @@ const StoryPage = () => {
           <div className="relative order-2 lg:order-1">
             <div className="aspect-[4/3] overflow-hidden rounded-lg bg-gray-100">
               <Image
-                src="/chat.png"
-                alt="AI-powered creative assistant"
+                src="/images/resource/unified-ai-food-platform.png"
+                alt="Unified AI platform converting photos to recipes, nutrition insights, and coaching"
                 width={600}
                 height={450}
                 className="h-full w-full object-cover"
@@ -188,7 +188,7 @@ const StoryPage = () => {
                 color: '#475569'
               }}
             >
-              A unified platform that converts photos and intent into action—turning ingredients into real recipes, meals into precise macro insights, and daily choices into measurable momentum. It blends model-driven perception, nutrition science, and behavioral design to deliver instant clarity and continuous coaching at every bite.
+              A unified platform that converts photos and intent into action turning ingredients into real recipes, meals into precise macro insights, and daily choices into measurable momentum. It blends model-driven perception, nutrition science, and behavioral design to deliver instant clarity and continuous coaching at every bite
             </motion.p>
 
           </div>
@@ -219,7 +219,7 @@ const StoryPage = () => {
                 color: '#475569'
               }}
             >
-              Food decisions become ambient, precise, and joyful—guided by AI that understands your context and culture, not just your calories.               We will set the global standard for responsible food AI, proving that delight and scientific rigor can coexist at scaleя
+              Food decisions become ambient, precise, and joyful guided by AI that understands your context and culture, not just your calories.               We will set the global standard for responsible food AI, proving that delight and scientific rigor can coexist at scale
 
             </motion.p>
             <motion.p 
