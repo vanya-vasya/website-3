@@ -1,11 +1,11 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,7 @@ import { Activity, Target } from "lucide-react";
 
 import { formSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE, tools } from "@/constants";
+import { N8nWebhookClient } from "@/lib/n8n-webhook";
 
 // Define ChatCompletionRequestMessage type locally
 type ChatCompletionRequestMessage = {
@@ -68,10 +69,12 @@ const toolConfigs = {
 const ConversationPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { userId } = useAuth();
   const toolId = searchParams.get('toolId') || 'master-chef';
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Получаем конфигурацию для текущего инструмента
   const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['master-chef'];
@@ -99,37 +102,94 @@ const ConversationPage = () => {
     setUploadedImage(null);
   }, [toolId, form]);
 
-  const isLoading = form.formState.isSubmitting;
+  const isLoading = form.formState.isSubmitting || isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (isSubmitting) return; // Prevent double submission
+    
+    setIsSubmitting(true);
+    
     try {
-      let messageContent = values.prompt;
+      // Initialize n8n webhook client
+      const webhookClient = new N8nWebhookClient();
       
-      // If there's an uploaded image, include it in the message
-      if (uploadedImage) {
-        messageContent += `\n\n[Image attached: ${uploadedImage.name}]`;
+      // Build the payload for n8n webhook
+      const payload = webhookClient.buildWebhookPayload(
+        values.prompt,
+        toolId,
+        currentTool,
+        uploadedImage || undefined,
+        userId || undefined
+      );
+      
+      // Validate payload before sending
+      const validation = webhookClient.validatePayload(payload);
+      if (!validation.valid) {
+        toast.error(`Validation failed: ${validation.errors.join(', ')}`);
+        return;
       }
 
+      // Create user message for UI
       const userMessage: ChatCompletionRequestMessage = {
         role: "user",
-        content: messageContent,
+        content: uploadedImage 
+          ? `${values.prompt}\n\n[Image attached: ${uploadedImage.name}]`
+          : values.prompt,
       };
-      const newMessages = [...messages, userMessage];
 
-      const response = await axios.post("/api/conversation", {
-        messages: newMessages,
-      });
-      setMessages((current) => [...current, userMessage, response.data]);
+      // Add user message to UI immediately
+      setMessages((current) => [...current, userMessage]);
 
-      form.reset();
-      setUploadedImage(null);
-    } catch (error: any) {
-      if (error?.response?.status === 403) {
-        proModal.onOpen();
-      } else {
-        toast.error("Something went wrong.");
+      // Send request to n8n webhook
+      const webhookResponse = await webhookClient.sendWebhookRequest(payload);
+
+      if (webhookResponse.success && webhookResponse.data) {
+        // Add assistant response to UI
+        const assistantMessage: ChatCompletionRequestMessage = {
+          role: "assistant",
+          content: webhookResponse.data.response,
+        };
+        
+        setMessages((current) => [...current, assistantMessage]);
+        
+        // Show success feedback
+        toast.success(`Response received in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s`);
+        
+      } else if (webhookResponse.error) {
+        // Handle webhook errors
+        console.error('[ConversationPage] Webhook error:', webhookResponse.error);
+        
+        // Remove user message from UI on error
+        setMessages((current) => current.slice(0, -1));
+        
+        // Show appropriate error message
+        if (webhookResponse.error.code === 'HTTP_403') {
+          proModal.onOpen();
+          toast.error("Your generation limit has been reached. Please upgrade to continue.");
+        } else if (webhookResponse.error.code === 'NETWORK_ERROR') {
+          toast.error("Network error. Please check your connection and try again.");
+        } else {
+          toast.error(`Request failed: ${webhookResponse.error.message}`);
+        }
       }
+
+      // Clear form on successful submission
+      if (webhookResponse.success) {
+        form.reset();
+        setUploadedImage(null);
+      }
+
+    } catch (error: any) {
+      console.error('[ConversationPage] Unexpected error:', error);
+      
+      // Remove user message from UI on unexpected error
+      setMessages((current) => current.slice(0, -1));
+      
+      // Show generic error message
+      toast.error("An unexpected error occurred. Please try again.");
+      
     } finally {
+      setIsSubmitting(false);
       router.refresh();
     }
   };
