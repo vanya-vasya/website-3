@@ -66,7 +66,7 @@ class N8nWebhookClient {
     // Use the webhook path from the n8n workflow configuration provided by user
     this.webhookPath = '4c6c4649-99ef-4598-b77b-6cb12ab6a102';
     this.baseUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL || 
-                   `https://vanya-vasya.app.n8n.cloud/webhook/${this.webhookPath}`;
+                   `https://na10.app.n8n.cloud/webhook/${this.webhookPath}`;
     
     if (!this.baseUrl) {
       throw new Error('N8N_WEBHOOK_URL environment variable is required');

@@ -10,7 +10,7 @@ global.fetch = jest.fn();
 
 // Mock environment variables
 const mockEnv = {
-  NEXT_PUBLIC_N8N_WEBHOOK_URL: 'https://test.n8n.cloud/webhook/test-webhook-id',
+  NEXT_PUBLIC_N8N_WEBHOOK_URL: 'https://na10.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
 };
 
 Object.defineProperty(process, 'env', {
@@ -390,6 +390,115 @@ describe('N8nWebhookClient', () => {
       expect(validation.valid).toBe(true);
       expect(payload.image?.fileName).toBe('chicken.jpg');
       expect(payload.image?.fileType).toBe('image/jpeg');
+    });
+  });
+
+  describe('NA10 Endpoint Tests', () => {
+    const mockPayload = {
+      message: {
+        content: 'Analyze this food image and provide recipe suggestions.',
+        role: 'user' as const,
+        timestamp: '2024-01-01T00:00:00.000Z',
+        sessionId: 'session_123',
+      },
+      tool: {
+        id: 'master-chef',
+        name: 'Master Chef',
+        price: 100,
+        gradient: 'test-gradient',
+      },
+      user: {
+        sessionId: 'session_123',
+      },
+      image: {
+        fileName: 'food.jpg',
+        fileSize: 2048,
+        fileType: 'image/jpeg',
+      },
+      metadata: {
+        source: 'yum-mi-web-app',
+        version: '1.0',
+        timestamp: '2024-01-01T00:00:00.000Z',
+        userAgent: 'test',
+      },
+    };
+
+    it('should successfully POST to NA10 endpoint', async () => {
+      const mockResponse = {
+        response: 'Based on your image, I can see delicious ingredients! Here are some recipe suggestions: 1. Grilled Chicken with vegetables...',
+        tokens: 200,
+        processingTime: 1500,
+      };
+
+      (fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockResponse,
+      });
+
+      const result = await client.sendWebhookRequest(mockPayload);
+
+      expect(result.success).toBe(true);
+      expect(result.data?.response).toBe(mockResponse.response);
+      expect(result.data?.tokens).toBe(mockResponse.tokens);
+      expect(result.data?.processingTime).toBeGreaterThan(0);
+      
+      // Verify the correct NA10 URL is called
+      expect(fetch).toHaveBeenCalledWith(
+        'https://na10.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
+        expect.objectContaining({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'User-Agent': 'YumMi-WebApp/1.0',
+            'X-Request-Source': 'yum-mi-frontend',
+          },
+          body: JSON.stringify(mockPayload),
+        })
+      );
+    });
+
+    it('should handle NA10 endpoint error responses', async () => {
+      (fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        statusText: 'Internal Server Error',
+        text: async () => 'NA10 service temporarily unavailable',
+      });
+
+      const result = await client.sendWebhookRequest(mockPayload);
+
+      expect(result.success).toBe(false);
+      expect(result.error?.code).toBe('HTTP_500');
+      expect(result.error?.message).toBe('Webhook request failed: Internal Server Error');
+      expect(result.error?.details?.status).toBe(500);
+      expect(result.error?.details?.response).toBe('NA10 service temporarily unavailable');
+    });
+
+    it('should handle NA10 endpoint network timeouts', async () => {
+      (fetch as jest.Mock).mockRejectedValueOnce(new Error('Request timeout'));
+
+      const result = await client.sendWebhookRequest(mockPayload);
+
+      expect(result.success).toBe(false);
+      expect(result.error?.code).toBe('NETWORK_ERROR');
+      expect(result.error?.message).toBe('Request timeout');
+      expect(result.error?.details?.processingTime).toBeGreaterThan(0);
+    });
+
+    it('should handle NA10 endpoint rate limiting', async () => {
+      (fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+        status: 429,
+        statusText: 'Too Many Requests',
+        text: async () => 'Rate limit exceeded for NA10 endpoint',
+      });
+
+      const result = await client.sendWebhookRequest(mockPayload);
+
+      expect(result.success).toBe(false);
+      expect(result.error?.code).toBe('HTTP_429');
+      expect(result.error?.message).toBe('Webhook request failed: Too Many Requests');
+      expect(result.error?.details?.status).toBe(429);
     });
   });
 });
