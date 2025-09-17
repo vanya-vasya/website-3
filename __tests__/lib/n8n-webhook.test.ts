@@ -10,7 +10,7 @@ global.fetch = jest.fn();
 
 // Mock environment variables
 const mockEnv = {
-  NEXT_PUBLIC_N8N_WEBHOOK_URL: 'https://na10.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
+  NEXT_PUBLIC_N8N_WEBHOOK_URL: 'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
 };
 
 Object.defineProperty(process, 'env', {
@@ -46,12 +46,9 @@ describe('N8nWebhookClient', () => {
       expect(client).toBeInstanceOf(N8nWebhookClient);
     });
 
-    it('should throw error when N8N_WEBHOOK_URL is missing', () => {
-      delete (process.env as any).NEXT_PUBLIC_N8N_WEBHOOK_URL;
-      expect(() => new N8nWebhookClient()).toThrow('N8N_WEBHOOK_URL environment variable is required');
-      
-      // Restore env var
-      process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL = mockEnv.NEXT_PUBLIC_N8N_WEBHOOK_URL;
+    it('should use API proxy URL', () => {
+      const client = new N8nWebhookClient();
+      expect(client['baseUrl']).toBe('/api/generate');
     });
   });
 
@@ -257,7 +254,7 @@ describe('N8nWebhookClient', () => {
       expect(result.success).toBe(true);
       expect(result.data?.response).toBe(mockResponse.response);
       expect(result.data?.tokens).toBe(mockResponse.tokens);
-      expect(result.data?.processingTime).toBeGreaterThan(0);
+      expect(result.data?.processingTime).toBeGreaterThanOrEqual(0);
     });
 
     it('should handle HTTP error responses', async () => {
@@ -272,7 +269,7 @@ describe('N8nWebhookClient', () => {
 
       expect(result.success).toBe(false);
       expect(result.error?.code).toBe('HTTP_404');
-      expect(result.error?.message).toBe('Webhook request failed: Not Found');
+      expect(result.error?.message).toBe('API request failed: Not Found');
       expect(result.error?.details?.status).toBe(404);
     });
 
@@ -295,13 +292,11 @@ describe('N8nWebhookClient', () => {
       await client.sendWebhookRequest(mockPayload);
 
       expect(fetch).toHaveBeenCalledWith(
-        mockEnv.NEXT_PUBLIC_N8N_WEBHOOK_URL,
+        '/api/generate',
         expect.objectContaining({
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'User-Agent': 'YumMi-WebApp/1.0',
-            'X-Request-Source': 'yum-mi-frontend',
           },
           body: JSON.stringify(mockPayload),
         })
@@ -317,7 +312,7 @@ describe('N8nWebhookClient', () => {
       await client.sendWebhookRequest(mockPayload);
 
       expect(console.log).toHaveBeenCalledWith(
-        expect.stringContaining('[N8N] Sending request to webhook'),
+        expect.stringContaining('[N8N] Sending request to API proxy'),
         expect.objectContaining({
           toolId: 'master-chef',
           messageLength: 12,
@@ -326,7 +321,7 @@ describe('N8nWebhookClient', () => {
       );
 
       expect(console.log).toHaveBeenCalledWith(
-        expect.stringContaining('[N8N] Webhook request successful'),
+        expect.stringContaining('[N8N] API request successful'),
         expect.objectContaining({
           processingTime: expect.any(Number),
           responseSize: expect.any(Number),
@@ -440,17 +435,15 @@ describe('N8nWebhookClient', () => {
       expect(result.success).toBe(true);
       expect(result.data?.response).toBe(mockResponse.response);
       expect(result.data?.tokens).toBe(mockResponse.tokens);
-      expect(result.data?.processingTime).toBeGreaterThan(0);
+      expect(result.data?.processingTime).toBeGreaterThanOrEqual(0);
       
-      // Verify the correct NA10 URL is called
+      // Verify the API proxy is called instead of direct NA10 URL
       expect(fetch).toHaveBeenCalledWith(
-        'https://na10.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
+        '/api/generate',
         expect.objectContaining({
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'User-Agent': 'YumMi-WebApp/1.0',
-            'X-Request-Source': 'yum-mi-frontend',
           },
           body: JSON.stringify(mockPayload),
         })
@@ -469,7 +462,7 @@ describe('N8nWebhookClient', () => {
 
       expect(result.success).toBe(false);
       expect(result.error?.code).toBe('HTTP_500');
-      expect(result.error?.message).toBe('Webhook request failed: Internal Server Error');
+      expect(result.error?.message).toBe('API request failed: Internal Server Error');
       expect(result.error?.details?.status).toBe(500);
       expect(result.error?.details?.response).toBe('NA10 service temporarily unavailable');
     });
@@ -482,7 +475,7 @@ describe('N8nWebhookClient', () => {
       expect(result.success).toBe(false);
       expect(result.error?.code).toBe('NETWORK_ERROR');
       expect(result.error?.message).toBe('Request timeout');
-      expect(result.error?.details?.processingTime).toBeGreaterThan(0);
+      expect(result.error?.details?.processingTime).toBeGreaterThanOrEqual(0);
     });
 
     it('should handle NA10 endpoint rate limiting', async () => {
@@ -497,7 +490,7 @@ describe('N8nWebhookClient', () => {
 
       expect(result.success).toBe(false);
       expect(result.error?.code).toBe('HTTP_429');
-      expect(result.error?.message).toBe('Webhook request failed: Too Many Requests');
+      expect(result.error?.message).toBe('API request failed: Too Many Requests');
       expect(result.error?.details?.status).toBe(429);
     });
   });

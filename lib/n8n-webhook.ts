@@ -65,12 +65,9 @@ class N8nWebhookClient {
   constructor() {
     // Use the webhook path from the n8n workflow configuration provided by user
     this.webhookPath = '4c6c4649-99ef-4598-b77b-6cb12ab6a102';
-    this.baseUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL || 
-                   `https://na10.app.n8n.cloud/webhook/${this.webhookPath}`;
     
-    if (!this.baseUrl) {
-      throw new Error('N8N_WEBHOOK_URL environment variable is required');
-    }
+    // Use local API proxy to avoid CORS issues
+    this.baseUrl = '/api/generate';
   }
 
   /**
@@ -129,7 +126,7 @@ class N8nWebhookClient {
     const startTime = Date.now();
     
     try {
-      console.log(`[N8N] Sending request to webhook: ${this.baseUrl}`, {
+      console.log(`[N8N] Sending request to API proxy: ${this.baseUrl}`, {
         toolId: payload.tool.id,
         messageLength: payload.message.content.length,
         hasImage: !!payload.image,
@@ -139,8 +136,6 @@ class N8nWebhookClient {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'User-Agent': 'YumMi-WebApp/1.0',
-          'X-Request-Source': 'yum-mi-frontend',
         },
         body: JSON.stringify(payload),
       });
@@ -160,7 +155,7 @@ class N8nWebhookClient {
           success: false,
           error: {
             code: `HTTP_${response.status}`,
-            message: `Webhook request failed: ${response.statusText}`,
+            message: `API request failed: ${response.statusText}`,
             details: {
               status: response.status,
               response: errorText,
@@ -172,7 +167,7 @@ class N8nWebhookClient {
 
       const responseData = await response.json();
       
-      console.log(`[N8N] Webhook request successful:`, {
+      console.log(`[N8N] API request successful:`, {
         processingTime,
         responseSize: JSON.stringify(responseData).length,
       });
