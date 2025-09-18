@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 
 import prismadb from "@/lib/prismadb";
 import { absoluteUrl } from "@/lib/utils";
+import { getApiAvailableGenerations, getApiUsedGenerations } from "@/lib/api-limit";
 
 const settingsUrl = absoluteUrl("/settings");
 
@@ -12,6 +13,31 @@ interface RequestBody {
 }
 
 export const maxDuration = 60;
+
+export async function GET() {
+  try {
+    const { userId } = auth();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    // Get user credit information
+    const [availableGenerations, usedGenerations] = await Promise.all([
+      getApiAvailableGenerations(),
+      getApiUsedGenerations()
+    ]);
+
+    return NextResponse.json({ 
+      available: availableGenerations,
+      used: usedGenerations,
+      remaining: availableGenerations - usedGenerations
+    }, { status: 200 });
+  } catch (error) {
+    console.log("[GENERATIONS_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
 
 export async function POST(req: Request): Promise<NextResponse> {
   try {

@@ -1,0 +1,14 @@
+# Создайте файл .env.local в корне проекта и добавьте эти переменные:
+
+# n8n Webhook Configuration (серверная переменная, не публичная)
+N8N_WEBHOOK_URL=https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102
+
+# Альтернативный формат (если основная не найдена)
+WEBHOOK_URL=https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102
+
+# Альтернативы для разных сред:
+# Тестирование: https://vanya-vasya.app.n8n.cloud/webhook-test/4c6c4649-99ef-4598-b77b-6cb12ab6a102
+# Локальная разработка: http://localhost:5678/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102
+
+# ВАЖНО: N8N_WEBHOOK_URL теперь серверная переменная (не NEXT_PUBLIC_*)
+# потому что мы используем API proxy /api/generate для избежания CORS

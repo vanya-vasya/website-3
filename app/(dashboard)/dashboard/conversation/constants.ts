@@ -1,7 +1,8 @@
 import * as z from "zod";
 
 export const formSchema = z.object({
-  prompt: z.string().min(1, {
-    message: "Prompt is required."
-  }),
+  image: z.any().refine(
+    (file) => file instanceof File,
+    { message: "Image is required." }
+  ),
 });
