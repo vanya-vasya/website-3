@@ -20,11 +20,13 @@ import { useProModal } from "@/hooks/use-pro-modal";
 import { FeatureContainer } from "@/components/feature-container";
 import { ImageUpload } from "@/components/image-upload";
 import { inputStyles, buttonStyles, contentStyles, messageStyles, loadingStyles } from "@/components/ui/feature-styles";
-import { Activity, Target } from "lucide-react";
+import { Activity, Target, AlertCircle } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 import { formSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE, tools } from "@/constants";
 import { N8nWebhookClient } from "@/lib/n8n-webhook";
+import { getApiAvailableGenerations, getApiUsedGenerations } from "@/lib/api-limit";
 
 // Define ChatCompletionRequestMessage type locally
 type ChatCompletionRequestMessage = {
@@ -75,9 +77,26 @@ const ConversationPage = () => {
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [creditBalance, setCreditBalance] = useState<number>(0);
+  const [usedCredits, setUsedCredits] = useState<number>(0);
+  const [isLoadingCredits, setIsLoadingCredits] = useState(true);
 
   // Получаем конфигурацию для текущего инструмента
   const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['master-chef'];
+  
+  // Get tool price from the price mapping in webhook client
+  const getToolPrice = (toolId: string): number => {
+    const prices = {
+      'master-chef': 100,
+      'master-nutritionist': 150,
+      'cal-tracker': 50,
+    };
+    return prices[toolId as keyof typeof prices] || 100;
+  };
+  
+  const toolPrice = getToolPrice(toolId);
+  const availableCredits = creditBalance - usedCredits;
+  const hasInsufficientCredits = availableCredits < toolPrice;
   
   // Dynamic button styles based on current tool
   const dynamicButtonStyles = currentTool.gradient 
@@ -100,6 +119,42 @@ const ConversationPage = () => {
     },
   });
 
+  // Load credit balance on component mount
+  const loadCreditBalance = async () => {
+    if (!userId) return;
+    
+    try {
+      setIsLoadingCredits(true);
+      
+      // Fetch credit data from API route
+      const response = await fetch('/api/generations', { method: 'GET' });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setCreditBalance(data.available || 0);
+        setUsedCredits(data.used || 0);
+        
+        console.log('[ConversationPage] Credit balance loaded:', {
+          available: data.available,
+          used: data.used,
+          remaining: data.remaining
+        });
+      } else {
+        console.error('[ConversationPage] Failed to fetch credits:', response.status, response.statusText);
+        toast.error('Failed to load credit balance');
+      }
+    } catch (error) {
+      console.error('[ConversationPage] Failed to load credit balance:', error);
+      toast.error('Failed to load credit balance');
+    } finally {
+      setIsLoadingCredits(false);
+    }
+  };
+  
+  useEffect(() => {
+    loadCreditBalance();
+  }, [userId]);
+
   // Reset form when tool changes
   useEffect(() => {
     form.reset({ image: null });
@@ -110,6 +165,13 @@ const ConversationPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (isSubmitting || !uploadedImage) return; // Prevent double submission and ensure image exists
+    
+    // Check credit balance before proceeding
+    if (hasInsufficientCredits) {
+      toast.error(`Insufficient credits. You need ${toolPrice} credits but only have ${availableCredits} available.`);
+      proModal.onOpen();
+      return;
+    }
     
     setIsSubmitting(true);
     
@@ -144,8 +206,8 @@ const ConversationPage = () => {
       // Add user message to UI immediately
       setMessages((current) => [...current, userMessage]);
 
-      // Send request to n8n webhook
-      const webhookResponse = await webhookClient.sendWebhookRequest(payload);
+      // Send request to n8n webhook with retry logic
+      const webhookResponse = await webhookClient.sendWebhookRequestWithRetry(payload, 2, 45000);
 
       if (webhookResponse.success && webhookResponse.data) {
         // Add assistant response to UI
@@ -155,6 +217,9 @@ const ConversationPage = () => {
         };
         
         setMessages((current) => [...current, assistantMessage]);
+        
+        // Update local credit balance (optimistic update)
+        setUsedCredits(prev => prev + toolPrice);
         
         // Show success feedback
         toast.success(`Response received in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s`);
@@ -166,14 +231,29 @@ const ConversationPage = () => {
         // Remove user message from UI on error
         setMessages((current) => current.slice(0, -1));
         
-        // Show appropriate error message
-        if (webhookResponse.error.code === 'HTTP_403') {
-          proModal.onOpen();
-          toast.error("Your generation limit has been reached. Please upgrade to continue.");
-        } else if (webhookResponse.error.code === 'NETWORK_ERROR') {
-          toast.error("Network error. Please check your connection and try again.");
-        } else {
-          toast.error(`Request failed: ${webhookResponse.error.message}`);
+        // Show appropriate error message based on error type
+        switch (webhookResponse.error.code) {
+          case 'HTTP_403':
+            proModal.onOpen();
+            toast.error("Your generation limit has been reached. Please upgrade to continue.");
+            break;
+          case 'CONNECTION_ERROR':
+            toast.error("Unable to connect to the server. Please check your internet connection.");
+            break;
+          case 'TIMEOUT_ERROR':
+            toast.error("Request timed out. The server may be busy, please try again.");
+            break;
+          case 'RESPONSE_FORMAT_ERROR':
+            toast.error("Server returned an unexpected response. Please try again.");
+            break;
+          case 'NETWORK_ERROR':
+            toast.error("Network error. Please check your connection and try again.");
+            break;
+          case 'MAX_RETRIES_EXCEEDED':
+            toast.error("Request failed after multiple attempts. Please try again later.");
+            break;
+          default:
+            toast.error(`Request failed: ${webhookResponse.error.message}`);
         }
       }
 
@@ -240,19 +320,51 @@ const ConversationPage = () => {
             </div>
             
             {/* Generate Button */}
-            <div className="col-span-12 flex justify-center mt-4">
-              <Button
-                className={cn(
-                  dynamicButtonStyles,
-                  "px-8 py-3 text-lg font-medium",
-                  (!uploadedImage || isLoading) && "opacity-50 cursor-not-allowed"
-                )}
-                type="submit"
-                disabled={!uploadedImage || isLoading}
-                size="lg"
-              >
-                {isLoading ? "Analyzing..." : "Generate"}
-              </Button>
+            <div className="col-span-12 flex flex-col items-center gap-3 mt-4">
+              {/* Credit information */}
+              {!isLoadingCredits && (
+                <div className="text-sm text-gray-600 text-center">
+                  <span className="flex items-center justify-center gap-2">
+                    <Activity className="h-4 w-4" />
+                    Credits: {availableCredits} available | {toolPrice} required
+                  </span>
+                </div>
+              )}
+              
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="relative">
+                      <Button
+                        className={cn(
+                          dynamicButtonStyles,
+                          "px-8 py-3 text-lg font-medium",
+                          (!uploadedImage || isLoading || hasInsufficientCredits || isLoadingCredits) && "opacity-50 cursor-not-allowed"
+                        )}
+                        type="submit"
+                        disabled={!uploadedImage || isLoading || hasInsufficientCredits || isLoadingCredits}
+                        size="lg"
+                      >
+                        {isLoading ? "Analyzing..." : "Generate"}
+                        {hasInsufficientCredits && !isLoading && (
+                          <AlertCircle className="ml-2 h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {isLoadingCredits ? (
+                      <p>Loading credit balance...</p>
+                    ) : !uploadedImage ? (
+                      <p>Please upload an image first</p>
+                    ) : hasInsufficientCredits ? (
+                      <p>Insufficient credits. You need {toolPrice} but have {availableCredits} available.</p>
+                    ) : (
+                      <p>Click to generate AI analysis</p>
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </form>
         </Form>

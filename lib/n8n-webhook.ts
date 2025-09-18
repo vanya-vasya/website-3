@@ -120,9 +120,9 @@ class N8nWebhookClient {
   }
 
   /**
-   * Send POST request to n8n webhook
+   * Send POST request to n8n webhook with timeout and retry logic
    */
-  async sendWebhookRequest(payload: N8nWebhookPayload): Promise<N8nWebhookResponse> {
+  async sendWebhookRequest(payload: N8nWebhookPayload, timeoutMs: number = 45000): Promise<N8nWebhookResponse> {
     const startTime = Date.now();
     
     try {
@@ -130,15 +130,28 @@ class N8nWebhookClient {
         toolId: payload.tool.id,
         messageLength: payload.message.content.length,
         hasImage: !!payload.image,
+        timeout: timeoutMs,
+        timestamp: new Date().toISOString(),
       });
+
+      // Create AbortController for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+        console.warn(`[N8N] Request timeout after ${timeoutMs}ms`);
+      }, timeoutMs);
 
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'X-Request-ID': `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       const processingTime = Date.now() - startTime;
 
@@ -165,43 +178,100 @@ class N8nWebhookClient {
         };
       }
 
-      const responseData = await response.json();
-      
-      console.log(`[N8N] API request successful:`, {
-        processingTime,
-        responseSize: JSON.stringify(responseData).length,
-      });
+      // Handle both JSON and text responses
+      const contentType = response.headers.get('content-type') || '';
+      let responseData: any;
+      let parsedResponse: string;
+
+      if (contentType.includes('application/json')) {
+        try {
+          responseData = await response.json();
+          parsedResponse = responseData.response || responseData.content || responseData.message || JSON.stringify(responseData);
+          
+          console.log(`[N8N] API request successful (JSON):`, {
+            processingTime,
+            responseSize: JSON.stringify(responseData).length,
+            contentType,
+          });
+        } catch (jsonError: any) {
+          console.warn(`[N8N] JSON parsing failed, falling back to text:`, {
+            error: jsonError.message,
+            contentType,
+          });
+          
+          // Fall back to text parsing
+          const text = await response.text();
+          parsedResponse = text || 'Response received';
+          responseData = { response: parsedResponse };
+        }
+      } else {
+        // Handle plain text response
+        const text = await response.text();
+        parsedResponse = text || 'Response received';
+        responseData = { response: parsedResponse };
+        
+        console.log(`[N8N] API request successful (text):`, {
+          processingTime,
+          responseSize: text.length,
+          contentType,
+        });
+      }
 
       return {
         success: true,
         data: {
-          response: responseData.response || responseData.content || 'Response received',
+          response: parsedResponse,
           processingTime,
-          tokens: responseData.tokens,
+          tokens: responseData.tokens || undefined,
         },
       };
 
     } catch (error: any) {
       const processingTime = Date.now() - startTime;
       
+      // Enhanced error logging with more context
       console.error(`[N8N] Webhook request error:`, {
         error: error.message,
+        errorName: error.name,
         stack: error.stack,
         processingTime,
+        requestUrl: this.baseUrl,
         payload: {
           toolId: payload.tool.id,
           messageLength: payload.message.content.length,
+          hasImage: !!payload.image,
+          timestamp: payload.metadata.timestamp,
+        },
+        networkDetails: {
+          userAgent: payload.metadata.userAgent,
+          locale: payload.metadata.locale,
         }
       });
+
+      // Determine error type for better user feedback
+      let errorCode = 'NETWORK_ERROR';
+      let userMessage = error.message || 'Network request failed';
+      
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        errorCode = 'CONNECTION_ERROR';
+        userMessage = 'Unable to connect to the server. Please check your internet connection.';
+      } else if (error.name === 'AbortError') {
+        errorCode = 'TIMEOUT_ERROR';
+        userMessage = 'Request timed out. The server may be busy, please try again.';
+      } else if (error.message.includes('JSON')) {
+        errorCode = 'RESPONSE_FORMAT_ERROR';
+        userMessage = 'Server returned an unexpected response format.';
+      }
 
       return {
         success: false,
         error: {
-          code: 'NETWORK_ERROR',
-          message: error.message || 'Network request failed',
+          code: errorCode,
+          message: userMessage,
           details: {
             processingTime,
-            originalError: error,
+            originalError: error.message,
+            timestamp: new Date().toISOString(),
           },
         },
       };
@@ -239,6 +309,50 @@ class N8nWebhookClient {
     return {
       valid: errors.length === 0,
       errors,
+    };
+  }
+
+  /**
+   * Send request with retry logic for better reliability
+   */
+  async sendWebhookRequestWithRetry(
+    payload: N8nWebhookPayload, 
+    maxRetries: number = 2, 
+    timeoutMs: number = 45000
+  ): Promise<N8nWebhookResponse> {
+    let lastError: any;
+    
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      if (attempt > 0) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000); // Exponential backoff with max 5s
+        console.log(`[N8N] Retry attempt ${attempt}/${maxRetries} after ${delay}ms delay`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+      
+      try {
+        const response = await this.sendWebhookRequest(payload, timeoutMs);
+        if (response.success || attempt === maxRetries) {
+          return response;
+        }
+        lastError = response.error;
+      } catch (error: any) {
+        lastError = error;
+        if (attempt === maxRetries) {
+          console.error(`[N8N] All retry attempts failed:`, {
+            attempts: maxRetries + 1,
+            finalError: error.message,
+          });
+        }
+      }
+    }
+    
+    // Return the last error if all retries failed
+    return {
+      success: false,
+      error: lastError || {
+        code: 'MAX_RETRIES_EXCEEDED',
+        message: 'Request failed after maximum retry attempts',
+      },
     };
   }
 
