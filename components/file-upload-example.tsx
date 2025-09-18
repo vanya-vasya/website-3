@@ -140,7 +140,7 @@ export default function FileUploadExample({ toolId = 'master-chef', onResponse }
         <ul className="text-xs text-yellow-700 space-y-1">
           <li>• Do NOT set Content-Type header when using FormData</li>
           <li>• Browser automatically adds multipart boundary</li>
-          <li>• Use field name "file" for N8N compatibility</li>
+          <li>• Use field name &quot;file&quot; for N8N compatibility</li>
           <li>• Handle empty responses with .text() before .json()</li>
           <li>• Safari requires proper FormData handling</li>
         </ul>

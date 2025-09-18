@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       
       // Create new FormData to proxy to N8N
       const proxyFormData = new FormData();
-      for (const [key, value] of formData.entries()) {
+      for (const [key, value] of Array.from(formData.entries())) {
         proxyFormData.append(key, value as File | string);
       }
 
