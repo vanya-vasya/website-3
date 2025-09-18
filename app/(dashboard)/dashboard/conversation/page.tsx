@@ -91,12 +91,25 @@ const ConversationPage = () => {
       'master-nutritionist': 150,
       'cal-tracker': 50,
     };
-    return prices[toolId as keyof typeof prices] || 100;
+    return prices[toolId as keyof typeof prices] ?? 100; // Use ?? instead of || to handle 0 values correctly
   };
   
   const toolPrice = getToolPrice(toolId);
   const availableCredits = creditBalance - usedCredits;
   const hasInsufficientCredits = toolPrice > 0 && availableCredits < toolPrice; // Free tools (toolPrice = 0) never have insufficient credits
+  
+  // Debug logging for Master Chef free tier
+  console.log('[ConversationPage] Debug - Button state:', {
+    toolId,
+    toolPrice,
+    creditBalance,
+    usedCredits,
+    availableCredits,
+    hasInsufficientCredits,
+    uploadedImage: !!uploadedImage,
+    isLoading,
+    isLoadingCredits
+  });
   
   // Dynamic button styles based on current tool
   const dynamicButtonStyles = currentTool.gradient 
