@@ -57,14 +57,14 @@ describe('Generate Button Integration Tests', () => {
   });
 
   describe('Credit Balance Scenarios', () => {
-    it('should disable Generate button when credits are insufficient', async () => {
-      // Mock API response with insufficient credits
+    it('should enable Generate button for Master Chef even with zero credits', async () => {
+      // Mock API response with zero credits
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: () => Promise.resolve({
-          available: 100,
-          used: 80,
-          remaining: 20
+          available: 0,
+          used: 0,
+          remaining: 0
         })
       });
 
@@ -72,18 +72,29 @@ describe('Generate Button Integration Tests', () => {
 
       // Wait for credit balance to load
       await waitFor(() => {
-        expect(screen.getByText(/Credits: 20 available/)).toBeInTheDocument();
+        expect(screen.getByText(/Credits: 0 available.*Free/)).toBeInTheDocument();
       });
 
-      // Check that button is disabled (master-chef tool requires 100 credits)
+      // For Master Chef (0 credits required), button should be enabled even with zero credits
       const generateButton = screen.getByRole('button', { name: /Generate/ });
-      expect(generateButton).toBeDisabled();
       
-      // Check tooltip shows insufficient credits message
-      fireEvent.mouseEnter(generateButton);
-      await waitFor(() => {
-        expect(screen.getByText(/Insufficient credits/)).toBeInTheDocument();
-      });
+      // Upload a mock image file to fully enable the button
+      const file = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
+      const imageUpload = screen.getByTestId('image-upload-input') || screen.getByLabelText(/upload/i);
+      
+      if (imageUpload) {
+        fireEvent.change(imageUpload, { target: { files: [file] } });
+        
+        await waitFor(() => {
+          expect(generateButton).not.toBeDisabled();
+        });
+        
+        // Verify tooltip shows free tool message
+        fireEvent.mouseEnter(generateButton);
+        await waitFor(() => {
+          expect(screen.getByText(/Click to generate AI analysis/)).toBeInTheDocument();
+        });
+      }
     });
 
     it('should enable Generate button when credits are sufficient', async () => {
@@ -119,33 +130,35 @@ describe('Generate Button Integration Tests', () => {
       });
     });
 
-    it('should show pro modal when user tries to generate with insufficient credits', async () => {
-      // Mock API response with insufficient credits
+    it('should enable Generate button for Master Chef with negative credits', async () => {
+      // Mock API response with negative credit balance (edge case)
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: () => Promise.resolve({
           available: 50,
-          used: 30,
-          remaining: 20
+          used: 75,
+          remaining: -25
         })
       });
 
       render(<ConversationPage />);
 
       await waitFor(() => {
-        expect(screen.getByText(/Credits: 20 available/)).toBeInTheDocument();
+        expect(screen.getByText(/Credits: -25 available.*Free/)).toBeInTheDocument();
       });
 
-      // Try to submit form with insufficient credits
-      const form = screen.getByTestId('conversation-form') || screen.getByRole('form');
-      if (form) {
-        fireEvent.submit(form);
+      // Master Chef should still be enabled with negative credits
+      const generateButton = screen.getByRole('button', { name: /Generate/ });
+      
+      // Upload a mock image file
+      const file = new File(['test'], 'test.jpg', { type: 'image/jpeg' });
+      const imageUpload = screen.getByTestId('image-upload-input') || screen.getByLabelText(/upload/i);
+      
+      if (imageUpload) {
+        fireEvent.change(imageUpload, { target: { files: [file] } });
         
         await waitFor(() => {
-          expect(mockToast.error).toHaveBeenCalledWith(
-            expect.stringContaining('Insufficient credits')
-          );
-          expect(mockProModalOnOpen).toHaveBeenCalled();
+          expect(generateButton).not.toBeDisabled();
         });
       }
     });

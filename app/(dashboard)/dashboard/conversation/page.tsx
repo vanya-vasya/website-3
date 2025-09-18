@@ -38,7 +38,7 @@ type ChatCompletionRequestMessage = {
 const toolConfigs = {
   'master-chef': {
     title: 'Master Chef',
-    description: 'Your personal nutrition coach providing expert meal planning, dietary analysis, and personalized nutrition strategies for optimal health\nPrice: 100 Tokens',
+    description: 'Your personal nutrition coach providing expert meal planning, dietary analysis, and personalized nutrition strategies for optimal health\nPrice: Free',
     iconName: 'Crown',
     iconColor: 'text-amber-600',
     bgColor: 'bg-amber-600/10',
@@ -87,7 +87,7 @@ const ConversationPage = () => {
   // Get tool price from the price mapping in webhook client
   const getToolPrice = (toolId: string): number => {
     const prices = {
-      'master-chef': 100,
+      'master-chef': 0, // Free tool - always enabled regardless of credit balance
       'master-nutritionist': 150,
       'cal-tracker': 50,
     };
@@ -96,7 +96,7 @@ const ConversationPage = () => {
   
   const toolPrice = getToolPrice(toolId);
   const availableCredits = creditBalance - usedCredits;
-  const hasInsufficientCredits = availableCredits < toolPrice;
+  const hasInsufficientCredits = toolPrice > 0 && availableCredits < toolPrice; // Free tools (toolPrice = 0) never have insufficient credits
   
   // Dynamic button styles based on current tool
   const dynamicButtonStyles = currentTool.gradient 
@@ -166,8 +166,8 @@ const ConversationPage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (isSubmitting || !uploadedImage) return; // Prevent double submission and ensure image exists
     
-    // Check credit balance before proceeding
-    if (hasInsufficientCredits) {
+    // Check credit balance before proceeding (skip for free tools)
+    if (hasInsufficientCredits && toolPrice > 0) {
       toast.error(`Insufficient credits. You need ${toolPrice} credits but only have ${availableCredits} available.`);
       proModal.onOpen();
       return;
@@ -218,8 +218,10 @@ const ConversationPage = () => {
         
         setMessages((current) => [...current, assistantMessage]);
         
-        // Update local credit balance (optimistic update)
-        setUsedCredits(prev => prev + toolPrice);
+        // Update local credit balance (optimistic update) - skip for free tools
+        if (toolPrice > 0) {
+          setUsedCredits(prev => prev + toolPrice);
+        }
         
         // Show success feedback
         toast.success(`Response received in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s`);
@@ -326,7 +328,7 @@ const ConversationPage = () => {
                 <div className="text-sm text-gray-600 text-center">
                   <span className="flex items-center justify-center gap-2">
                     <Activity className="h-4 w-4" />
-                    Credits: {availableCredits} available | {toolPrice} required
+                    Credits: {availableCredits} available | {toolPrice === 0 ? 'Free' : `${toolPrice} required`}
                   </span>
                 </div>
               )}
@@ -359,6 +361,8 @@ const ConversationPage = () => {
                       <p>Please upload an image first</p>
                     ) : hasInsufficientCredits ? (
                       <p>Insufficient credits. You need {toolPrice} but have {availableCredits} available.</p>
+                    ) : toolPrice === 0 ? (
+                      <p>Click to generate AI analysis (Free tool)</p>
                     ) : (
                       <p>Click to generate AI analysis</p>
                     )}

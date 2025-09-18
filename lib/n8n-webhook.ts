@@ -378,11 +378,13 @@ class N8nWebhookClient {
 
   private getToolPrice(toolId: string): number {
     const prices = {
-      'master-chef': 100,
+      'master-chef': 0, // Free tool - always enabled regardless of credit balance
       'master-nutritionist': 150,
       'cal-tracker': 50,
     };
-    return prices[toolId as keyof typeof prices] || 100;
+    
+    // Use nullish coalescing to allow 0 values (|| would treat 0 as falsy)
+    return prices[toolId as keyof typeof prices] ?? 100;
   }
 }
 
