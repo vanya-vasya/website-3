@@ -98,19 +98,6 @@ const ConversationPage = () => {
   const availableCredits = creditBalance - usedCredits;
   const hasInsufficientCredits = toolPrice > 0 && availableCredits < toolPrice; // Free tools (toolPrice = 0) never have insufficient credits
   
-  // Debug logging for Master Chef free tier
-  console.log('[ConversationPage] Debug - Button state:', {
-    toolId,
-    toolPrice,
-    creditBalance,
-    usedCredits,
-    availableCredits,
-    hasInsufficientCredits,
-    uploadedImage: !!uploadedImage,
-    isLoading,
-    isLoadingCredits
-  });
-  
   // Dynamic button styles based on current tool
   const dynamicButtonStyles = currentTool.gradient 
     ? `bg-gradient-to-r ${currentTool.gradient} hover:shadow-lg shadow-md font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] text-white`
