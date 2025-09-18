@@ -31,7 +31,7 @@ const customJestConfig = {
     }],
   },
   transformIgnorePatterns: [
-    '/node_modules/',
+    'node_modules/(?!(react-markdown|remark-gfm|unified|bail|is-plain-obj|trough|vfile|unist-util-stringify-position|micromark|decode-named-character-reference|character-entities|property-information|hast-util-whitespace|space-separated-tokens|comma-separated-tokens|hast-util-parse-selector|hastscript|web-namespaces|zwitch|html-void-elements|ccount|escape-string-regexp|markdown-table|mdast-util-find-and-replace|mdast-util-to-markdown|mdast-util-from-markdown|mdast-util-to-string|unist-util-visit|unist-util-is)/)',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
 }

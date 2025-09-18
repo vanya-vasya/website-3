@@ -22,6 +22,7 @@ import { ImageUpload } from "@/components/image-upload";
 import { inputStyles, buttonStyles, contentStyles, messageStyles, loadingStyles } from "@/components/ui/feature-styles";
 import { Activity, Target, AlertCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { RecipeCard } from "@/components/RecipeCard";
 
 import { formSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE, tools } from "@/constants";
@@ -32,6 +33,45 @@ import { getApiAvailableGenerations, getApiUsedGenerations } from "@/lib/api-lim
 type ChatCompletionRequestMessage = {
   role: 'user' | 'system' | 'assistant';
   content: string;
+  recipeData?: Recipe; // Optional recipe data for structured responses
+};
+
+// Recipe type for structured recipe responses
+type Recipe = {
+  dish: string;
+  kcal: number;
+  prot: number;
+  fat: number;
+  carb: number;
+  recipe: string; // markdown
+};
+
+// Helper function to parse JSON response and extract recipe data
+const parseRecipeResponse = (response: string): { text: string; recipe?: Recipe } => {
+  try {
+    // Try to parse as JSON first
+    const parsed = JSON.parse(response);
+    
+    // Check if it's a recipe object with required fields
+    if (parsed && typeof parsed === 'object' && 
+        parsed.dish && 
+        typeof parsed.kcal === 'number' && 
+        typeof parsed.prot === 'number' && 
+        typeof parsed.fat === 'number' && 
+        typeof parsed.carb === 'number' && 
+        parsed.recipe) {
+      return {
+        text: response, // Keep original JSON as text fallback
+        recipe: parsed as Recipe
+      };
+    }
+    
+    // If it's JSON but not a recipe format, return as text
+    return { text: typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2) };
+  } catch (error) {
+    // Not valid JSON, return as plain text
+    return { text: response };
+  }
 };
 
 // Конфигурация для разных типов инструментов
@@ -202,10 +242,14 @@ const ConversationPage = () => {
       );
 
       if (webhookResponse.success && webhookResponse.data) {
-        // Add assistant response to UI
+        // Parse the response to check for structured recipe data
+        const parsedResponse = parseRecipeResponse(webhookResponse.data.response);
+        
+        // Add assistant response to UI with optional recipe data
         const assistantMessage: ChatCompletionRequestMessage = {
           role: "assistant",
-          content: webhookResponse.data.response,
+          content: parsedResponse.text,
+          recipeData: parsedResponse.recipe, // Include recipe data if present
         };
         
         setMessages((current) => [...current, assistantMessage]);
@@ -215,8 +259,11 @@ const ConversationPage = () => {
           setUsedCredits(prev => prev + toolPrice);
         }
         
-        // Show success feedback
-        toast.success(`Response received in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s`);
+        // Show success feedback with recipe indicator
+        const successMessage = parsedResponse.recipe 
+          ? `Recipe generated in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s!`
+          : `Response received in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s`;
+        toast.success(successMessage);
         
       } else if (webhookResponse.error) {
         // Handle webhook errors
@@ -376,19 +423,55 @@ const ConversationPage = () => {
               gradient={currentTool.gradient}
             />
           )}
-          <div className="flex flex-col-reverse gap-y-4">
-            {messages.map((message) => (
-              <div
-                key={message.content}
-                className={cn(
-                  messageStyles.container,
-                  message.role === "user"
-                    ? messageStyles.user
-                    : messageStyles.assistant
+          <div className="flex flex-col-reverse gap-y-6">
+            {messages.map((message, index) => (
+              <div key={`${message.content}-${index}`} className="space-y-4">
+                {/* User/Assistant message header */}
+                <div
+                  className={cn(
+                    "flex items-start gap-x-4",
+                    message.role === "user" 
+                      ? "justify-end" 
+                      : "justify-start"
+                  )}
+                >
+                  {message.role !== "user" && <BotAvatar />}
+                  <div
+                    className={cn(
+                      "max-w-md px-4 py-3 rounded-2xl",
+                      message.role === "user"
+                        ? "bg-gradient-to-r from-amber-400 via-orange-500 to-red-600 text-white"
+                        : "bg-gray-100 text-gray-900"
+                    )}
+                  >
+                    <p className="text-sm font-medium">
+                      {message.role === "user" ? "You" : "Master Chef"}
+                    </p>
+                    {!message.recipeData && (
+                      <p className="text-sm mt-1">{message.content}</p>
+                    )}
+                  </div>
+                  {message.role === "user" && <UserAvatar />}
+                </div>
+
+                {/* Recipe card for structured responses */}
+                {message.role === "assistant" && message.recipeData && (
+                  <div className="w-full">
+                    <RecipeCard 
+                      data={message.recipeData} 
+                      gradient={currentTool.gradient}
+                    />
+                  </div>
                 )}
-              >
-                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">{message.content}</p>
+
+                {/* Fallback text for non-recipe assistant responses */}
+                {message.role === "assistant" && !message.recipeData && (
+                  <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
+                    <pre className="text-sm text-gray-700 whitespace-pre-wrap font-mono bg-gray-50 p-3 rounded border">
+                      {message.content}
+                    </pre>
+                  </div>
+                )}
               </div>
             ))}
           </div>

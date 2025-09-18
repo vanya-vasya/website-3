@@ -38,7 +38,7 @@ describe('N8nWebhookClient Enhanced Error Handling', () => {
       tool: {
         id: 'master-chef',
         name: 'Master Chef',
-        price: 100,
+        price: 0,
         gradient: 'test-gradient',
       },
       user: {
@@ -146,7 +146,7 @@ describe('N8nWebhookClient Enhanced Error Handling', () => {
       tool: {
         id: 'master-chef',
         name: 'Master Chef',
-        price: 100,
+        price: 0,
         gradient: 'test-gradient',
       },
       user: {
@@ -221,7 +221,7 @@ describe('N8nWebhookClient Enhanced Error Handling', () => {
       tool: {
         id: 'master-chef',
         name: 'Master Chef',
-        price: 100,
+        price: 0,
         gradient: 'test-gradient',
       },
       user: {
@@ -323,7 +323,7 @@ describe('N8nWebhookClient Enhanced Error Handling', () => {
         tool: {
           id: 'master-chef',
           name: 'Master Chef',
-          price: 100,
+          price: 0,
           gradient: 'test-gradient',
         },
         user: {

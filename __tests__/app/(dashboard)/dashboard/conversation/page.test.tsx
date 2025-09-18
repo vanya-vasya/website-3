@@ -78,7 +78,7 @@ describe('ConversationPage Generate Button Handler', () => {
       // Mock successful webhook response
       mockWebhookClient.buildWebhookPayload.mockReturnValue({
         message: { content: 'Test prompt', role: 'user', timestamp: '2024-01-01', sessionId: 'session1' },
-        tool: { id: 'master-chef', name: 'Master Chef', price: 100, gradient: 'test' },
+        tool: { id: 'master-chef', name: 'Master Chef', price: 0, gradient: 'test' },
         user: { sessionId: 'session1' },
         metadata: { source: 'yum-mi-web-app', version: '1.0', timestamp: '2024-01-01', userAgent: 'test' },
       });

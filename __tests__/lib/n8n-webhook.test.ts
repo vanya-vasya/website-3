@@ -75,7 +75,7 @@ describe('N8nWebhookClient', () => {
         tool: {
           id: 'master-chef',
           name: 'Master Chef',
-          price: 100,
+          price: 0, // Master Chef is now free
           gradient: 'from-amber-400 via-orange-500 to-red-600',
         },
         user: {
@@ -138,7 +138,7 @@ describe('N8nWebhookClient', () => {
       tool: {
         id: 'master-chef',
         name: 'Master Chef',
-        price: 100,
+        price: 0,
         gradient: 'test-gradient',
       },
       user: {
@@ -224,7 +224,7 @@ describe('N8nWebhookClient', () => {
       tool: {
         id: 'master-chef',
         name: 'Master Chef',
-        price: 100,
+        price: 0,
         gradient: 'test-gradient',
       },
       user: {
@@ -399,7 +399,7 @@ describe('N8nWebhookClient', () => {
       tool: {
         id: 'master-chef',
         name: 'Master Chef',
-        price: 100,
+        price: 0,
         gradient: 'test-gradient',
       },
       user: {

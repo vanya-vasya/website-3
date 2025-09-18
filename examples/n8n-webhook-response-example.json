@@ -1,0 +1,92 @@
+{
+  "examples": {
+    "master_chef_recipe_response": {
+      "description": "Structured recipe response from N8N Master Chef workflow",
+      "expected_format": {
+        "dish": "Mediterranean Quinoa Bowl",
+        "kcal": 420,
+        "prot": 15,
+        "fat": 18,
+        "carb": 52,
+        "recipe": "# Mediterranean Quinoa Bowl\n\n## Ingredients\n- 1 cup quinoa\n- 2 cups vegetable broth\n- 1/2 cup cherry tomatoes, halved\n- 1/2 cucumber, diced\n- 1/4 red onion, thinly sliced\n- 1/2 cup kalamata olives\n- 1/2 cup feta cheese, crumbled\n- 2 tablespoons olive oil\n- 1 lemon, juiced\n- 2 tablespoons fresh parsley, chopped\n- Salt and pepper to taste\n\n## Instructions\n\n1. **Cook the quinoa**: Rinse quinoa and cook in vegetable broth according to package instructions. Let cool.\n\n2. **Prepare vegetables**: While quinoa cools, dice cucumber, halve tomatoes, and slice onion.\n\n3. **Make dressing**: In a small bowl, whisk together olive oil, lemon juice, salt, and pepper.\n\n4. **Assemble**: In a large bowl, combine cooled quinoa with vegetables, olives, and feta.\n\n5. **Finish**: Drizzle with dressing and sprinkle with fresh parsley.\n\n## Nutritional Benefits\n- **Quinoa**: Complete protein source\n- **Olive oil**: Healthy monounsaturated fats  \n- **Vegetables**: Rich in vitamins and antioxidants\n\n*Perfect for meal prep - keeps well for 3-4 days in the refrigerator!*"
+      },
+      "field_requirements": {
+        "dish": "string - Name of the dish",
+        "kcal": "number - Total calories",
+        "prot": "number - Protein in grams", 
+        "fat": "number - Fat in grams",
+        "carb": "number - Carbohydrates in grams",
+        "recipe": "string - Full recipe in markdown format"
+      }
+    },
+    
+    "alternative_formats": {
+      "simple_text_response": {
+        "description": "Plain text response (fallback)",
+        "example": "Here's a great recipe for chicken stir-fry: Heat oil in a pan, add chicken pieces and cook until golden. Add your favorite vegetables and stir-fry for 5-7 minutes. Season with soy sauce and serve over rice."
+      },
+      
+      "json_but_not_recipe": {
+        "description": "JSON response that doesn't match recipe format",
+        "example": {
+          "message": "I can help you with cooking questions!",
+          "suggestions": ["Upload a food image", "Ask about nutrition", "Request a specific recipe"],
+          "status": "ready"
+        }
+      },
+      
+      "recipe_with_minimal_data": {
+        "description": "Recipe with basic nutrition info",
+        "example": {
+          "dish": "Quick Pasta",
+          "kcal": 350,
+          "prot": 12,
+          "fat": 8,
+          "carb": 60,
+          "recipe": "## Quick Pasta\n\n1. Boil pasta according to package directions\n2. Drain and toss with olive oil\n3. Add salt and pepper to taste\n4. Serve immediately"
+        }
+      }
+    },
+    
+    "visualization_behavior": {
+      "structured_recipe": "Displays as RecipeCard component with nutrition macros, formatted recipe content, and action buttons (copy, print)",
+      "plain_text": "Displays as formatted text in a code block for debugging",
+      "invalid_json": "Displays as plain text without parsing"
+    },
+    
+    "recipe_card_features": {
+      "header": "Gradient background with dish name and macro nutrients",
+      "content": "Markdown-rendered recipe with custom styling for headers, lists, and emphasis",
+      "actions": [
+        "Copy recipe to clipboard with toast notification",
+        "Print recipe in formatted layout",
+        "Master Chef AI branding"
+      ],
+      "styling": "Responsive design with hover effects and Master Chef theme colors"
+    },
+    
+    "integration_notes": {
+      "parsing": "Frontend automatically detects JSON vs text responses",
+      "fallback": "Non-recipe JSON or plain text displays in fallback format", 
+      "validation": "All numeric fields (kcal, prot, fat, carb) must be present as numbers",
+      "markdown": "Recipe field supports full markdown syntax with custom component styling"
+    }
+  },
+  
+  "n8n_workflow_configuration": {
+    "webhook_url": "https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102",
+    "expected_request": {
+      "method": "POST",
+      "content_type": "multipart/form-data",
+      "fields": {
+        "file": "Binary image data",
+        "message": "JSON metadata with toolId, content, userId, etc."
+      }
+    },
+    "expected_response": {
+      "success": "Structured JSON recipe object as shown above",
+      "fallback": "Plain text recipe instructions",
+      "error": "HTTP error status with descriptive message"
+    }
+  }
+}
