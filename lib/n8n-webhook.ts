@@ -61,13 +61,17 @@ interface N8nWebhookResponse {
 class N8nWebhookClient {
   private readonly baseUrl: string;
   private readonly webhookPath: string;
+  private readonly directWebhookUrl: string;
   
   constructor() {
     // Use the webhook path from the n8n workflow configuration provided by user
     this.webhookPath = '4c6c4649-99ef-4598-b77b-6cb12ab6a102';
     
-    // Use local API proxy to avoid CORS issues
+    // Use local API proxy to avoid CORS issues for JSON requests
     this.baseUrl = '/api/generate';
+    
+    // Direct webhook URL for multipart/form-data uploads
+    this.directWebhookUrl = 'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102';
   }
 
   /**
@@ -313,6 +317,167 @@ class N8nWebhookClient {
   }
 
   /**
+   * Send file directly to N8N webhook using multipart/form-data
+   * This bypasses the API proxy and sends binary data directly
+   */
+  async sendFileToWebhook(
+    file: File,
+    toolId: string,
+    prompt: string = 'Analyze this food image',
+    userId?: string,
+    timeoutMs: number = 45000
+  ): Promise<N8nWebhookResponse> {
+    const startTime = Date.now();
+    
+    try {
+      console.log(`[N8N] Sending file directly to webhook: ${this.directWebhookUrl}`, {
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        toolId,
+        timeout: timeoutMs,
+        timestamp: new Date().toISOString(),
+      });
+
+      // Create FormData for multipart/form-data
+      const formData = new FormData();
+      formData.append('file', file); // Binary field name must match n8n webhook configuration
+      
+      // Add metadata as JSON string
+      formData.append('message', JSON.stringify({
+        toolId,
+        content: prompt,
+        userId,
+        timestamp: new Date().toISOString(),
+        sessionId: this.generateSessionId(),
+      }));
+
+      // Create AbortController for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+        console.warn(`[N8N] File upload timeout after ${timeoutMs}ms`);
+      }, timeoutMs);
+
+      const response = await fetch(this.directWebhookUrl, {
+        method: 'POST',
+        body: formData, // No Content-Type header - browser sets it with boundary
+        signal: controller.signal,
+        mode: 'cors', // Enable CORS for direct webhook calls
+      });
+
+      clearTimeout(timeoutId);
+      const processingTime = Date.now() - startTime;
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`[N8N] File upload failed:`, {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorText,
+          processingTime,
+        });
+
+        return {
+          success: false,
+          error: {
+            code: `HTTP_${response.status}`,
+            message: `File upload failed: ${response.statusText}`,
+            details: {
+              status: response.status,
+              response: errorText,
+              processingTime,
+            },
+          },
+        };
+      }
+
+      // Handle both JSON and text responses
+      const contentType = response.headers.get('content-type') || '';
+      let responseData: any;
+      let parsedResponse: string;
+
+      if (contentType.includes('application/json')) {
+        try {
+          responseData = await response.json();
+          parsedResponse = responseData.response || responseData.content || responseData.message || JSON.stringify(responseData);
+          
+          console.log(`[N8N] File upload successful (JSON):`, {
+            processingTime,
+            responseSize: JSON.stringify(responseData).length,
+            contentType,
+          });
+        } catch (jsonError: any) {
+          console.warn(`[N8N] JSON parsing failed, falling back to text:`, {
+            error: jsonError.message,
+            contentType,
+          });
+          
+          const text = await response.text();
+          parsedResponse = text || 'File processed successfully';
+          responseData = { response: parsedResponse };
+        }
+      } else {
+        const text = await response.text();
+        parsedResponse = text || 'File processed successfully';
+        responseData = { response: parsedResponse };
+        
+        console.log(`[N8N] File upload successful (text):`, {
+          processingTime,
+          responseSize: text.length,
+          contentType,
+        });
+      }
+
+      return {
+        success: true,
+        data: {
+          response: parsedResponse,
+          processingTime,
+          tokens: responseData.tokens || undefined,
+        },
+      };
+
+    } catch (error: any) {
+      const processingTime = Date.now() - startTime;
+      
+      console.error(`[N8N] File upload error:`, {
+        error: error.message,
+        errorName: error.name,
+        stack: error.stack,
+        processingTime,
+        fileName: file.name,
+        fileSize: file.size,
+      });
+
+      // Determine error type for better user feedback
+      let errorCode = 'NETWORK_ERROR';
+      let userMessage = error.message || 'File upload failed';
+      
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        errorCode = 'CONNECTION_ERROR';
+        userMessage = 'Unable to connect to the server. Please check your internet connection.';
+      } else if (error.name === 'AbortError') {
+        errorCode = 'TIMEOUT_ERROR';
+        userMessage = 'File upload timed out. The file may be too large or the server is busy.';
+      }
+
+      return {
+        success: false,
+        error: {
+          code: errorCode,
+          message: userMessage,
+          details: {
+            processingTime,
+            originalError: error.message,
+            timestamp: new Date().toISOString(),
+          },
+        },
+      };
+    }
+  }
+
+  /**
    * Send request with retry logic for better reliability
    */
   async sendWebhookRequestWithRetry(
@@ -352,6 +517,52 @@ class N8nWebhookClient {
       error: lastError || {
         code: 'MAX_RETRIES_EXCEEDED',
         message: 'Request failed after maximum retry attempts',
+      },
+    };
+  }
+
+  /**
+   * Send file with retry logic for better reliability
+   */
+  async sendFileToWebhookWithRetry(
+    file: File,
+    toolId: string,
+    prompt: string = 'Analyze this food image',
+    userId?: string,
+    maxRetries: number = 2,
+    timeoutMs: number = 45000
+  ): Promise<N8nWebhookResponse> {
+    let lastError: any;
+    
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      if (attempt > 0) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(`[N8N] File upload retry attempt ${attempt}/${maxRetries} after ${delay}ms delay`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+      
+      try {
+        const response = await this.sendFileToWebhook(file, toolId, prompt, userId, timeoutMs);
+        if (response.success || attempt === maxRetries) {
+          return response;
+        }
+        lastError = response.error;
+      } catch (error: any) {
+        lastError = error;
+        if (attempt === maxRetries) {
+          console.error(`[N8N] All file upload retry attempts failed:`, {
+            attempts: maxRetries + 1,
+            finalError: error.message,
+          });
+        }
+      }
+    }
+    
+    return {
+      success: false,
+      error: lastError || {
+        code: 'MAX_RETRIES_EXCEEDED',
+        message: 'File upload failed after maximum retry attempts',
       },
     };
   }

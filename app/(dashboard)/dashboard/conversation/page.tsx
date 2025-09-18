@@ -179,23 +179,8 @@ const ConversationPage = () => {
       // Initialize n8n webhook client
       const webhookClient = new N8nWebhookClient();
       
-      // Build the payload for n8n webhook with a default prompt for image analysis
+      // Default prompt for image analysis
       const defaultPrompt = `Analyze this food image and provide recipe suggestions, nutritional information, or cooking recommendations based on what you see.`;
-      
-      const payload = webhookClient.buildWebhookPayload(
-        defaultPrompt,
-        toolId,
-        currentTool,
-        uploadedImage,
-        userId || undefined
-      );
-      
-      // Validate payload before sending
-      const validation = webhookClient.validatePayload(payload);
-      if (!validation.valid) {
-        toast.error(`Validation failed: ${validation.errors.join(', ')}`);
-        return;
-      }
 
       // Create user message for UI
       const userMessage: ChatCompletionRequestMessage = {
@@ -206,8 +191,15 @@ const ConversationPage = () => {
       // Add user message to UI immediately
       setMessages((current) => [...current, userMessage]);
 
-      // Send request to n8n webhook with retry logic
-      const webhookResponse = await webhookClient.sendWebhookRequestWithRetry(payload, 2, 45000);
+      // Send file directly to n8n webhook using multipart/form-data with retry logic
+      const webhookResponse = await webhookClient.sendFileToWebhookWithRetry(
+        uploadedImage,
+        toolId,
+        defaultPrompt,
+        userId || undefined,
+        2, // maxRetries
+        45000 // timeoutMs
+      );
 
       if (webhookResponse.success && webhookResponse.data) {
         // Add assistant response to UI
