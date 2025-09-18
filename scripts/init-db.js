@@ -2,6 +2,18 @@
 const { PrismaClient } = require('@prisma/client');
 
 async function initDatabase() {
+  // Skip database initialization in production build environments
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    console.log('🚀 Skipping database initialization in production build environment');
+    return;
+  }
+
+  // Check if DATABASE_URL is available
+  if (!process.env.DATABASE_URL) {
+    console.log('⚠️  DATABASE_URL not found, skipping database initialization');
+    return;
+  }
+
   const prisma = new PrismaClient();
   
   try {
