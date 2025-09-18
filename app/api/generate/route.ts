@@ -1,85 +1,74 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
+  const startTime = Date.now();
+  
+  // Get webhook URL from environment variables
+  const WEBHOOK_URL = process.env.N8N_WEBHOOK_URL ?? process.env.WEBHOOK_URL;
+  if (!WEBHOOK_URL) {
+    console.error('[API] N8N webhook URL not configured');
+    return NextResponse.json({ error: 'Webhook URL not configured' }, { status: 500 });
+  }
+
+  // Parse request payload
+  let payload: unknown = {};
+  try { 
+    payload = await req.json(); 
+  } catch (e) {
+    console.warn('[API] Failed to parse JSON payload, using empty object');
+  }
+
+  // Log request details
+  const body = payload as any;
+  console.log(`[API] Proxying request to N8N webhook: ${WEBHOOK_URL}`, {
+    toolId: body.tool?.id,
+    messageLength: body.message?.content?.length,
+    hasImage: !!body.image,
+  });
+
   try {
-    // Get the N8N webhook URL from environment variables
-    const webhookUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
-    
-    if (!webhookUrl) {
-      console.error('[API] N8N webhook URL not configured');
-      return NextResponse.json(
-        { error: 'Webhook URL not configured' },
-        { status: 500 }
-      );
-    }
+    // Create AbortController for timeout (30 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    // Get the request body
-    const body = await request.json();
-    
-    console.log(`[API] Proxying request to N8N webhook: ${webhookUrl}`, {
-      toolId: body.tool?.id,
-      messageLength: body.message?.content?.length,
-      hasImage: !!body.image,
-    });
-
-    // Forward the request to N8N webhook
-    const response = await fetch(webhookUrl, {
+    const n8nRes = await fetch(WEBHOOK_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'YumMi-WebApp/1.0',
-      },
-      body: JSON.stringify(body),
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`[API] N8N webhook request failed:`, {
-        status: response.status,
-        statusText: response.statusText,
-        error: errorText,
-      });
-
-      return NextResponse.json(
-        { 
-          error: 'Webhook request failed',
-          details: {
-            status: response.status,
-            message: response.statusText,
-          }
-        },
-        { status: response.status }
-      );
-    }
-
-    // Get the response data
-    const responseData = await response.json();
+    clearTimeout(timeoutId);
+    const processingTime = Date.now() - startTime;
     
-    console.log(`[API] N8N webhook request successful:`, {
-      responseSize: JSON.stringify(responseData).length,
+    // Get response text (handles both JSON and plain text)
+    const text = await n8nRes.text();
+    
+    console.log(`[API] N8N webhook response:`, {
+      status: n8nRes.status,
+      processingTime,
+      responseSize: text.length,
     });
 
-    // Return the response data
-    return NextResponse.json({
-      success: true,
-      data: {
-        response: responseData.response || responseData.content || 'Response received',
-        tokens: responseData.tokens,
-      },
+    // Return response with same status and content-type as N8N
+    return new NextResponse(text, {
+      status: n8nRes.status,
+      headers: { 'content-type': n8nRes.headers.get('content-type') || 'application/json' },
     });
 
-  } catch (error: any) {
-    console.error(`[API] Webhook proxy error:`, {
-      error: error.message,
-      stack: error.stack,
+  } catch (e: any) {
+    const processingTime = Date.now() - startTime;
+    
+    console.error('[API] Upstream n8n call failed:', {
+      error: e.name,
+      message: e.message,
+      processingTime,
     });
 
-    return NextResponse.json(
-      { 
-        error: 'Internal server error',
-        message: error.message 
-      },
-      { status: 500 }
-    );
+    if (e.name === 'AbortError') {
+      return NextResponse.json({ error: 'Request timeout' }, { status: 504 });
+    }
+    
+    return NextResponse.json({ error: 'Upstream n8n call failed' }, { status: 502 });
   }
 }
