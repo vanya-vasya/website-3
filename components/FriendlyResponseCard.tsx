@@ -50,37 +50,45 @@ export function FriendlyResponseCard({
             <div className="flex items-start gap-3">
               <Sparkles className="h-5 w-5 text-emerald-600 mt-1 flex-shrink-0" />
               <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                {response.mainContent}
+                <div dangerouslySetInnerHTML={{ 
+                  __html: response.mainContent
+                    .replace(/\*\*/g, '') // Remove ** formatting
+                    .replace(/\*/g, '')   // Remove * characters
+                    .replace(/—/g, '-')   // Replace em dash with regular dash  
+                    .replace(/#/g, '')    // Remove # characters
+                    .replace(/(protein|calories|hydration|balance|portion|nutrition)/gi, '<strong class="text-emerald-700">$&</strong>') // Bold key terms
+                }} />
               </div>
             </div>
           </div>
         )}
         
-        {/* Action items with enhanced header */}
+        {/* Action items */}
         {response.actionItems.length > 0 && (
           <div className="space-y-4">
-            <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-4 rounded-lg">
-              <h3 className="text-xl font-bold text-white flex items-center gap-3">
-                <Target className="h-6 w-6" />
-                🎯 Your Nutrition Blueprint
-              </h3>
-              <p className="text-emerald-100 text-sm mt-1">Simple steps to transform your health</p>
-            </div>
+            <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+              <Target className="h-5 w-5 text-emerald-600" />
+              🎯 Your Nutrition Blueprint
+            </h3>
             
             <div className="space-y-3">
               {response.actionItems.map((item, index) => (
                 <div 
                   key={index}
-                  className="flex items-start gap-4 p-5 bg-white rounded-xl border-l-4 border-emerald-500 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.01]"
+                  className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200"
                 >
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0">
-                    <span className="text-white font-bold text-lg">{index + 1}</span>
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                    <span className="text-emerald-600 font-semibold text-sm">{index + 1}</span>
                   </div>
                   <div className="text-gray-700 leading-relaxed flex-1">
                     <div dangerouslySetInnerHTML={{ 
                       __html: item
-                        .replace(/\*\*(.*?)\*\*/g, '<strong class="text-emerald-700">$1</strong>')
-                        .replace(/^[^:]+:/, '<span class="text-emerald-800 font-semibold">$&</span>')
+                        .replace(/\*\*/g, '') // Remove ** formatting
+                        .replace(/\*/g, '')   // Remove * characters
+                        .replace(/—/g, '-')   // Replace em dash with regular dash  
+                        .replace(/#/g, '')    // Remove # characters
+                        .replace(/([A-Z][a-z]+:)/g, '<strong class="text-emerald-700">$1</strong>') // Bold headers like "Balance:"
+                        .replace(/(protein|calories|hydration|balance|portion)/gi, '<strong class="text-emerald-700">$&</strong>') // Bold key nutrition terms
                     }} />
                   </div>
                 </div>
@@ -89,30 +97,28 @@ export function FriendlyResponseCard({
           </div>
         )}
         
-        {/* Next steps with enhanced styling */}
+        {/* Next steps */}
         {response.nextSteps && (
-          <div className="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 rounded-xl p-6 border-l-4 border-amber-400 shadow-sm">
-            <div className="bg-gradient-to-r from-amber-500 to-orange-500 -mx-6 -mt-6 mb-4 p-4 rounded-t-xl">
-              <h3 className="text-xl font-bold text-white flex items-center gap-3">
-                <Lightbulb className="h-6 w-6" />
-                🚀 Next Steps
-              </h3>
-              <p className="text-amber-100 text-sm mt-1">Ready to take action?</p>
-            </div>
-            <div className="text-amber-800 leading-relaxed text-lg font-medium">
-              {response.nextSteps}
-            </div>
+          <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-6 border border-amber-200">
+            <h3 className="text-lg font-semibold text-amber-800 mb-3 flex items-center gap-2">
+              <Lightbulb className="h-5 w-5" />
+              Next Steps
+            </h3>
+            <div className="text-amber-700 leading-relaxed" dangerouslySetInnerHTML={{ 
+              __html: response.nextSteps
+                ?.replace(/\*\*/g, '') // Remove ** formatting
+                .replace(/\*/g, '')   // Remove * characters
+                .replace(/—/g, '-')   // Replace em dash with regular dash  
+                .replace(/#/g, '')    // Remove # characters
+                .replace(/(goals|preferences|plan|energy|muscle|weight)/gi, '<strong class="text-amber-700">$&</strong>') // Bold key terms
+              || ''
+            }} />
           </div>
         )}
         
-        {/* Encouragement with enhanced styling */}
-        <div className="text-center p-8 bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 rounded-2xl border border-purple-200 shadow-sm">
-          <div className="text-4xl mb-4 animate-bounce">{response.emoji}</div>
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            <p className="font-bold text-xl leading-relaxed mb-2">
-              ✨ You've Got This! ✨
-            </p>
-          </div>
+        {/* Encouragement */}
+        <div className="text-center p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+          <div className="text-2xl mb-2">{response.emoji}</div>
           <p className="text-purple-800 font-medium text-lg italic leading-relaxed">
             {response.encouragement}
           </p>

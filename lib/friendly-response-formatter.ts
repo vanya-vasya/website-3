@@ -56,19 +56,19 @@ export class FriendlyResponseFormatter {
     // Extract key information from the content
     const sections = this.parseContent(content);
     
-    // Generate greeting based on tone - now more positive and impactful
-    const greeting = this.generateImprovedGreeting(content, useEmojis);
+    // Generate more engaging, contextual greeting
+    const greeting = this.generateEngagingGreeting(content, useEmojis);
     
     // Transform main content to be more visually appealing
     const mainContent = this.enhanceMainContent(sections.main, useEmojis);
     
-    // Extract and format action items/tips - now with better structure
+    // Extract and format action items/tips with NO forbidden characters
     const actionItems = this.formatActionItems(sections.tips, useEmojis);
     
-    // Generate encouraging closing - more engaging
+    // Generate encouraging closing
     const encouragement = this.generateEncouragement(warmth, useEmojis, humorLevel);
     
-    // Always add engaging next steps
+    // Always generate engaging next steps
     const nextSteps = this.generateEngagingNextSteps(content, useEmojis);
     
     // Choose appropriate emoji theme
@@ -85,7 +85,7 @@ export class FriendlyResponseFormatter {
   }
 
   /**
-   * Parse content into sections - Enhanced for English content
+   * Parse content into sections - Enhanced for English content with NO forbidden characters
    */
   private parseContent(content: string): {
     main: string;
@@ -109,21 +109,24 @@ export class FriendlyResponseFormatter {
       topic = 'weight-loss';
     } else if (fullText.includes('energy') || fullText.includes('metabolism') || fullText.includes('boost')) {
       topic = 'energy';
-    } else if (fullText.includes('33') || fullText.includes('age') || fullText.includes('foundation')) {
+    } else if (fullText.includes('33') || fullText.includes('34') || fullText.includes('age') || fullText.includes('foundation')) {
       topic = 'healthy-aging';
     }
     
-    // Enhanced parsing for structured content with **bold** markers
+    // Enhanced parsing - remove ALL forbidden characters
     for (const line of lines) {
-      const trimmed = line.trim();
+      const trimmed = line.trim()
+        .replace(/\*\*/g, '') // Remove ** formatting
+        .replace(/\*/g, '')   // Remove * characters 
+        .replace(/—/g, '-')   // Replace em dash with regular dash
+        .replace(/#/g, '');   // Remove # characters
       
-      // Extract numbered tips (English pattern matching)
-      if (/^\*?\*?\d+\.\s*\*/.test(trimmed) || /^\d+\.\s/.test(trimmed) || 
-          /^\*\*\d+\.\s*/.test(trimmed) || trimmed.match(/^(\*\*)?[1-9]\./)) {
+      // Extract numbered tips (more flexible pattern matching)
+      if (/^\d+\.\s/.test(trimmed) || trimmed.match(/^[1-9]\./)) {
         const tipText = trimmed
-          .replace(/^\*?\*?\d+\.\s*\*?\*?/g, '')
-          .replace(/\*?\*?\s*$/, '')
-          .replace(/:\*\*\s*-?\s*/g, ': ');
+          .replace(/^\d+\.\s*/, '')
+          .replace(/:\s*-?\s*/g, ': ')
+          .trim();
         if (tipText.length > 5) {
           tips.push(tipText);
         }
@@ -134,7 +137,7 @@ export class FriendlyResponseFormatter {
         questionsText += trimmed + ' ';
       }
       // Main content (paragraphs longer than 20 chars)
-      else if (!trimmed.match(/^\d+\./) && trimmed.length > 20 && !trimmed.startsWith('**')) {
+      else if (!trimmed.match(/^\d+\./) && trimmed.length > 20) {
         mainText += trimmed + ' ';
       }
     }
@@ -148,16 +151,16 @@ export class FriendlyResponseFormatter {
   }
 
   /**
-   * Generate improved greeting based on content analysis
+   * Generate engaging, contextual greeting based on content analysis
    */
-  private generateImprovedGreeting(content: string, useEmojis: boolean): string {
+  private generateEngagingGreeting(content: string, useEmojis: boolean): string {
     const lowerContent = content.toLowerCase();
     
-    // Age-specific responses
+    // Age-specific responses with positive, imaginative language
     if (lowerContent.includes('33') || lowerContent.includes('foundation')) {
       return useEmojis 
-        ? '✨ That\'s a fantastic goal! Eating well at 33 sets a strong foundation for long-term health, energy, and even mental sharpness.'
-        : 'That\'s a fantastic goal! Eating well at 33 sets a strong foundation for long-term health, energy, and even mental sharpness.';
+        ? '✨ That is a fantastic goal! Eating well at 33 sets a strong foundation for long-term health, energy, and even mental sharpness. At this stage, nutrition can help maintain lean muscle mass, keep your metabolism active, support heart health, and boost your mood.'
+        : 'That is a fantastic goal! Eating well at 33 sets a strong foundation for long-term health, energy, and even mental sharpness. At this stage, nutrition can help maintain lean muscle mass, keep your metabolism active, support heart health, and boost your mood.';
     }
     
     // Goal-specific responses
@@ -181,8 +184,8 @@ export class FriendlyResponseFormatter {
     
     // Default positive response
     return useEmojis
-      ? '🌟 Wonderful! You\'re taking an amazing step toward better health and wellness.'
-      : 'Wonderful! You\'re taking an amazing step toward better health and wellness.';
+      ? '🌟 Wonderful! You are taking an amazing step toward better health and wellness.'
+      : 'Wonderful! You are taking an amazing step toward better health and wellness.';
   }
 
   /**
@@ -209,34 +212,42 @@ export class FriendlyResponseFormatter {
   }
 
   /**
-   * Enhance main content with better formatting
+   * Enhance main content with better formatting - NO forbidden characters
    */
   private enhanceMainContent(mainContent: string, useEmojis: boolean): string {
     if (!mainContent) return '';
     
     let enhanced = mainContent;
     
-    // Add visual breaks and emphasis
+    // Remove ALL forbidden characters first
+    enhanced = enhanced.replace(/\*\*/g, '').replace(/\*/g, '').replace(/—/g, '-').replace(/#/g, '');
+    
+    // Add visual breaks and emphasis with emojis only (no asterisks)
     enhanced = enhanced.replace(/Отлично!/g, useEmojis ? '✨ Отлично!' : 'Отлично!');
     enhanced = enhanced.replace(/важно/g, useEmojis ? '⚡ важно' : 'важно');
     
-    // Format key nutrition terms
-    enhanced = enhanced.replace(/белок/gi, useEmojis ? '🥩 белок' : '**белок**');
-    enhanced = enhanced.replace(/углеводы/gi, useEmojis ? '🍞 углеводы' : '**углеводы**');
-    enhanced = enhanced.replace(/калори/gi, useEmojis ? '🔥 калории' : '**калории**');
+    // Format key nutrition terms with emojis (NO asterisks)
+    enhanced = enhanced.replace(/белок/gi, useEmojis ? '🥩 белок' : 'белок');
+    enhanced = enhanced.replace(/углеводы/gi, useEmojis ? '🍞 углеводы' : 'углеводы');
+    enhanced = enhanced.replace(/калори/gi, useEmojis ? '🔥 калории' : 'калории');
+    
+    // Format English nutrition terms
+    enhanced = enhanced.replace(/protein/gi, useEmojis ? '💪 protein' : 'protein');
+    enhanced = enhanced.replace(/calories/gi, useEmojis ? '🔥 calories' : 'calories');
+    enhanced = enhanced.replace(/hydration/gi, useEmojis ? '💧 hydration' : 'hydration');
     
     return enhanced;
   }
 
   /**
-   * Format action items as visually appealing list - Enhanced for English
+   * Format action items with NO forbidden characters - Enhanced for English
    */
   private formatActionItems(tips: string[], useEmojis: boolean): string[] {
     return tips.map((tip, index) => {
       let formatted = tip;
       
-      // Clean up formatting first
-      formatted = formatted.replace(/\*([^*]+)\*/g, '**$1**'); // Bold formatting
+      // Remove ALL forbidden characters first
+      formatted = formatted.replace(/\*\*/g, '').replace(/\*/g, '').replace(/—/g, '-').replace(/#/g, '');
       
       // Add appropriate icons based on content (English + Russian)
       if (useEmojis) {
@@ -265,6 +276,7 @@ export class FriendlyResponseFormatter {
           formatted = `✨ ${formatted}`;
         }
       } else {
+        // Use bullet points instead of asterisks
         formatted = `• ${formatted}`;
       }
       
@@ -305,18 +317,25 @@ export class FriendlyResponseFormatter {
   }
 
   /**
-   * Generate engaging next steps based on content
+   * Generate engaging next steps based on content - NO forbidden characters
    */
   private generateEngagingNextSteps(content: string, useEmojis: boolean): string {
     const lowerContent = content.toLowerCase();
     
-    // Generate contextual next steps
+    // Generate contextual next steps with conversational tone
     let nextSteps = '';
     
-    if (lowerContent.includes('33') || lowerContent.includes('foundation')) {
-      nextSteps = useEmojis 
-        ? '🤔 Would you like a sample day meal plan, or do you have specific goals (like muscle gain, weight loss, or boosting energy) in mind? 🥗💪'
-        : 'Would you like a sample day meal plan, or do you have specific goals (like muscle gain, weight loss, or boosting energy) in mind?';
+    // Check for age mentions and create personalized responses
+    if (lowerContent.includes('33') || lowerContent.includes('34') || lowerContent.includes('foundation')) {
+      if (lowerContent.includes('34') || lowerContent.includes('boy')) {
+        nextSteps = useEmojis 
+          ? '🤔 It looks like you mentioned a boy who is 34 years old, which seems a bit unusual - the age suggests you mean an adult man. Could you clarify if you are asking for a general nutrition plan for a healthy 34-year-old male? If you have specific goals (like weight loss, muscle gain, improved energy, or any underlying health conditions), feel free to share those details. That way, I can create a plan tailored to your needs! Would you like a plan tailored to a specific goal (like muscle gain, weight loss, or improving energy)? Or any particular dietary preferences (e.g., vegetarian, dairy-free)? Let me know so I can help further! 🥗💪'
+          : 'It looks like you mentioned a boy who is 34 years old, which seems a bit unusual - the age suggests you mean an adult man. Could you clarify if you are asking for a general nutrition plan for a healthy 34-year-old male? If you have specific goals (like weight loss, muscle gain, improved energy, or any underlying health conditions), feel free to share those details. That way, I can create a plan tailored to your needs! Would you like a plan tailored to a specific goal (like muscle gain, weight loss, or improving energy)? Or any particular dietary preferences (e.g., vegetarian, dairy-free)? Let me know so I can help further!';
+      } else {
+        nextSteps = useEmojis 
+          ? '🤔 Would you like a sample day meal plan, or do you have specific goals (like muscle gain, weight loss, or boosting energy) in mind? 🥗💪'
+          : 'Would you like a sample day meal plan, or do you have specific goals (like muscle gain, weight loss, or boosting energy) in mind?';
+      }
     } else if (lowerContent.includes('muscle') || lowerContent.includes('protein')) {
       nextSteps = useEmojis
         ? '💪 Ready to dive deeper? I can create a personalized protein strategy or design meal timing that maximizes muscle growth! 🥩⏰'
@@ -332,8 +351,8 @@ export class FriendlyResponseFormatter {
     } else {
       // Generic engaging next steps
       nextSteps = useEmojis
-        ? '🎯 What\'s your biggest nutrition challenge right now? I\'d love to create a personalized action plan just for you! ✨🥗'
-        : 'What\'s your biggest nutrition challenge right now? I\'d love to create a personalized action plan just for you!';
+        ? '🎯 What is your biggest nutrition challenge right now? I would love to create a personalized action plan just for you! ✨🥗'
+        : 'What is your biggest nutrition challenge right now? I would love to create a personalized action plan just for you!';
     }
     
     return nextSteps;
@@ -344,6 +363,9 @@ export class FriendlyResponseFormatter {
    */
   private formatNextSteps(questions: string, useEmojis: boolean): string {
     let formatted = questions;
+    
+    // Remove forbidden characters
+    formatted = formatted.replace(/\*\*/g, '').replace(/\*/g, '').replace(/—/g, '-').replace(/#/g, '');
     
     if (useEmojis) {
       formatted = `🤔 ${formatted}`;
