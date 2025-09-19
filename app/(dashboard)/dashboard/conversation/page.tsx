@@ -24,19 +24,22 @@ import { Activity, Target, AlertCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { RecipeCard } from "@/components/RecipeCard";
 import { FriendlyResponseCard } from "@/components/FriendlyResponseCard";
+import { CalTrackerResponseCard } from "@/components/CalTrackerResponseCard";
 import { friendlyFormatter, FriendlyResponse } from "@/lib/friendly-response-formatter";
+import { calTrackerFormatter, CalTrackerResponse } from "@/lib/cal-tracker-formatter";
 
 import { getFormSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE, tools } from "@/constants";
 import { N8nWebhookClient } from "@/lib/n8n-webhook";
 import { getApiAvailableGenerations, getApiUsedGenerations } from "@/lib/api-limit";
 
-// Define ChatCompletionRequestMessage type locally with friendly response support
+// Define ChatCompletionRequestMessage type locally with enhanced response support
 type ChatCompletionRequestMessage = {
   role: 'user' | 'system' | 'assistant';
   content: string;
   recipeData?: Recipe; // Optional recipe data for structured responses
   friendlyResponse?: FriendlyResponse; // Friendly formatted response for Master Nutritionist
+  calTrackerResponse?: CalTrackerResponse; // Formatted response for Cal Tracker
 };
 
 // Recipe type for structured recipe responses
@@ -299,6 +302,17 @@ const ConversationPage = () => {
           };
           
           successMessage = `✨ Personalized nutrition guidance ready in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s!`;
+        } else if (toolId === 'cal-tracker') {
+          // Handle Cal-Tracker responses with positive, imaginative formatting
+          const calTrackerResponse = calTrackerFormatter.formatResponse(webhookResponse.data.response);
+          
+          assistantMessage = {
+            role: "assistant",
+            content: calTrackerResponse.greeting, // Use greeting as main content
+            calTrackerResponse: calTrackerResponse, // Include full cal tracker response data
+          };
+          
+          successMessage = `🎯 Amazing nutrition analysis complete in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s!`;
         } else {
           // Handle other tools with recipe parsing
           const parsedResponse = parseRecipeResponse(webhookResponse.data.response);
@@ -571,7 +585,7 @@ const ConversationPage = () => {
                     <p className="text-sm font-medium">
                       {message.role === "user" ? "You" : "Master Chef"}
                     </p>
-                    {!message.recipeData && (
+                    {!message.recipeData && !message.calTrackerResponse && (
                       <p className="text-sm mt-1">{message.content}</p>
                     )}
                   </div>
@@ -588,8 +602,18 @@ const ConversationPage = () => {
                   </div>
                 )}
 
+                {/* Cal-Tracker response card for positive, imaginative nutrition analysis */}
+                {message.role === "assistant" && message.calTrackerResponse && (
+                  <div className="w-full">
+                    <CalTrackerResponseCard 
+                      response={message.calTrackerResponse} 
+                      gradient={currentTool.gradient}
+                    />
+                  </div>
+                )}
+
                 {/* Recipe card for structured responses */}
-                {message.role === "assistant" && message.recipeData && !message.friendlyResponse && (
+                {message.role === "assistant" && message.recipeData && !message.friendlyResponse && !message.calTrackerResponse && (
                   <div className="w-full">
                     <RecipeCard 
                       data={message.recipeData} 
@@ -599,7 +623,7 @@ const ConversationPage = () => {
                 )}
 
                 {/* Fallback text for non-structured assistant responses */}
-                {message.role === "assistant" && !message.recipeData && !message.friendlyResponse && (
+                {message.role === "assistant" && !message.recipeData && !message.friendlyResponse && !message.calTrackerResponse && (
                   <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
                     <pre className="text-sm text-gray-700 whitespace-pre-wrap font-mono bg-gray-50 p-3 rounded border">
                       {message.content}
