@@ -101,7 +101,7 @@ const toolConfigs = {
   },
   'cal-tracker': {
     title: 'Cal Tracker',
-    description: 'Intelligent calorie and nutrient tracking with real-time insights, progress monitoring, and personalized recommendations\nPrice: 50 Tokens',
+    description: 'Intelligent calorie and nutrient tracking\nPrice: Free',
     iconName: 'Target',
     iconColor: 'text-blue-600',
     bgColor: 'bg-blue-600/10',
@@ -133,7 +133,7 @@ const ConversationPage = () => {
     const prices = {
       'master-chef': 0, // Free tool - always enabled regardless of credit balance
       'master-nutritionist': 0, // Free tool - always enabled regardless of credit balance
-      'cal-tracker': 50,
+      'cal-tracker': 0, // Free tool - always enabled regardless of credit balance
     };
     return prices[toolId as keyof typeof prices] ?? 100; // Use ?? instead of || to handle 0 values correctly
   };
@@ -452,7 +452,7 @@ const ConversationPage = () => {
                   <div className="text-center mb-4">
                     <h3 className="text-lg font-medium mb-2">Upload Food Image</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      Upload an image of food and our AI will analyze it to provide recipes, nutrition info, and cooking suggestions.
+                      Upload an image of food and our AI will analyze it to provide nutrition data.
                     </p>
                   </div>
                   <FormField

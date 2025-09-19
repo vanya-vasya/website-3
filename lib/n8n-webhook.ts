@@ -71,8 +71,8 @@ class N8nWebhookClient {
     // Use local API proxy to avoid CORS issues for JSON requests
     this.baseUrl = '/api/generate';
     
-    // Direct webhook URL for multipart/form-data uploads
-    this.directWebhookUrl = 'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102';
+    // Direct webhook URL for multipart/form-data uploads (updated for cal-tracker)
+    this.directWebhookUrl = 'https://vanya-vasya.app.n8n.cloud/webhook/02d7bdba-03a4-4f98-bc49-c44d32349a47';
     
     // Production webhook URL for Master Nutritionist (configurable via env vars)
     this.productionWebhookUrl = process.env.NEXT_PUBLIC_N8N_MASTER_NUTRITIONIST_URL || 
@@ -788,7 +788,7 @@ class N8nWebhookClient {
     const prices = {
       'master-chef': 0, // Free tool - always enabled regardless of credit balance
       'master-nutritionist': 0, // Free tool - always enabled regardless of credit balance
-      'cal-tracker': 50,
+      'cal-tracker': 0, // Free tool - always enabled regardless of credit balance
     };
     
     // Use nullish coalescing to allow 0 values (|| would treat 0 as falsy)
