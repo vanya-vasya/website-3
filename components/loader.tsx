@@ -3,7 +3,7 @@ import { Hourglass } from "lucide-react";
 
 export const Loader = () => {
   return (
-    <div className="h-full flex flex-col gap-y-4 items-center justify-center bg-slate-900">
+    <div className="h-full flex flex-col gap-y-4 items-center justify-center bg-white">
       {/* Yum-mi Logo */}
       <div className="w-12 h-12 relative mb-2">
         <Image
@@ -23,11 +23,6 @@ export const Loader = () => {
           }}
         />
       </div>
-      
-      {/* Loading text */}
-      <p className="text-sm text-muted-foreground">
-        Yum-mi is thinking...
-      </p>
     </div>
   );
 };
