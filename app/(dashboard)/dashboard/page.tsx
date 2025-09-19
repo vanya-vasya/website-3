@@ -44,7 +44,7 @@ const nutritionTools = [
     id: "master-chef",
     label: "Master Chef",
     icon: Crown,
-    description: "Your personal nutrition coach providing expert meal planning, dietary analysis, and personalized nutrition strategies for optimal health",
+    description: "Snap your ingredients. We will turn them into nourishing recipes, complete with a full nutritional breakdown. Because eating well should be that simple",
     href: "/dashboard/conversation",
     color: "from-amber-400 via-orange-500 to-red-600",
     bgGradient: "from-amber-400/10 via-orange-500/10 to-red-600/10",

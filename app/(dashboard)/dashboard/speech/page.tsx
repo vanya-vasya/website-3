@@ -127,7 +127,7 @@ const SpeechPage = () => {
             </div>
           )}
           {speechList.length === 0 && !isLoading && (
-            <Empty label="It's empty ¯\_(ツ)_/¯" />
+            <Empty label="No speech generated yet" />
           )}
           <div className="space-y-4">
             {speechList.map((speech, index) => (

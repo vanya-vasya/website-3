@@ -78,7 +78,7 @@ const parseRecipeResponse = (response: string): { text: string; recipe?: Recipe 
 const toolConfigs = {
   'master-chef': {
     title: 'Master Chef',
-    description: 'Your personal nutrition coach providing expert meal planning, dietary analysis, and personalized nutrition strategies for optimal health\nPrice: Free',
+    description: 'Snap your ingredients. We will turn them into nourishing recipes, complete with a full nutritional breakdown. Because eating well should be that simple\nPrice: Free',
     iconName: 'Crown',
     iconColor: 'text-amber-600',
     bgColor: 'bg-amber-600/10',
@@ -419,7 +419,7 @@ const ConversationPage = () => {
           )}
           {messages.length === 0 && !isLoading && (
             <Empty 
-              label="It's empty ¯\_(ツ)_/¯" 
+              label="No messages yet"
               gradient={currentTool.gradient}
             />
           )}
