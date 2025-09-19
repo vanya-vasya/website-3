@@ -36,6 +36,10 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
   let webhookClient: N8nWebhookClient;
 
   beforeEach(() => {
+    // Reset environment variables for clean testing
+    delete process.env.NEXT_PUBLIC_N8N_MASTER_NUTRITIONIST_URL;
+    delete process.env.NEXT_PUBLIC_N8N_AUTH_TOKEN;
+    
     webhookClient = new N8nWebhookClient();
     mockFetch.mockClear();
     (console.log as jest.Mock).mockClear();
@@ -43,9 +47,9 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
   });
 
   describe('sendDescriptionToWebhook', () => {
-    const validDescription = 'Analyze nutrition: https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102';
+    const testDescription = 'I struggle with meal planning and need help creating balanced, nutritious meals for my family of four.';
 
-    it('should extract N8N URL from description and send request', async () => {
+    it('should send request to production webhook URL directly', async () => {
       const mockResponse = {
         ok: true,
         json: async () => ({ analysis: 'nutritional data processed' }),
@@ -53,7 +57,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       mockFetch.mockResolvedValue(mockResponse as any);
 
       const result = await webhookClient.sendDescriptionToWebhook(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123'
       );
@@ -64,8 +68,12 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
           method: 'POST',
           headers: expect.objectContaining({
             'Content-Type': 'application/json',
+            'X-Request-ID': expect.stringMatching(/^req_\d+_[a-z0-9]+$/),
+            'X-User-Agent': 'test-agent',
           }),
           body: expect.stringContaining('master-nutritionist'),
+          signal: expect.any(Object),
+          mode: 'cors',
         })
       );
 
@@ -81,7 +89,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       mockFetch.mockResolvedValue(mockResponse as any);
 
       await webhookClient.sendDescriptionToWebhook(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123'
       );
@@ -91,7 +99,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
 
       expect(payload).toMatchObject({
         message: {
-          content: validDescription,
+          content: testDescription,
           role: 'user',
           timestamp: expect.any(String),
           sessionId: expect.any(String),
@@ -110,23 +118,64 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
           source: 'yum-mi-web-app',
           version: '1.0',
           timestamp: expect.any(String),
-          userAgent: 'test-agent',
+          userAgent: 'test-agent', // Uses mock navigator in tests
           locale: 'en-US',
         },
       });
     });
 
-    it('should fail when N8N URL is not found in description', async () => {
-      const invalidDescription = 'Analyze nutrition without URL';
+    it('should use custom webhook URL from environment variable', async () => {
+      const customUrl = 'https://custom.app.n8n.cloud/webhook/custom-id';
+      process.env.NEXT_PUBLIC_N8N_MASTER_NUTRITIONIST_URL = customUrl;
+      
+      const customWebhookClient = new N8nWebhookClient();
+      
+      const mockResponse = {
+        ok: true,
+        json: async () => ({ success: true }),
+      };
+      mockFetch.mockResolvedValue(mockResponse as any);
 
-      const result = await webhookClient.sendDescriptionToWebhook(
-        invalidDescription,
+      await customWebhookClient.sendDescriptionToWebhook(
+        testDescription,
         'master-nutritionist',
         'user123'
       );
 
-      expect(result.success).toBe(false);
-      expect(result.error?.message).toContain('N8N webhook URL not found');
+      expect(mockFetch).toHaveBeenCalledWith(
+        customUrl,
+        expect.objectContaining({
+          method: 'POST',
+        })
+      );
+    });
+    
+    it('should include auth token in headers when provided', async () => {
+      const authToken = 'test-auth-token-123';
+      process.env.NEXT_PUBLIC_N8N_AUTH_TOKEN = authToken;
+      
+      const customWebhookClient = new N8nWebhookClient();
+      
+      const mockResponse = {
+        ok: true,
+        json: async () => ({ success: true }),
+      };
+      mockFetch.mockResolvedValue(mockResponse as any);
+
+      await customWebhookClient.sendDescriptionToWebhook(
+        testDescription,
+        'master-nutritionist',
+        'user123'
+      );
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            'Authorization': `Bearer ${authToken}`,
+          }),
+        })
+      );
     });
 
     it('should handle non-JSON response gracefully', async () => {
@@ -138,7 +187,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       mockFetch.mockResolvedValue(mockResponse as any);
 
       const result = await webhookClient.sendDescriptionToWebhook(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123'
       );
@@ -157,7 +206,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       mockFetch.mockResolvedValue(mockResponse as any);
 
       const result = await webhookClient.sendDescriptionToWebhook(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123'
       );
@@ -171,7 +220,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       mockFetch.mockRejectedValue(new Error('Network error'));
 
       const result = await webhookClient.sendDescriptionToWebhook(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123'
       );
@@ -185,7 +234,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       mockFetch.mockRejectedValue(Object.assign(new Error('Timeout'), { name: 'AbortError' }));
 
       const result = await webhookClient.sendDescriptionToWebhook(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123'
       );
@@ -196,7 +245,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
   });
 
   describe('sendDescriptionToWebhookWithRetry', () => {
-    const validDescription = 'Analyze nutrition: https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102';
+    const testDescription = 'I need guidance on creating meal prep schedules that work for busy professionals.';
 
     it('should succeed on first attempt', async () => {
       const mockResponse = {
@@ -206,7 +255,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       mockFetch.mockResolvedValue(mockResponse as any);
 
       const result = await webhookClient.sendDescriptionToWebhookWithRetry(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123',
         2
@@ -225,7 +274,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
         } as any);
 
       const result = await webhookClient.sendDescriptionToWebhookWithRetry(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123',
         2
@@ -245,7 +294,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       } as any);
 
       const result = await webhookClient.sendDescriptionToWebhookWithRetry(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123',
         2
@@ -267,7 +316,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
         } as any);
 
       await webhookClient.sendDescriptionToWebhookWithRetry(
-        validDescription,
+        testDescription,
         'master-nutritionist',
         'user123',
         2
@@ -288,7 +337,7 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
       mockFetch.mockResolvedValue(mockResponse as any);
 
       await webhookClient.sendDescriptionToWebhook(
-        'Test: https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
+        'Test nutritional analysis request',
         'master-nutritionist',
         'user123'
       );
@@ -305,63 +354,36 @@ describe('N8N Webhook Client - Master Nutritionist', () => {
     });
   });
 
-  describe('URL Extraction', () => {
-    const testCases = [
-      {
-        description: 'Simple URL: https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
-        shouldMatch: true,
-      },
-      {
-        description: 'URL with text: Please process this https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102 for analysis',
-        shouldMatch: true,
-      },
-      {
-        description: 'Mixed case: https://VANYA-VASYA.app.n8n.cloud/webhook/4C6C4649-99EF-4598-B77B-6CB12AB6A102',
-        shouldMatch: true,
-      },
-      {
-        description: 'Wrong domain: https://wrong-domain.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
-        shouldMatch: false,
-      },
-      {
-        description: 'Invalid webhook ID: https://vanya-vasya.app.n8n.cloud/webhook/invalid-id',
-        shouldMatch: false,
-      },
-      {
-        description: 'No URL at all',
-        shouldMatch: false,
-      },
-    ];
+  describe('Environment Configuration', () => {
+    it('should use default URL when environment variable is not set', async () => {
+      const mockResponse = {
+        ok: true,
+        json: async () => ({ result: 'success' }),
+      };
+      mockFetch.mockResolvedValue(mockResponse as any);
 
-    testCases.forEach(({ description, shouldMatch }) => {
-      it(`should ${shouldMatch ? 'extract' : 'reject'} URL from: ${description.substring(0, 50)}...`, async () => {
-        if (shouldMatch) {
-          const mockResponse = {
-            ok: true,
-            json: async () => ({ result: 'success' }),
-          };
-          mockFetch.mockResolvedValue(mockResponse as any);
+      await webhookClient.sendDescriptionToWebhook(
+        'Test request',
+        'master-nutritionist',
+        'user123'
+      );
 
-          const result = await webhookClient.sendDescriptionToWebhook(
-            description,
-            'master-nutritionist',
-            'user123'
-          );
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
+        expect.any(Object)
+      );
+    });
 
-          expect(result.success).toBe(true);
-          expect(mockFetch).toHaveBeenCalled();
-        } else {
-          const result = await webhookClient.sendDescriptionToWebhook(
-            description,
-            'master-nutritionist',
-            'user123'
-          );
+    it('should validate payload before sending request', async () => {
+      const result = await webhookClient.sendDescriptionToWebhook(
+        '', // Empty description should fail validation
+        'master-nutritionist',
+        'user123'
+      );
 
-          expect(result.success).toBe(false);
-          expect(result.error?.message).toContain('N8N webhook URL not found');
-          expect(mockFetch).not.toHaveBeenCalled();
-        }
-      });
+      expect(result.success).toBe(false);
+      expect(result.error?.message).toContain('Invalid payload');
+      expect(mockFetch).not.toHaveBeenCalled();
     });
   });
 });

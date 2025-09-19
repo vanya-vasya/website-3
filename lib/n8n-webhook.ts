@@ -62,6 +62,7 @@ class N8nWebhookClient {
   private readonly baseUrl: string;
   private readonly webhookPath: string;
   private readonly directWebhookUrl: string;
+  private readonly productionWebhookUrl: string;
   
   constructor() {
     // Use the webhook path from the n8n workflow configuration provided by user
@@ -72,6 +73,10 @@ class N8nWebhookClient {
     
     // Direct webhook URL for multipart/form-data uploads
     this.directWebhookUrl = 'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102';
+    
+    // Production webhook URL for Master Nutritionist (configurable via env vars)
+    this.productionWebhookUrl = process.env.NEXT_PUBLIC_N8N_MASTER_NUTRITIONIST_URL || 
+                                'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102';
   }
 
   /**
@@ -613,7 +618,7 @@ class N8nWebhookClient {
   }
 
   /**
-   * Send description directly to N8N webhook URL (for Master Nutritionist)
+   * Send description directly to N8N production webhook URL (for Master Nutritionist)
    */
   async sendDescriptionToWebhook(
     description: string,
@@ -625,22 +630,15 @@ class N8nWebhookClient {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-    console.log('[N8N] Sending description to direct webhook:', {
+    console.log('[N8N] Sending description to production webhook:', {
       toolId,
       descriptionLength: description.length,
       timeout: timeoutMs,
+      webhookUrl: this.productionWebhookUrl,
       timestamp: new Date().toISOString(),
     });
 
     try {
-      // Extract the N8N webhook URL from the description
-      const urlMatch = description.match(/https:\/\/vanya-vasya\.app\.n8n\.cloud\/webhook\/[a-f0-9\-]+/i);
-      if (!urlMatch) {
-        throw new Error('N8N webhook URL not found in description');
-      }
-      
-      const webhookUrl = urlMatch[0];
-      
       // Create JSON payload for Master Nutritionist
       const payload = {
         message: {
@@ -660,19 +658,30 @@ class N8nWebhookClient {
           sessionId: this.generateSessionId(),
         },
         metadata: {
-          source: 'yum-mi-web-app',
-          version: '1.0',
+          source: 'yum-mi-web-app' as const,
+          version: '1.0' as const,
           timestamp: new Date().toISOString(),
           userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'server-side',
           locale: typeof navigator !== 'undefined' ? navigator.language : 'en-US',
         },
       };
 
-      const response = await fetch(webhookUrl, {
+      // Validate payload before sending
+      const validation = this.validatePayload(payload);
+      if (!validation.valid) {
+        throw new Error(`Invalid payload: ${validation.errors.join(', ')}`);
+      }
+
+      const response = await fetch(this.productionWebhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-Request-ID': `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          'X-User-Agent': typeof navigator !== 'undefined' ? navigator.userAgent : 'yum-mi-server',
+          // Add any additional auth headers if required
+          ...(process.env.NEXT_PUBLIC_N8N_AUTH_TOKEN && {
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_N8N_AUTH_TOKEN}`
+          }),
         },
         body: JSON.stringify(payload),
         signal: controller.signal,

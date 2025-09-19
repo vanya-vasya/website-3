@@ -94,7 +94,7 @@ const toolConfigs = {
     bgColor: 'bg-emerald-600/10',
     gradient: 'from-emerald-400 via-green-500 to-teal-600',
     bgGradient: 'from-emerald-400/10 via-green-500/10 to-teal-600/10',
-    placeholder: 'Provide a description including the N8N webhook URL for nutritional analysis...'
+    placeholder: 'Tell us your challenge. We\'ll turn it into a recipe for wellness'
   },
   'cal-tracker': {
     title: 'Cal Tracker',
@@ -377,7 +377,10 @@ const ConversationPage = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className={cn(
               inputStyles.container,
-              "grid grid-cols-12 gap-4"
+              "grid grid-cols-12 gap-4",
+              // Ensure proper container sizing and responsive behavior
+              "w-full max-w-4xl mx-auto",
+              "sm:p-4 md:p-6 lg:p-8"
             )}
           >
             {/* Input Section - Conditional based on tool type */}
@@ -387,9 +390,6 @@ const ConversationPage = () => {
                 <div>
                   <div className="text-center mb-4">
                     <h3 className="text-lg font-medium mb-2">Enter Analysis Description</h3>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Provide a description that includes the N8N webhook URL for nutritional analysis.
-                    </p>
                   </div>
                   <FormField
                     name="description"
@@ -399,13 +399,18 @@ const ConversationPage = () => {
                           <div className="space-y-2">
                             <textarea
                               {...field}
-                              placeholder={`${currentTool.placeholder}
-
-Required URL: https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102`}
+                              placeholder={currentTool.placeholder}
                               className={cn(
                                 inputStyles.base,
-                                "min-h-[120px] resize-y border border-gray-300 rounded-lg p-3",
-                                "placeholder:text-sm placeholder:text-gray-500"
+                                "w-full min-h-[200px] h-auto resize-y",
+                                "border border-gray-300 rounded-lg p-4",
+                                "placeholder:text-sm placeholder:text-gray-500",
+                                "focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500",
+                                "transition-all duration-200",
+                                "text-base leading-relaxed",
+                                // Responsive sizing
+                                "sm:min-h-[180px] md:min-h-[200px] lg:min-h-[240px]",
+                                "sm:p-3 md:p-4 lg:p-5"
                               )}
                               value={description}
                               onChange={(e) => {
@@ -413,8 +418,7 @@ Required URL: https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-
                                 field.onChange(e.target.value);
                               }}
                             />
-                            <div className="flex justify-between text-xs text-gray-500">
-                              <span>Must include the N8N webhook URL</span>
+                            <div className="flex justify-end text-xs text-gray-500">
                               <span>{description.length}/1000 characters</span>
                             </div>
                           </div>
@@ -489,7 +493,7 @@ Required URL: https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-
                       <p>Loading credit balance...</p>
                     ) : toolId === 'master-nutritionist' ? (
                       !description.trim() ? (
-                        <p>Please enter a description with the N8N webhook URL</p>
+                        <p>Please enter your challenge description</p>
                       ) : hasInsufficientCredits ? (
                         <p>Insufficient credits. You need {toolPrice} but have {availableCredits} available.</p>
                       ) : (
