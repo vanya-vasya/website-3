@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
@@ -24,24 +23,23 @@ import { inputStyles, buttonStyles, contentStyles, messageStyles, loadingStyles 
 import { Activity, Target, AlertCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { RecipeCard } from "@/components/RecipeCard";
-import { responseFormatter, TONE_PRESETS } from "@/lib/response-formatter";
-import { ParsedResponse, NutritionistResponseV2 } from "@/types/response-schemas";
+import { FriendlyResponseCard } from "@/components/FriendlyResponseCard";
+import { friendlyFormatter, FriendlyResponse } from "@/lib/friendly-response-formatter";
 
 import { getFormSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE, tools } from "@/constants";
 import { N8nWebhookClient } from "@/lib/n8n-webhook";
 import { getApiAvailableGenerations, getApiUsedGenerations } from "@/lib/api-limit";
 
-// Define ChatCompletionRequestMessage type locally with enhanced response data
+// Define ChatCompletionRequestMessage type locally with friendly response support
 type ChatCompletionRequestMessage = {
   role: 'user' | 'system' | 'assistant';
   content: string;
-  enhancedData?: NutritionistResponseV2; // New enhanced response data
-  parsedResponse?: ParsedResponse; // Complete parsed response with metadata
-  recipeData?: Recipe; // Legacy recipe data for backward compatibility
+  recipeData?: Recipe; // Optional recipe data for structured responses
+  friendlyResponse?: FriendlyResponse; // Friendly formatted response for Master Nutritionist
 };
 
-// Legacy Recipe type for backward compatibility
+// Recipe type for structured recipe responses
 type Recipe = {
   dish: string;
   kcal: number;
@@ -49,6 +47,34 @@ type Recipe = {
   fat: number;
   carb: number;
   recipe: string; // markdown
+};
+
+// Helper function to parse JSON response and extract recipe data
+const parseRecipeResponse = (response: string): { text: string; recipe?: Recipe } => {
+  try {
+    // Try to parse as JSON first
+    const parsed = JSON.parse(response);
+    
+    // Check if it's a recipe object with required fields
+    if (parsed && typeof parsed === 'object' && 
+        parsed.dish && 
+        typeof parsed.kcal === 'number' && 
+        typeof parsed.prot === 'number' && 
+        typeof parsed.fat === 'number' && 
+        typeof parsed.carb === 'number' && 
+        parsed.recipe) {
+      return {
+        text: response, // Keep original JSON as text fallback
+        recipe: parsed as Recipe
+      };
+    }
+    
+    // If it's JSON but not a recipe format, return as text
+    return { text: typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2) };
+  } catch (error) {
+    // Not valid JSON, return as plain text
+    return { text: response };
+  }
 };
 
 // Конфигурация для разных типов инструментов
@@ -98,21 +124,6 @@ const ConversationPage = () => {
   const [creditBalance, setCreditBalance] = useState<number>(0);
   const [usedCredits, setUsedCredits] = useState<number>(0);
   const [isLoadingCredits, setIsLoadingCredits] = useState(true);
-  
-  // Enhanced dialogue tone configuration
-  const [currentTone, setCurrentTone] = useState('friendly'); // Can be changed via settings
-  
-  // Initialize response formatter with appropriate tone for Master Nutritionist
-  React.useEffect(() => {
-    if (toolId === 'master-nutritionist') {
-      const toneConfig = currentTone === 'professional' ? TONE_PRESETS.professional :
-                         currentTone === 'playful' ? TONE_PRESETS.playful :
-                         currentTone === 'enthusiastic' ? TONE_PRESETS.enthusiastic :
-                         TONE_PRESETS.friendly;
-      
-      responseFormatter.updateTone(toneConfig);
-    }
-  }, [toolId, currentTone]);
 
   // Получаем конфигурацию для текущего инструмента
   const currentTool = toolConfigs[toolId as keyof typeof toolConfigs] || toolConfigs['master-chef'];
@@ -274,20 +285,34 @@ const ConversationPage = () => {
       }
 
       if (webhookResponse.success && webhookResponse.data) {
-        // Use enhanced response formatter for better user experience
-        const parsedResponse = responseFormatter.parseResponse(
-          webhookResponse.data.response, 
-          webhookResponse.data.processingTime
-        );
-        
-        // Add assistant response to UI with enhanced data
-        const assistantMessage: ChatCompletionRequestMessage = {
-          role: "assistant",
-          content: parsedResponse.dialogue.displayText,
-          enhancedData: parsedResponse.data?.enhanced,
-          parsedResponse: parsedResponse,
-          recipeData: parsedResponse.data?.legacy, // Backward compatibility
-        };
+        let assistantMessage: ChatCompletionRequestMessage;
+        let successMessage: string;
+
+        // Handle Master Nutritionist responses with friendly formatting
+        if (toolId === 'master-nutritionist') {
+          const friendlyResponse = friendlyFormatter.formatResponse(webhookResponse.data.response);
+          
+          assistantMessage = {
+            role: "assistant",
+            content: friendlyResponse.greeting, // Use greeting as main content
+            friendlyResponse: friendlyResponse, // Include full friendly response data
+          };
+          
+          successMessage = `✨ Personalized nutrition guidance ready in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s!`;
+        } else {
+          // Handle other tools with recipe parsing
+          const parsedResponse = parseRecipeResponse(webhookResponse.data.response);
+          
+          assistantMessage = {
+            role: "assistant",
+            content: parsedResponse.text,
+            recipeData: parsedResponse.recipe, // Include recipe data if present
+          };
+          
+          successMessage = parsedResponse.recipe 
+            ? `Recipe generated in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s!`
+            : `Response received in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s`;
+        }
         
         setMessages((current) => [...current, assistantMessage]);
         
@@ -296,8 +321,8 @@ const ConversationPage = () => {
           setUsedCredits(prev => prev + toolPrice);
         }
         
-        // Show enhanced success feedback with personalized message
-        toast.success(parsedResponse.dialogue.toastMessage);
+        // Show success feedback
+        toast.success(successMessage);
         
       } else if (webhookResponse.error) {
         // Handle webhook errors
@@ -553,111 +578,32 @@ const ConversationPage = () => {
                   {message.role === "user" && <UserAvatar />}
                 </div>
 
-                {/* Enhanced recipe card for structured responses */}
-                {message.role === "assistant" && (message.enhancedData || message.recipeData) && (
+                {/* Friendly response card for Master Nutritionist */}
+                {message.role === "assistant" && message.friendlyResponse && (
                   <div className="w-full">
-                    {message.enhancedData ? (
-                      <RecipeCard 
-                        data={{
-                          dish: message.enhancedData.content.mealPlan.name,
-                          kcal: message.enhancedData.content.nutrition.calories.total,
-                          prot: message.enhancedData.content.nutrition.macronutrients.protein.grams,
-                          fat: message.enhancedData.content.nutrition.macronutrients.fat.grams,
-                          carb: message.enhancedData.content.nutrition.macronutrients.carbohydrates.grams,
-                          recipe: message.enhancedData.content.instructions.fullRecipe
-                        }} 
-                        gradient={currentTool.gradient}
-                      />
-                    ) : message.recipeData ? (
-                      <RecipeCard 
-                        data={message.recipeData} 
-                        gradient={currentTool.gradient}
-                      />
-                    ) : null}
-                    
-                    {/* Enhanced insights and tips for v2 responses */}
-                    {message.enhancedData && (
-                      <div className="mt-4 space-y-4">
-                        {/* Nutritional insights */}
-                        {message.enhancedData.dialogue.nutritionalInsights.length > 0 && (
-                          <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-lg p-4 border border-emerald-200">
-                            <h3 className="font-semibold text-emerald-800 mb-2 flex items-center gap-2">
-                              <Activity className="h-4 w-4" />
-                              Nutritional Insights
-                            </h3>
-                            <ul className="space-y-1">
-                              {message.enhancedData.dialogue.nutritionalInsights.map((insight, idx) => (
-                                <li key={idx} className="text-sm text-emerald-700 flex items-start gap-2">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 flex-shrink-0"></span>
-                                  {insight}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                        
-                        {/* Personalized tips */}
-                        {message.enhancedData.dialogue.personalizedTips.length > 0 && (
-                          <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-4 border border-amber-200">
-                            <h3 className="font-semibold text-amber-800 mb-2 flex items-center gap-2">
-                              <Target className="h-4 w-4" />
-                              Personal Tips for You
-                            </h3>
-                            <ul className="space-y-1">
-                              {message.enhancedData.dialogue.personalizedTips.map((tip, idx) => (
-                                <li key={idx} className="text-sm text-amber-700 flex items-start gap-2">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0"></span>
-                                  {tip}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                        
-                        {/* Fun facts if available */}
-                        {message.enhancedData.dialogue.funFacts && message.enhancedData.dialogue.funFacts.length > 0 && (
-                          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-200">
-                            <h3 className="font-semibold text-purple-800 mb-2">✨ Fun Nutrition Facts</h3>
-                            <ul className="space-y-1">
-                              {message.enhancedData.dialogue.funFacts.map((fact, idx) => (
-                                <li key={idx} className="text-sm text-purple-700 flex items-start gap-2">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 flex-shrink-0"></span>
-                                  {fact}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                        
-                        {/* Closing message */}
-                        {message.enhancedData.dialogue.closingMessage && (
-                          <div className="text-center p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg border border-gray-200">
-                            <p className="text-gray-700 font-medium italic">{message.enhancedData.dialogue.closingMessage}</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    <FriendlyResponseCard 
+                      response={message.friendlyResponse} 
+                      gradient={currentTool.gradient}
+                    />
                   </div>
                 )}
 
-                {/* Fallback for non-recipe responses */}
-                {message.role === "assistant" && !message.enhancedData && !message.recipeData && (
+                {/* Recipe card for structured responses */}
+                {message.role === "assistant" && message.recipeData && !message.friendlyResponse && (
+                  <div className="w-full">
+                    <RecipeCard 
+                      data={message.recipeData} 
+                      gradient={currentTool.gradient}
+                    />
+                  </div>
+                )}
+
+                {/* Fallback text for non-structured assistant responses */}
+                {message.role === "assistant" && !message.recipeData && !message.friendlyResponse && (
                   <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
-                    {message.parsedResponse?.metadata.fallbackUsed ? (
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-amber-600 text-sm font-medium">
-                          <AlertCircle className="h-4 w-4" />
-                          Information Received
-                        </div>
-                        <pre className="text-sm text-gray-700 whitespace-pre-wrap font-mono bg-gray-50 p-3 rounded border">
-                          {message.parsedResponse.data?.rawText || message.content}
-                        </pre>
-                      </div>
-                    ) : (
-                      <div className="text-sm text-gray-700 leading-relaxed">
-                        {message.content}
-                      </div>
-                    )}
+                    <pre className="text-sm text-gray-700 whitespace-pre-wrap font-mono bg-gray-50 p-3 rounded border">
+                      {message.content}
+                    </pre>
                   </div>
                 )}
               </div>
