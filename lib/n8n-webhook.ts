@@ -76,7 +76,7 @@ class N8nWebhookClient {
     
     // Production webhook URL for Master Nutritionist (configurable via env vars)
     this.productionWebhookUrl = process.env.NEXT_PUBLIC_N8N_MASTER_NUTRITIONIST_URL || 
-                                'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102';
+                                'https://vanya-vasya.app.n8n.cloud/webhook/7a104f81-c923-49cd-abf4-562204fc06e9';
   }
 
   /**
