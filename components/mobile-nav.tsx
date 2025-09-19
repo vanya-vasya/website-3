@@ -223,7 +223,7 @@ export function MobileNav({
 
 
             <Link
-              href={"http://localhost:3000/dashboard/billing/payment-history"}
+              href="/dashboard/billing/payment-history"
               onClick={() => setIsOpen(false)}
               className={cn(
                 "flex w-full items-center p-4 font-medium text-black hover:bg-gray-50 transition-colors",

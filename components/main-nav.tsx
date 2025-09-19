@@ -70,7 +70,7 @@ export function MainNav({
         <NavigationMenu>
           <NavigationMenuList className="nav-container">
             <NavigationMenuItem>
-              <Link href={"http://localhost:3000/dashboard/conversation?toolId=master-chef"}>
+              <Link href="/dashboard/conversation?toolId=master-chef">
                 <div className="nav-link cursor-pointer group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 group bg-transparent">
                   <Crown className="mr-2 h-4 w-4" />
                   Master Chef
@@ -79,7 +79,7 @@ export function MainNav({
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href={"http://localhost:3000/dashboard/conversation?toolId=master-nutritionist"}>
+              <Link href="/dashboard/conversation?toolId=master-nutritionist">
                 <div className="nav-link cursor-pointer group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 group bg-transparent">
                   <Activity className="mr-2 h-4 w-4" />
                   Master Nutritionist
@@ -88,7 +88,7 @@ export function MainNav({
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href={"http://localhost:3000/dashboard/conversation?toolId=cal-tracker"}>
+              <Link href="/dashboard/conversation?toolId=cal-tracker">
                 <div className="nav-link cursor-pointer group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 group bg-transparent">
                   <Target className="mr-2 h-4 w-4" />
                   Cal Tracker
