@@ -24,7 +24,7 @@ import { Activity, Target, AlertCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { RecipeCard } from "@/components/RecipeCard";
 
-import { formSchema } from "./constants";
+import { getFormSchema } from "./constants";
 import { MODEL_GENERATIONS_PRICE, tools } from "@/constants";
 import { N8nWebhookClient } from "@/lib/n8n-webhook";
 import { getApiAvailableGenerations, getApiUsedGenerations } from "@/lib/api-limit";
@@ -88,13 +88,13 @@ const toolConfigs = {
   },
   'master-nutritionist': {
     title: 'Master Nutritionist',
-    description: 'Advanced nutritional analysis and meal optimization with scientific precision, macro tracking, and health goal alignment\nPrice: 150 Tokens',
+    description: 'Advanced nutritional analysis and meal optimization with scientific precision, macro tracking, and health goal alignment\nPrice: Free',
     iconName: 'Activity',
     iconColor: 'text-emerald-600',
     bgColor: 'bg-emerald-600/10',
     gradient: 'from-emerald-400 via-green-500 to-teal-600',
     bgGradient: 'from-emerald-400/10 via-green-500/10 to-teal-600/10',
-    placeholder: 'Ask me for nutritional analysis, macro tracking, meal optimization, or health goal planning...'
+    placeholder: 'Provide a description including the N8N webhook URL for nutritional analysis...'
   },
   'cal-tracker': {
     title: 'Cal Tracker',
@@ -116,6 +116,7 @@ const ConversationPage = () => {
   const proModal = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [description, setDescription] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [creditBalance, setCreditBalance] = useState<number>(0);
   const [usedCredits, setUsedCredits] = useState<number>(0);
@@ -128,7 +129,7 @@ const ConversationPage = () => {
   const getToolPrice = (toolId: string): number => {
     const prices = {
       'master-chef': 0, // Free tool - always enabled regardless of credit balance
-      'master-nutritionist': 150,
+      'master-nutritionist': 0, // Free tool - always enabled regardless of credit balance
       'cal-tracker': 50,
     };
     return prices[toolId as keyof typeof prices] ?? 100; // Use ?? instead of || to handle 0 values correctly
@@ -152,10 +153,17 @@ const ConversationPage = () => {
     }
   };
   
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
+  // Get dynamic form schema based on tool type
+  const currentFormSchema = getFormSchema(toolId);
+  
+  const form = useForm<z.infer<typeof currentFormSchema>>({
+    resolver: zodResolver(currentFormSchema),
+    defaultValues: toolId === 'master-nutritionist' ? {
+      description: '',
       image: null,
+    } : {
+      image: null,
+      description: '',
     },
   });
 
@@ -197,14 +205,24 @@ const ConversationPage = () => {
 
   // Reset form when tool changes
   useEffect(() => {
-    form.reset({ image: null });
+    if (toolId === 'master-nutritionist') {
+      form.reset({ description: '', image: null });
+      setDescription('');
+    } else {
+      form.reset({ image: null, description: '' });
+    }
     setUploadedImage(null);
   }, [toolId, form]);
 
   const isLoading = form.formState.isSubmitting || isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (isSubmitting || !uploadedImage) return; // Prevent double submission and ensure image exists
+  const onSubmit = async (values: z.infer<typeof currentFormSchema>) => {
+    // Validation based on tool type
+    if (toolId === 'master-nutritionist') {
+      if (isSubmitting || !values.description?.trim()) return; // Prevent double submission and ensure description exists
+    } else {
+      if (isSubmitting || !uploadedImage) return; // Prevent double submission and ensure image exists
+    }
     
     // Check credit balance before proceeding (skip for free tools)
     if (hasInsufficientCredits && toolPrice > 0) {
@@ -219,27 +237,49 @@ const ConversationPage = () => {
       // Initialize n8n webhook client
       const webhookClient = new N8nWebhookClient();
       
-      // Default prompt for image analysis
-      const defaultPrompt = `Analyze this food image and provide recipe suggestions, nutritional information, or cooking recommendations based on what you see.`;
+      let webhookResponse;
+      let userMessage: ChatCompletionRequestMessage;
 
-      // Create user message for UI
-      const userMessage: ChatCompletionRequestMessage = {
-        role: "user",
-        content: `[Image uploaded: ${uploadedImage.name}] - Analyzing food image...`,
-      };
+      if (toolId === 'master-nutritionist') {
+        // Master Nutritionist - send description with N8N URL
+        userMessage = {
+          role: "user",
+          content: `[Description: ${values.description}] - Processing nutritional analysis...`,
+        };
 
-      // Add user message to UI immediately
-      setMessages((current) => [...current, userMessage]);
+        // Add user message to UI immediately
+        setMessages((current) => [...current, userMessage]);
 
-      // Send file directly to n8n webhook using multipart/form-data with retry logic
-      const webhookResponse = await webhookClient.sendFileToWebhookWithRetry(
-        uploadedImage,
-        toolId,
-        defaultPrompt,
-        userId || undefined,
-        2, // maxRetries
-        45000 // timeoutMs
-      );
+        // Send description directly to the N8N webhook URL specified in the description
+        webhookResponse = await webhookClient.sendDescriptionToWebhookWithRetry(
+          values.description || '',
+          toolId,
+          userId || undefined,
+          2, // maxRetries
+          45000 // timeoutMs
+        );
+      } else {
+        // Other tools - send image file
+        const defaultPrompt = `Analyze this food image and provide recipe suggestions, nutritional information, or cooking recommendations based on what you see.`;
+        
+        userMessage = {
+          role: "user",
+          content: `[Image uploaded: ${uploadedImage?.name}] - Analyzing food image...`,
+        };
+
+        // Add user message to UI immediately
+        setMessages((current) => [...current, userMessage]);
+
+        // Send file directly to n8n webhook using multipart/form-data with retry logic
+        webhookResponse = await webhookClient.sendFileToWebhookWithRetry(
+          uploadedImage!,
+          toolId,
+          defaultPrompt,
+          userId || undefined,
+          2, // maxRetries
+          45000 // timeoutMs
+        );
+      }
 
       if (webhookResponse.success && webhookResponse.data) {
         // Parse the response to check for structured recipe data
@@ -300,8 +340,13 @@ const ConversationPage = () => {
 
       // Clear form on successful submission
       if (webhookResponse.success) {
-        form.reset({ image: null });
-        setUploadedImage(null);
+        if (toolId === 'master-nutritionist') {
+          form.reset({ description: '', image: null });
+          setDescription('');
+        } else {
+          form.reset({ image: null, description: '' });
+          setUploadedImage(null);
+        }
       }
 
     } catch (error: any) {
@@ -335,29 +380,75 @@ const ConversationPage = () => {
               "grid grid-cols-12 gap-4"
             )}
           >
-            {/* Image Upload Section */}
+            {/* Input Section - Conditional based on tool type */}
             <div className="col-span-12">
-              <div className="text-center mb-4">
-                <h3 className="text-lg font-medium mb-2">Upload Food Image</h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  Upload an image of food and our AI will analyze it to provide recipes, nutrition info, and cooking suggestions.
-                </p>
-              </div>
-              <FormField
-                name="image"
-                render={() => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex justify-center">
-                        <ImageUpload 
-                          onImageUpload={handleImageUpload}
-                          gradient={currentTool.gradient}
-                        />
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              {toolId === 'master-nutritionist' ? (
+                // Master Nutritionist - Description Input
+                <div>
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-medium mb-2">Enter Analysis Description</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Provide a description that includes the N8N webhook URL for nutritional analysis.
+                    </p>
+                  </div>
+                  <FormField
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="space-y-2">
+                            <textarea
+                              {...field}
+                              placeholder={`${currentTool.placeholder}
+
+Required URL: https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102`}
+                              className={cn(
+                                inputStyles.base,
+                                "min-h-[120px] resize-y border border-gray-300 rounded-lg p-3",
+                                "placeholder:text-sm placeholder:text-gray-500"
+                              )}
+                              value={description}
+                              onChange={(e) => {
+                                setDescription(e.target.value);
+                                field.onChange(e.target.value);
+                              }}
+                            />
+                            <div className="flex justify-between text-xs text-gray-500">
+                              <span>Must include the N8N webhook URL</span>
+                              <span>{description.length}/1000 characters</span>
+                            </div>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              ) : (
+                // Other tools - Image Upload
+                <div>
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-medium mb-2">Upload Food Image</h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      Upload an image of food and our AI will analyze it to provide recipes, nutrition info, and cooking suggestions.
+                    </p>
+                  </div>
+                  <FormField
+                    name="image"
+                    render={() => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="flex justify-center">
+                            <ImageUpload 
+                              onImageUpload={handleImageUpload}
+                              gradient={currentTool.gradient}
+                            />
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
             </div>
             
             {/* Generate Button */}
@@ -380,10 +471,10 @@ const ConversationPage = () => {
                         className={cn(
                           dynamicButtonStyles,
                           "px-8 py-3 text-lg font-medium",
-                          (!uploadedImage || isLoading || hasInsufficientCredits || isLoadingCredits) && "opacity-50 cursor-not-allowed"
+                          ((toolId === 'master-nutritionist' ? !description.trim() : !uploadedImage) || isLoading || hasInsufficientCredits || isLoadingCredits) && "opacity-50 cursor-not-allowed"
                         )}
                         type="submit"
-                        disabled={!uploadedImage || isLoading || hasInsufficientCredits || isLoadingCredits}
+                        disabled={(toolId === 'master-nutritionist' ? !description.trim() : !uploadedImage) || isLoading || hasInsufficientCredits || isLoadingCredits}
                         size="lg"
                       >
                         {isLoading ? "Analyzing..." : "Generate"}
@@ -396,14 +487,24 @@ const ConversationPage = () => {
                   <TooltipContent>
                     {isLoadingCredits ? (
                       <p>Loading credit balance...</p>
-                    ) : !uploadedImage ? (
-                      <p>Please upload an image first</p>
-                    ) : hasInsufficientCredits ? (
-                      <p>Insufficient credits. You need {toolPrice} but have {availableCredits} available.</p>
-                    ) : toolPrice === 0 ? (
-                      <p>Click to generate AI analysis (Free tool)</p>
+                    ) : toolId === 'master-nutritionist' ? (
+                      !description.trim() ? (
+                        <p>Please enter a description with the N8N webhook URL</p>
+                      ) : hasInsufficientCredits ? (
+                        <p>Insufficient credits. You need {toolPrice} but have {availableCredits} available.</p>
+                      ) : (
+                        <p>Click to generate nutritional analysis (Free tool)</p>
+                      )
                     ) : (
-                      <p>Click to generate AI analysis</p>
+                      !uploadedImage ? (
+                        <p>Please upload an image first</p>
+                      ) : hasInsufficientCredits ? (
+                        <p>Insufficient credits. You need {toolPrice} but have {availableCredits} available.</p>
+                      ) : toolPrice === 0 ? (
+                        <p>Click to generate AI analysis (Free tool)</p>
+                      ) : (
+                        <p>Click to generate AI analysis</p>
+                      )
                     )}
                   </TooltipContent>
                 </Tooltip>

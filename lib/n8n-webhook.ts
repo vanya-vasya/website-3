@@ -568,6 +568,194 @@ class N8nWebhookClient {
   }
 
   /**
+   * Send description with N8N URL for Master Nutritionist with retry logic
+   */
+  async sendDescriptionToWebhookWithRetry(
+    description: string,
+    toolId: string,
+    userId?: string,
+    maxRetries: number = 2,
+    timeoutMs: number = 45000
+  ): Promise<N8nWebhookResponse> {
+    let lastError: any;
+    
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      if (attempt > 0) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(`[N8N] Description request retry attempt ${attempt}/${maxRetries} after ${delay}ms delay`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+      
+      try {
+        const response = await this.sendDescriptionToWebhook(description, toolId, userId, timeoutMs);
+        if (response.success || attempt === maxRetries) {
+          return response;
+        }
+        lastError = response.error;
+      } catch (error: any) {
+        lastError = error;
+        if (attempt === maxRetries) {
+          console.error(`[N8N] All description request retry attempts failed:`, {
+            attempts: maxRetries + 1,
+            finalError: error.message,
+          });
+        }
+      }
+    }
+    
+    return {
+      success: false,
+      error: lastError || {
+        code: 'MAX_RETRIES_EXCEEDED',
+        message: 'Description request failed after maximum retry attempts',
+      },
+    };
+  }
+
+  /**
+   * Send description directly to N8N webhook URL (for Master Nutritionist)
+   */
+  async sendDescriptionToWebhook(
+    description: string,
+    toolId: string,
+    userId?: string,
+    timeoutMs: number = 45000
+  ): Promise<N8nWebhookResponse> {
+    const startTime = Date.now();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    console.log('[N8N] Sending description to direct webhook:', {
+      toolId,
+      descriptionLength: description.length,
+      timeout: timeoutMs,
+      timestamp: new Date().toISOString(),
+    });
+
+    try {
+      // Extract the N8N webhook URL from the description
+      const urlMatch = description.match(/https:\/\/vanya-vasya\.app\.n8n\.cloud\/webhook\/[a-f0-9\-]+/i);
+      if (!urlMatch) {
+        throw new Error('N8N webhook URL not found in description');
+      }
+      
+      const webhookUrl = urlMatch[0];
+      
+      // Create JSON payload for Master Nutritionist
+      const payload = {
+        message: {
+          content: description,
+          role: 'user' as const,
+          timestamp: new Date().toISOString(),
+          sessionId: this.generateSessionId(),
+        },
+        tool: {
+          id: toolId,
+          name: this.getToolName(toolId),
+          price: this.getToolPrice(toolId),
+          gradient: this.getToolGradient(toolId),
+        },
+        user: {
+          id: userId,
+          sessionId: this.generateSessionId(),
+        },
+        metadata: {
+          source: 'yum-mi-web-app',
+          version: '1.0',
+          timestamp: new Date().toISOString(),
+          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'server-side',
+          locale: typeof navigator !== 'undefined' ? navigator.language : 'en-US',
+        },
+      };
+
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Request-ID': `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+        mode: 'cors',
+      });
+
+      clearTimeout(timeoutId);
+      const processingTime = Date.now() - startTime;
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => 'Unknown error');
+        console.error('[N8N] Description webhook request failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorText,
+          processingTime,
+        });
+
+        return {
+          success: false,
+          error: {
+            code: `HTTP_${response.status}`,
+            message: `HTTP ${response.status}: ${response.statusText}`,
+            details: { status: response.status, errorText, processingTime },
+          },
+        };
+      }
+
+      // Try to parse response as JSON first, then fall back to text
+      let responseData: string;
+      try {
+        const jsonResponse = await response.json();
+        responseData = typeof jsonResponse === 'string' ? jsonResponse : JSON.stringify(jsonResponse);
+      } catch {
+        responseData = await response.text();
+      }
+
+      console.log('[N8N] Description webhook request successful:', {
+        processingTime,
+        responseSize: responseData.length,
+      });
+
+      return {
+        success: true,
+        data: {
+          response: responseData,
+          processingTime,
+          tokens: Math.ceil(responseData.length / 4), // Estimate token count
+        },
+      };
+
+    } catch (error: any) {
+      clearTimeout(timeoutId);
+      const processingTime = Date.now() - startTime;
+
+      console.error('[N8N] Description webhook request error:', {
+        error: error.message,
+        errorName: error.name,
+        processingTime,
+        toolId,
+        descriptionLength: description.length,
+        timestamp: new Date().toISOString(),
+      });
+
+      let errorCode = 'NETWORK_ERROR';
+      if (error.name === 'AbortError') {
+        errorCode = 'TIMEOUT_ERROR';
+      } else if (error.message?.includes('fetch')) {
+        errorCode = 'CONNECTION_ERROR';
+      }
+
+      return {
+        success: false,
+        error: {
+          code: errorCode,
+          message: error.message,
+          details: { processingTime, toolId },
+        },
+      };
+    }
+  }
+
+  /**
    * Convert File to base64 (if needed for small images)
    */
   private async fileToBase64(file: File): Promise<string> {
@@ -590,12 +778,30 @@ class N8nWebhookClient {
   private getToolPrice(toolId: string): number {
     const prices = {
       'master-chef': 0, // Free tool - always enabled regardless of credit balance
-      'master-nutritionist': 150,
+      'master-nutritionist': 0, // Free tool - always enabled regardless of credit balance
       'cal-tracker': 50,
     };
     
     // Use nullish coalescing to allow 0 values (|| would treat 0 as falsy)
     return prices[toolId as keyof typeof prices] ?? 100;
+  }
+
+  private getToolName(toolId: string): string {
+    const names = {
+      'master-chef': 'Master Chef',
+      'master-nutritionist': 'Master Nutritionist',
+      'cal-tracker': 'Cal Tracker',
+    };
+    return names[toolId as keyof typeof names] ?? 'Unknown Tool';
+  }
+
+  private getToolGradient(toolId: string): string {
+    const gradients = {
+      'master-chef': 'from-amber-400 via-orange-500 to-red-600',
+      'master-nutritionist': 'from-emerald-400 via-green-500 to-teal-600',
+      'cal-tracker': 'from-blue-400 via-cyan-500 to-indigo-600',
+    };
+    return gradients[toolId as keyof typeof gradients] ?? 'from-gray-400 to-gray-600';
   }
 }
 
