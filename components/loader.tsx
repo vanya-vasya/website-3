@@ -15,29 +15,19 @@ export const Loader = () => {
       </div>
       
       {/* Rotating Hourglass Icon */}
-      <div className="relative">
+      <div className="flex items-center justify-center">
         <Hourglass 
           className="w-8 h-8 text-amber-500 animate-spin" 
           style={{
             animation: 'spin 2s linear infinite'
           }}
         />
-        {/* Glow effect */}
-        <div className="absolute inset-0 w-8 h-8 bg-amber-500/20 rounded-full blur-md animate-pulse"></div>
       </div>
       
       {/* Loading text */}
-      <p className="text-sm text-muted-foreground animate-pulse">
+      <p className="text-sm text-muted-foreground">
         Yum-mi is thinking...
       </p>
-      
-      {/* Loading dots animation */}
-      <div className="flex space-x-1">
-        <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-        <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-        <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-      </div>
     </div>
   );
-};
 };
