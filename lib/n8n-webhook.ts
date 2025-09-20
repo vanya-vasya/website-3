@@ -61,8 +61,6 @@ interface N8nWebhookResponse {
 class N8nWebhookClient {
   private readonly baseUrl: string;
   private readonly webhookPath: string;
-  private readonly directWebhookUrl: string;
-  private readonly productionWebhookUrl: string;
   
   constructor() {
     // Use the webhook path from the n8n workflow configuration provided by user
@@ -70,13 +68,20 @@ class N8nWebhookClient {
     
     // Use local API proxy to avoid CORS issues for JSON requests
     this.baseUrl = '/api/generate';
+  }
+
+  /**
+   * Get the appropriate webhook URL based on tool ID
+   */
+  private getWebhookUrl(toolId: string): string {
+    const webhookUrls = {
+      'master-chef': 'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102',
+      'master-nutritionist': process.env.NEXT_PUBLIC_N8N_MASTER_NUTRITIONIST_URL || 
+                              'https://vanya-vasya.app.n8n.cloud/webhook/7a104f81-c923-49cd-abf4-562204fc06e9',
+      'cal-tracker': 'https://vanya-vasya.app.n8n.cloud/webhook/02d7bdba-03a4-4f98-bc49-c44d32349a47',
+    };
     
-    // Direct webhook URL for multipart/form-data uploads (updated for cal-tracker)
-    this.directWebhookUrl = 'https://vanya-vasya.app.n8n.cloud/webhook/02d7bdba-03a4-4f98-bc49-c44d32349a47';
-    
-    // Production webhook URL for Master Nutritionist (configurable via env vars)
-    this.productionWebhookUrl = process.env.NEXT_PUBLIC_N8N_MASTER_NUTRITIONIST_URL || 
-                                'https://vanya-vasya.app.n8n.cloud/webhook/7a104f81-c923-49cd-abf4-562204fc06e9';
+    return webhookUrls[toolId as keyof typeof webhookUrls] || webhookUrls['master-chef'];
   }
 
   /**
@@ -335,7 +340,8 @@ class N8nWebhookClient {
     const startTime = Date.now();
     
     try {
-      console.log(`[N8N] Sending file directly to webhook: ${this.directWebhookUrl}`, {
+      const webhookUrl = this.getWebhookUrl(toolId);
+      console.log(`[N8N] Sending file directly to webhook: ${webhookUrl}`, {
         fileName: file.name,
         fileSize: file.size,
         fileType: file.type,
@@ -364,7 +370,7 @@ class N8nWebhookClient {
         console.warn(`[N8N] File upload timeout after ${timeoutMs}ms`);
       }, timeoutMs);
 
-      const response = await fetch(this.directWebhookUrl, {
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         body: formData, // No Content-Type header - browser sets it with boundary
         signal: controller.signal,
@@ -634,7 +640,7 @@ class N8nWebhookClient {
       toolId,
       descriptionLength: description.length,
       timeout: timeoutMs,
-      webhookUrl: this.productionWebhookUrl,
+      webhookUrl: this.getWebhookUrl(toolId),
       timestamp: new Date().toISOString(),
     });
 
@@ -672,7 +678,7 @@ class N8nWebhookClient {
         throw new Error(`Invalid payload: ${validation.errors.join(', ')}`);
       }
 
-      const response = await fetch(this.productionWebhookUrl, {
+      const response = await fetch(this.getWebhookUrl(toolId), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
