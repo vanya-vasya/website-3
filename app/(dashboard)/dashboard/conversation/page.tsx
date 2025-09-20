@@ -207,7 +207,7 @@ const ConversationPage = () => {
   
   useEffect(() => {
     loadCreditBalance();
-  }, [userId]);
+  }, [userId, loadCreditBalance]);
 
   // Reset form when tool changes
   useEffect(() => {

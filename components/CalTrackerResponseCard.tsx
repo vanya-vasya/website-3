@@ -163,7 +163,7 @@ export function CalTrackerResponseCard({
           <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg p-6 border border-purple-200">
             <h3 className="text-lg font-semibold text-purple-800 mb-3 flex items-center gap-2">
               <Sparkles className="h-5 w-5" />
-              What's Next?
+              What&apos;s Next?
             </h3>
             <div className="text-purple-700 leading-relaxed" dangerouslySetInnerHTML={{ 
               __html: response.nextSteps
