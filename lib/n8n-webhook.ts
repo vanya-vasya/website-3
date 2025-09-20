@@ -63,20 +63,24 @@ class N8nWebhookClient {
   private readonly webhookPath: string;
   private readonly directWebhookUrl: string;
   private readonly productionWebhookUrl: string;
+  private readonly calTrackerWebhookUrl: string;
   
   constructor() {
     // Use the webhook path from the n8n workflow configuration provided by user
-    this.webhookPath = '02d7bdba-03a4-4f98-bc49-c44d32349a47';
+    this.webhookPath = '4c6c4649-99ef-4598-b77b-6cb12ab6a102';
     
     // Use local API proxy to avoid CORS issues for JSON requests
     this.baseUrl = '/api/generate';
     
     // Direct webhook URL for multipart/form-data uploads
-    this.directWebhookUrl = 'https://vanya-vasya.app.n8n.cloud/webhook/02d7bdba-03a4-4f98-bc49-c44d32349a47';
+    this.directWebhookUrl = 'https://vanya-vasya.app.n8n.cloud/webhook/4c6c4649-99ef-4598-b77b-6cb12ab6a102';
     
     // Production webhook URL for Master Nutritionist (configurable via env vars)
     this.productionWebhookUrl = process.env.NEXT_PUBLIC_N8N_MASTER_NUTRITIONIST_URL || 
                                 'https://vanya-vasya.app.n8n.cloud/webhook/7a104f81-c923-49cd-abf4-562204fc06e9';
+    
+    // Production webhook URL for Cal Tracker
+    this.calTrackerWebhookUrl = 'https://vanya-vasya.app.n8n.cloud/webhook/02d7bdba-03a4-4f98-bc49-c44d32349a47';
   }
 
   /**
@@ -334,8 +338,11 @@ class N8nWebhookClient {
   ): Promise<N8nWebhookResponse> {
     const startTime = Date.now();
     
+    // Select appropriate webhook URL based on toolId
+    const webhookUrl = toolId === 'cal-tracker' ? this.calTrackerWebhookUrl : this.directWebhookUrl;
+    
     try {
-      console.log(`[N8N] Sending file directly to webhook: ${this.directWebhookUrl}`, {
+      console.log(`[N8N] Sending file directly to webhook: ${webhookUrl}`, {
         fileName: file.name,
         fileSize: file.size,
         fileType: file.type,
@@ -364,7 +371,7 @@ class N8nWebhookClient {
         console.warn(`[N8N] File upload timeout after ${timeoutMs}ms`);
       }, timeoutMs);
 
-      const response = await fetch(this.directWebhookUrl, {
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         body: formData, // No Content-Type header - browser sets it with boundary
         signal: controller.signal,
@@ -788,7 +795,7 @@ class N8nWebhookClient {
     const prices = {
       'master-chef': 0, // Free tool - always enabled regardless of credit balance
       'master-nutritionist': 0, // Free tool - always enabled regardless of credit balance
-      'cal-tracker': 50,
+      'cal-tracker': 0, // Free tool - always enabled regardless of credit balance
     };
     
     // Use nullish coalescing to allow 0 values (|| would treat 0 as falsy)

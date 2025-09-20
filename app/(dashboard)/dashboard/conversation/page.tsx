@@ -288,8 +288,8 @@ const ConversationPage = () => {
         let assistantMessage: ChatCompletionRequestMessage;
         let successMessage: string;
 
-        // Handle Master Nutritionist responses with friendly formatting
-        if (toolId === 'master-nutritionist') {
+        // Handle Master Nutritionist and Cal Tracker responses with friendly formatting
+        if (toolId === 'master-nutritionist' || toolId === 'cal-tracker') {
           const friendlyResponse = friendlyFormatter.formatResponse(webhookResponse.data.response);
           
           assistantMessage = {
@@ -298,7 +298,11 @@ const ConversationPage = () => {
             friendlyResponse: friendlyResponse, // Include full friendly response data
           };
           
-          successMessage = `✨ Personalized nutrition guidance ready in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s!`;
+          if (toolId === 'cal-tracker') {
+            successMessage = `🎯 Calorie tracking analysis ready in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s!`;
+          } else {
+            successMessage = `✨ Personalized nutrition guidance ready in ${(webhookResponse.data.processingTime / 1000).toFixed(1)}s!`;
+          }
         } else {
           // Handle other tools with recipe parsing
           const parsedResponse = parseRecipeResponse(webhookResponse.data.response);
@@ -452,7 +456,7 @@ const ConversationPage = () => {
                   <div className="text-center mb-4">
                     <h3 className="text-lg font-medium mb-2">Upload Food Image</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      Upload an image of food and our AI will analyze it to provide nutrition data
+                      Upload an image of food and our AI will analyze it to provide nutrition data.
                     </p>
                   </div>
                   <FormField
@@ -578,12 +582,13 @@ const ConversationPage = () => {
                   {message.role === "user" && <UserAvatar />}
                 </div>
 
-                {/* Friendly response card for Master Nutritionist */}
+                {/* Friendly response card for Master Nutritionist and Cal Tracker */}
                 {message.role === "assistant" && message.friendlyResponse && (
                   <div className="w-full">
                     <FriendlyResponseCard 
                       response={message.friendlyResponse} 
                       gradient={currentTool.gradient}
+                      toolTitle={currentTool.title}
                     />
                   </div>
                 )}

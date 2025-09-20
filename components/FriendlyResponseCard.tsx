@@ -7,12 +7,14 @@ interface FriendlyResponseCardProps {
   response: FriendlyResponse;
   gradient?: string;
   className?: string;
+  toolTitle?: string;
 }
 
 export function FriendlyResponseCard({ 
   response, 
   gradient = "from-emerald-400 via-green-500 to-teal-600",
-  className 
+  className,
+  toolTitle = "Master Nutritionist"
 }: FriendlyResponseCardProps) {
   return (
     <div className={cn(
@@ -35,7 +37,7 @@ export function FriendlyResponseCard({
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <Heart className="h-6 w-6" />
-            <h2 className="text-2xl font-bold tracking-tight">Master Nutritionist</h2>
+            <h2 className="text-2xl font-bold tracking-tight">{toolTitle}</h2>
           </div>
           
           <p className="text-lg text-white/90 leading-relaxed">{response.greeting}</p>
@@ -130,7 +132,7 @@ export function FriendlyResponseCard({
         <div className="flex items-center justify-between text-sm text-gray-500 border-t border-gray-100 pt-4">
           <div className="flex items-center gap-2">
             <Heart className="h-4 w-4" />
-            <span>Generated with care by Master Nutritionist AI</span>
+            <span>Generated with care by {toolTitle} AI</span>
           </div>
           <div className="text-xs">
             Personalized nutrition guidance
