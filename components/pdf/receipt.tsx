@@ -76,6 +76,9 @@ const styles = StyleSheet.create({
   infoBlock: {
     width: "30%",
   },
+  partyBlock: {
+    width: "45%",
+  },
   label: {
     color: colors.textColor1,
     fontWeight: 700,
@@ -185,9 +188,14 @@ const Receipt = ({
         </View>
 
         <View style={styles.infoRow}>
-          <View>
-            <Text style={styles.label}>Client Email</Text>
+          <View style={styles.partyBlock}>
+            <Text style={styles.label}>Receipt to:</Text>
             <Text style={styles.value}>{email}</Text>
+          </View>
+          <View style={styles.partyBlock}>
+            <Text style={styles.label}>Receipt from:</Text>
+            <Text style={styles.value}>{company.company}</Text>
+            <Text style={styles.value}>{company.address}</Text>
           </View>
         </View>
 
