@@ -1,4 +1,5 @@
 import React from "react";
+import path from "path";
 import {
   Document,
   Page,
@@ -10,17 +11,23 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
+// Absolute paths are required: relative "./public/..." paths break in
+// serverless environments (Vercel) where the working directory differs
+const publicDir = path.join(process.cwd(), "public");
+const fontPath = path.join(publicDir, "assets", "fonts", "Nunito-Regular.ttf");
+const logoPath = path.join(publicDir, "logos", "yum-mi-onigiri-logo.png");
+
 const colors = {
   background: "#ffffff",
-  textColor1: "#ffffff",
-  textColor2: "#a1aac0",
+  textColor1: "#30313d",
+  textColor2: "#687385",
   textColor3: "#525f7f",
   textColor4: "#687385",
 };
 
 Font.register({
   family: "Nunito",
-  src: `./public/assets/fonts/Nunito-Regular.ttf`,
+  src: fontPath,
 });
 
 const styles = StyleSheet.create({
@@ -140,7 +147,7 @@ const company = {
   address: "DEPT 2, 43 OWSTON ROAD, CARCROFT, DONCASTER, UNITED KINGDOM, DN6 8DA",
   website: "yum-mi.com",
   email: "support@yum-mi.com",
-  logo: "./public/logos/yum-mi-onigiri-logo.png", // Official company logo
+  logo: logoPath, // Official company logo
   companyNumber: "15995367",
 };
 
