@@ -48,7 +48,10 @@ const styles = StyleSheet.create({
     height: 100,
   },
   headerImage: {
-    width: 300,
+    // Logo is a 256x256 square; keep it square to avoid distortion
+    width: 100,
+    height: 100,
+    objectFit: "contain",
   },
   titleSection: {
     marginTop: 48,
