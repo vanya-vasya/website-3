@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, SlidersHorizontal, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { inputStyles, buttonStyles, contentStyles } from "@/components/ui/feature-styles";
 import { FeatureContainer } from "@/components/feature-container";
@@ -45,18 +45,19 @@ interface PaymentRow {
 // ─── Activity type ────────────────────────────────────────────────────────────
 
 interface ActivityRow {
+  ts: number; // epoch ms — drives sorting
   date: string;
   tool: string;
   tokensUsed: number;
   tokensTotal: number;
 }
 
+type SortDir = "asc" | "desc";
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const rand = (min: number, max: number): number =>
   Math.floor(Math.random() * (max - min + 1)) + min;
-
-const pickRandom = <T,>(arr: T[]): T => arr[rand(0, arr.length - 1)];
 
 const parseDate = (dateStr: string): Date | null => {
   const parts = dateStr.split(".");
@@ -113,8 +114,8 @@ const generateActivity = (tokensTarget: number, startDate: Date, endDate: Date):
   // ── Phase 2: distribute sessions evenly across the date range ─────────────
   const numSessions = sessions.length;
   const slotMs      = rangeMs / numSessions;
-  const rows: ActivityRow[] = [];
-  let totalSpent = 0;
+  type TimedEntry = { ts: number; tool: string; tokens: number };
+  const timed: TimedEntry[] = [];
 
   for (let s = 0; s < numSessions; s++) {
     // Cursor starts at a random point in the first quarter of each slot
@@ -123,19 +124,28 @@ const generateActivity = (tokensTarget: number, startDate: Date, endDate: Date):
                     + rand(0, 59) * 1000;
 
     for (const entry of sessions[s]) {
-      const displayMs = cursorMs + rand(0, 59) * 1000;
-      rows.push({
-        date:        formatDate(new Date(displayMs)),
-        tool:        entry.tool,
-        tokensUsed:  entry.tokens,
-        tokensTotal: totalSpent + entry.tokens,
-      });
-      totalSpent += entry.tokens;
-      cursorMs   += rand(2, 25) * 60_000; // intra-session gap
+      // Clamp so a long session never overflows past the requested last date
+      const displayMs = Math.min(cursorMs + rand(0, 59) * 1000, endMs);
+      timed.push({ ts: displayMs, tool: entry.tool, tokens: entry.tokens });
+      cursorMs += rand(2, 25) * 60_000; // intra-session gap
     }
   }
 
-  return rows;
+  // Sessions can overlap in time, so enforce chronological order globally
+  // before computing the running total — it must follow real time.
+  timed.sort((a, b) => a.ts - b.ts);
+
+  let totalSpent = 0;
+  return timed.map((entry) => {
+    totalSpent += entry.tokens;
+    return {
+      ts:          entry.ts,
+      date:        formatDate(new Date(entry.ts)),
+      tool:        entry.tool,
+      tokensUsed:  entry.tokens,
+      tokensTotal: totalSpent,
+    };
+  });
 };
 
 // ─── Pagination component ─────────────────────────────────────────────────────
@@ -232,6 +242,7 @@ export default function AdminDashboardPage() {
   const [activityError, setActivityError] = useState("");
   const [activityGenerated, setActivityGenerated] = useState(false);
   const [activityPage, setActivityPage] = useState(1);
+  const [activitySortDir, setActivitySortDir] = useState<SortDir>("desc");
 
   // Payment state
   const [rowsCount,     setRowsCount]    = useState("");
@@ -254,10 +265,13 @@ export default function AdminDashboardPage() {
 
   const canGenerateRows = Number(rowsCount) > 0;
 
-  // ── Pagination slices ────────────────────────────────────────────────────────
+  // ── Sorting + pagination slices ──────────────────────────────────────────────
 
-  const activityTotalPages = Math.max(1, Math.ceil(activityRows.length / PAGE_SIZE));
-  const pagedActivity = activityRows.slice((activityPage - 1) * PAGE_SIZE, activityPage * PAGE_SIZE);
+  const sortedActivity = [...activityRows].sort((a, b) =>
+    activitySortDir === "desc" ? b.ts - a.ts : a.ts - b.ts
+  );
+  const activityTotalPages = Math.max(1, Math.ceil(sortedActivity.length / PAGE_SIZE));
+  const pagedActivity = sortedActivity.slice((activityPage - 1) * PAGE_SIZE, activityPage * PAGE_SIZE);
 
   const paymentTotalPages = Math.max(1, Math.ceil(paymentRows.length / PAGE_SIZE));
   const pagedPayment = paymentRows.slice((paymentPage - 1) * PAGE_SIZE, paymentPage * PAGE_SIZE);
@@ -273,10 +287,16 @@ export default function AdminDashboardPage() {
     if (!start || !end) { setActivityError("Invalid date format. Use DD.MM.YYYY"); return; }
     if (end < start)    { setActivityError("Last date must be equal to or later than first date."); return; }
     if (tokens <= 0)    { setActivityError("Tokens spend must be greater than 0."); return; }
-    // Newest entries first
-    setActivityRows(generateActivity(tokens, start, end).reverse());
+    // Rows come back chronologically sorted; publish newest-first by default
+    setActivityRows(generateActivity(tokens, start, end));
+    setActivitySortDir("desc");
     setActivityPage(1);
     setActivityGenerated(true);
+  };
+
+  const handleToggleActivitySort = () => {
+    setActivitySortDir((prev) => (prev === "desc" ? "asc" : "desc"));
+    setActivityPage(1);
   };
 
   const handleResetActivity = () => {
@@ -616,11 +636,30 @@ export default function AdminDashboardPage() {
                   <table className="w-full text-sm">
                     <thead className="bg-gray-50">
                       <tr>
-                        {["#", "Date", "Tool", "Tokens", "Total spent"].map((h) => (
-                          <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">
-                            {h}
-                          </th>
-                        ))}
+                        {["#", "Date", "Tool", "Tokens", "Total spent"].map((h) =>
+                          h === "Date" ? (
+                            <th
+                              key={h}
+                              aria-sort={activitySortDir === "desc" ? "descending" : "ascending"}
+                              className="text-left px-4 py-3 border-b border-gray-100"
+                            >
+                              <button
+                                onClick={handleToggleActivitySort}
+                                aria-label={`Sort by date, currently ${activitySortDir === "desc" ? "newest first" : "oldest first"}`}
+                                className="flex items-center gap-1 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-indigo-600 transition-colors"
+                              >
+                                {h}
+                                {activitySortDir === "desc"
+                                  ? <ChevronDown className="w-3.5 h-3.5" />
+                                  : <ChevronUp className="w-3.5 h-3.5" />}
+                              </button>
+                            </th>
+                          ) : (
+                            <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">
+                              {h}
+                            </th>
+                          )
+                        )}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
