@@ -46,7 +46,6 @@ interface PaymentRow {
 
 interface ActivityRow {
   date: string;
-  time: string;
   tool: string;
   tokensUsed: number;
   tokensTotal: number;
@@ -73,11 +72,6 @@ const formatDate = (d: Date): string => {
   const mm = String(d.getMonth() + 1).padStart(2, "0");
   return `${dd}.${mm}.${d.getFullYear()}`;
 };
-
-const formatTime = (d: Date): string =>
-  [d.getHours(), d.getMinutes(), d.getSeconds()]
-    .map((n) => String(n).padStart(2, "0"))
-    .join(":");
 
 const CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
 const generateId = (): string =>
@@ -132,7 +126,6 @@ const generateActivity = (tokensTarget: number, startDate: Date, endDate: Date):
       const displayMs = cursorMs + rand(0, 59) * 1000;
       rows.push({
         date:        formatDate(new Date(displayMs)),
-        time:        formatTime(new Date(displayMs)),
         tool:        entry.tool,
         tokensUsed:  entry.tokens,
         tokensTotal: totalSpent + entry.tokens,
@@ -280,7 +273,8 @@ export default function AdminDashboardPage() {
     if (!start || !end) { setActivityError("Invalid date format. Use DD.MM.YYYY"); return; }
     if (end < start)    { setActivityError("Last date must be equal to or later than first date."); return; }
     if (tokens <= 0)    { setActivityError("Tokens spend must be greater than 0."); return; }
-    setActivityRows(generateActivity(tokens, start, end));
+    // Newest entries first
+    setActivityRows(generateActivity(tokens, start, end).reverse());
     setActivityPage(1);
     setActivityGenerated(true);
   };
@@ -588,7 +582,7 @@ export default function AdminDashboardPage() {
                           <tr key={row.id} className="hover:bg-gray-50 transition-colors">
                             <td className="px-4 py-3 font-mono text-xs text-gray-500">{row.id}</td>
                             <td className="px-4 py-3 font-medium text-black">{row.date}</td>
-                            <td className="px-4 py-3 text-black">£{Number(row.amount).toFixed(2)}</td>
+                            <td className="px-4 py-3 text-black">{Number(row.amount).toFixed(2)}</td>
                             <td className="px-4 py-3 text-black">{row.currency}</td>
                             <td className="px-4 py-3 text-black">{row.tokens}</td>
                             <td className="px-4 py-3"><span className={statusBadge(row.status)}>{row.status}</span></td>
@@ -622,7 +616,7 @@ export default function AdminDashboardPage() {
                   <table className="w-full text-sm">
                     <thead className="bg-gray-50">
                       <tr>
-                        {["#", "Date", "Time", "Tool", "Tokens", "Total spent"].map((h) => (
+                        {["#", "Date", "Tool", "Tokens", "Total spent"].map((h) => (
                           <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100">
                             {h}
                           </th>
@@ -636,7 +630,6 @@ export default function AdminDashboardPage() {
                           <tr key={i} className="hover:bg-gray-50 transition-colors">
                             <td className="px-4 py-3 text-gray-400 text-xs">{globalN}</td>
                             <td className="px-4 py-3 font-medium text-black">{row.date}</td>
-                            <td className="px-4 py-3 text-gray-500">{row.time}</td>
                             <td className="px-4 py-3">
                               <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-600 border border-indigo-100">
                                 {row.tool}

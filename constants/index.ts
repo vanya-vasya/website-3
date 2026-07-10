@@ -200,23 +200,25 @@ export type Currency =
   | "JOD"
   | "KWD";
 
+// Rates relative to EUR (base currency), updated 10 July 2026
+// Sources: Yahoo Finance currency market data, ECB reference rates
 export const currenciesRate: Record<Currency, number> = {
   EUR: 1,
-  USD: 1.133616,
-  GBP: 0.84,
-  CHF: 0.94,
-  AED: 4.19,
-  SEK: 10.98,
-  PLN: 4.27,
-  CZK: 24.8,
-  DKK: 7.46,
-  NOK: 11.5,
-  RON: 5.04,
-  HUF: 401.8,
-  MDL: 19.71,
-  BGN: 1.96,
-  JOD: 0.81,
-  KWD: 0.346695,
+  USD: 1.1432,
+  GBP: 0.8521,
+  CHF: 0.9219,
+  AED: 4.1984,
+  SEK: 11.0168,
+  PLN: 4.3085,
+  CZK: 24.254,
+  DKK: 7.4753,
+  NOK: 11.1305,
+  RON: 5.2364,
+  HUF: 356.07,
+  MDL: 20.14,
+  BGN: 1.9558,
+  JOD: 0.8105,
+  KWD: 0.3521,
 };
 
 export const currencies = [
