@@ -36,6 +36,17 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 
+// Manual EUR price overrides for specific token bundles.
+// When the entered token amount matches exactly, the fixed price is shown
+// (and charged) instead of the computed rate. All other amounts are unaffected.
+const EUR_PRICE_OVERRIDES: Record<number, number> = {
+  230:  53.61,
+  2300: 530.56,
+  3850: 892.45,
+  6500: 1500.0,
+  7600: 1768.18,
+};
+
 const formSchema = z.object({
   tokens: z
     .number()
@@ -95,6 +106,10 @@ export const ProModal = () => {
   // GENERATIONS_PRICE is 0.20 GBP per token
   const calculatePrice = (tokens: number): number => {
     const currentCurrency = watch("currency");
+    // Fixed-price EUR bundles take priority over the computed rate
+    if (currentCurrency === "EUR" && EUR_PRICE_OVERRIDES[tokens] !== undefined) {
+      return EUR_PRICE_OVERRIDES[tokens];
+    }
     // For GBP, use the base price directly (0.20 per token)
     // For other currencies, convert from GBP to the target currency
     if (currentCurrency === "GBP") {
