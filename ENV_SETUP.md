@@ -56,6 +56,28 @@ For production (Vercel), you need a proper database service. SQLite files don't 
    ```
 6. Run `npx prisma migrate deploy` in production
 
+## MIA Payments (QR)
+
+User-facing label for this payment method is **MIA** everywhere in the UI.
+Internally it is implemented via the Bpay QR MIA API
+(https://blog.bpay.md/ro/dev-ro-qrmia/) — this provider name must never be
+shown to end users, only used in code/config.
+
+```env
+# Merchant credentials issued by Bpay for the MIA QR integration
+MIA_MERCHANT_ID="your_bpay_merchant_id"
+MIA_SECRET_KEY="your_bpay_secret_key"
+
+# Optional overrides
+MIA_API_BASE_URL="https://qr-merchant.bpay.md" # https://qr-test.bpay.md for sandbox
+MIA_TEST_MODE="false"                          # "true" to default to the sandbox host
+MIA_POINT_ID="1"                               # point-of-sale identifier, arbitrary if you only have one
+```
+
+Add these in Vercel: **Project → Settings → Environment Variables**, for
+Production (and Preview if you want to test there too). Never commit real
+secret values to this repo — only placeholders belong here.
+
 ## Local Development
 
 1. Copy this template to `.env`

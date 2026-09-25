@@ -27,6 +27,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SecureProcessorPaymentWidget } from "@/components/secure-processor-payment-widget";
+import { MiaPaymentWidget } from "@/components/mia-payment-widget";
 import {
   Checkbox,
   Field,
@@ -65,6 +66,7 @@ export const ProModal = () => {
   const [loading, setLoading] = useState(false);
   const [tokenPrice, setTokenPrice] = useState(GENERATIONS_PRICE);
   const [showPaymentWidget, setShowPaymentWidget] = useState(false);
+  const [paymentProvider, setPaymentProvider] = useState<"card" | "mia">("card");
 
   const {
     register,
@@ -85,6 +87,19 @@ export const ProModal = () => {
     try {
       setLoading(true);
       // Показываем платежный виджет вместо закрытия модала
+      setPaymentProvider("card");
+      setShowPaymentWidget(true);
+    } catch (error) {
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSubmitMia = async () => {
+    try {
+      setLoading(true);
+      setPaymentProvider("mia");
       setShowPaymentWidget(true);
     } catch (error) {
       toast.error("Something went wrong");
@@ -181,16 +196,27 @@ export const ProModal = () => {
               </div>
             </div>
             
-            <SecureProcessorPaymentWidget
-              amount={calculatePrice(watch("tokens"))}
-              currency={watch("currency")}
-              orderId={`gen_${userId}_${Date.now()}`}
-              description={`Yum-mi Tokens Purchase (${watch("tokens")} Tokens)`}
-              customerEmail={user?.emailAddresses[0].emailAddress || ""}
-              onSuccess={handlePaymentSuccess}
-              onError={handlePaymentError}
-              onCancel={handlePaymentCancel}
-            />
+            {paymentProvider === "mia" ? (
+              <MiaPaymentWidget
+                amount={calculatePrice(watch("tokens"))}
+                currency={watch("currency")}
+                tokens={watch("tokens")}
+                onSuccess={() => handlePaymentSuccess(null)}
+                onError={handlePaymentError}
+                onCancel={handlePaymentCancel}
+              />
+            ) : (
+              <SecureProcessorPaymentWidget
+                amount={calculatePrice(watch("tokens"))}
+                currency={watch("currency")}
+                orderId={`gen_${userId}_${Date.now()}`}
+                description={`Yum-mi Tokens Purchase (${watch("tokens")} Tokens)`}
+                customerEmail={user?.emailAddresses[0].emailAddress || ""}
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+                onCancel={handlePaymentCancel}
+              />
+            )}
           </div>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -350,21 +376,38 @@ export const ProModal = () => {
             )}
           </div>
           <DialogFooter className="mt-3">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full"
-            >
-              <Button
-                disabled={loading}
-                size="lg"
-                type="submit"
-                className="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            <div className="w-full flex gap-2">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex-[2]"
               >
-                Buy Tokens
-                <Zap className="w-4 h-4 ml-2 fill-white" />
-              </Button>
-            </motion.div>
+                <Button
+                  disabled={loading}
+                  size="lg"
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                  Buy Tokens
+                  <Zap className="w-4 h-4 ml-2 fill-white" />
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex-1"
+              >
+                <Button
+                  disabled={loading}
+                  size="lg"
+                  type="button"
+                  onClick={handleSubmit(onSubmitMia)}
+                  className="w-full bg-white border-2 border-black text-black hover:bg-gray-50 font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                  MIA
+                </Button>
+              </motion.div>
+            </div>
           </DialogFooter>
         </form>
         )}
