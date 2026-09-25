@@ -231,10 +231,10 @@ const Footer = () => {
         </div>
         <div className="mt-6 flex justify-center">
           <Image
-            src="/cards_new.svg"
+            src="/cards_new.png"
             alt="cards"
             width={300}
-            height={100}
+            height={24}
             className=""
           />
         </div>

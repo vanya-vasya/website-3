@@ -372,11 +372,11 @@ export const ProModal = () => {
         {!showPaymentWidget && (
           <>
             <Image
-              alt="Visa, Visa Secure, Mastercard, ID Check, 3D Secure payment logos"
+              alt="Visa, Visa Secure, Mastercard, ID Check payment logos"
               className="w-full max-w-md m-auto mt-1"
-              src="/cards_new.svg"
-              width={2537}
-              height={394}
+              src="/cards_new.png"
+              width={1024}
+              height={81}
             />
             <Label className="text-center text-black mb-2 block" style={{fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'}}>
             QUICK FIT LTD - DEPT 2, 43 OWSTON ROAD, CARCROFT, DONCASTER, UNITED KINGDOM, DN6 8DA
