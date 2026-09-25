@@ -378,7 +378,6 @@ export const ProModal = () => {
           <DialogFooter className="mt-3">
             <div className="w-full flex gap-2">
               <motion.div
-                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 className="flex-1"
               >
@@ -386,7 +385,7 @@ export const ProModal = () => {
                   disabled={loading}
                   size="lg"
                   type="submit"
-                  className="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   Buy Tokens
                   <Zap className="w-4 h-4 ml-2 fill-white" />
