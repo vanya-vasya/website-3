@@ -374,7 +374,7 @@ export const ProModal = () => {
             <Image
               alt="Visa, Visa Secure, Mastercard, ID Check payment logos"
               className="w-full max-w-md m-auto mt-1"
-              src="/cards_new.png"
+              src="/cards_logo.png"
               width={1024}
               height={81}
             />

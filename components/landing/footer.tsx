@@ -231,7 +231,7 @@ const Footer = () => {
         </div>
         <div className="mt-6 flex justify-center">
           <Image
-            src="/cards_new.png"
+            src="/cards_logo.png"
             alt="cards"
             width={300}
             height={24}
