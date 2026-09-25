@@ -8,6 +8,10 @@ import { currenciesRate, currencies, Currency } from "@/constants/index";
 
 const APP_URL = "https://www.yum-mi.com";
 
+// Reads the Clerk session via headers() on every request; never statically
+// optimizable, so declare it explicitly (see check-status/route.ts).
+export const dynamic = "force-dynamic";
+
 // POST - Create a MIA QR code for a token purchase.
 export async function POST(request: NextRequest) {
   try {

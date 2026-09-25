@@ -4,6 +4,12 @@ import { auth } from "@clerk/nextjs/server";
 import prismadb from "@/lib/prismadb";
 import { settleMiaPayment } from "@/lib/mia-bpay";
 
+// This route reads the Clerk session via headers() on every request, so it
+// can never be statically optimized. Declaring it explicitly avoids Next.js
+// probing it during the build's static-generation pass (which otherwise
+// logs a harmless but noisy DYNAMIC_SERVER_USAGE bailout).
+export const dynamic = "force-dynamic";
+
 // GET - Poll MIA QR payment status from the client and credit tokens once paid.
 export async function GET(request: NextRequest) {
   try {
