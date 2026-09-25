@@ -402,9 +402,15 @@ export const ProModal = () => {
                   size="lg"
                   type="button"
                   onClick={handleSubmit(onSubmitMia)}
-                  className="w-full bg-white border-2 border-black text-black hover:bg-gray-50 font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  className="w-full h-full bg-white border-2 border-black hover:bg-gray-50 py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
                 >
-                  MIA
+                  <Image
+                    src="/logos/mia-logo.png"
+                    alt="MIA"
+                    width={94}
+                    height={28}
+                    className="object-contain"
+                  />
                 </Button>
               </motion.div>
             </div>
