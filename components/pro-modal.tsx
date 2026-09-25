@@ -380,7 +380,7 @@ export const ProModal = () => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex-[2]"
+                className="flex-1"
               >
                 <Button
                   disabled={loading}
@@ -395,20 +395,19 @@ export const ProModal = () => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex-1"
+                className="flex-none"
               >
                 <Button
                   disabled={loading}
-                  size="lg"
                   type="button"
                   onClick={handleSubmit(onSubmitMia)}
-                  className="w-full h-full bg-white border-2 border-black hover:bg-gray-50 py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center"
+                  className="bg-white hover:bg-gray-50 py-1.5 px-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg flex items-center justify-center"
                 >
                   <Image
                     src="/logos/mia-logo.png"
                     alt="MIA"
-                    width={94}
-                    height={28}
+                    width={47}
+                    height={14}
                     className="object-contain"
                   />
                 </Button>
