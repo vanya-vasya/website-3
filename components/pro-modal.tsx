@@ -96,16 +96,15 @@ export const ProModal = () => {
     }
   };
 
+  // MIA is temporarily under maintenance on the provider's side — show a
+  // notice instead of opening the QR payment flow. Re-enable by restoring
+  // the setPaymentProvider("mia") / setShowPaymentWidget(true) flow below
+  // once the integration is confirmed working end-to-end.
   const onSubmitMia = async () => {
-    try {
-      setLoading(true);
-      setPaymentProvider("mia");
-      setShowPaymentWidget(true);
-    } catch (error) {
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
+    toast(
+      "MIA payments are currently undergoing maintenance. Please check back soon, or pay by card in the meantime.",
+      { icon: "🛠️", duration: 5000 }
+    );
   };
 
   const handleCurrencyChange = (currency: Currency) => {
