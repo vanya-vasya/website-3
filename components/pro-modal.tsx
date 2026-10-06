@@ -376,6 +376,8 @@ export const ProModal = () => {
                 <a
                   href="/terms-and-conditions"
                   className="underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Terms and Conditions
                 </a>{" "}
@@ -383,6 +385,8 @@ export const ProModal = () => {
                 <a
                   href="/return-policy"
                   className="underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Refund and Cancellation Policy
                 </a>

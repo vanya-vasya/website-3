@@ -58,8 +58,8 @@ const TermsAndConditions = () => {
       <PolicyText>
         If a generation fails because of a technical problem with our service and no usable result
         is provided, any tokens charged for that failed action will be restored. Tokens are charged
-        only after a successful generation. If they are not restored automatically, contact support
-        with the relevant transaction or generation details.
+        only after a successful generation. If they are not restored automatically, contact{" "}
+        {COMPANY_EMAIL} with the relevant transaction or generation details.
       </PolicyText>
       <PolicyText>
         We will not retrospectively increase the token cost of an action you have already

@@ -18,9 +18,10 @@ const ReturnPolicy = () => {
         bonus. Tokens supplied entirely free of charge have no independent cash value.
       </PolicyText>
       <PolicyText>
-        Spent tokens are allocated to a purchase before free promotional tokens are treated as used.
-        Free tokens are not deducted in a way that reduces the refund of the price you paid for
-        unused purchased tokens.
+        Free promotional tokens are not part of a purchased package. They are used before purchased
+        tokens, so using free tokens does not reduce the refund of a purchased package. Where a
+        purchased package is partly used, the refund uses the price paid and the unused tokens from
+        that package only.
       </PolicyText>
       <PolicyText>
         This refund offer remains available for unused tokens even if you have started using other
@@ -59,7 +60,7 @@ const ReturnPolicy = () => {
 
       <PolicyHeading>4. How to Request a Refund or Cancel</PolicyHeading>
       <PolicyText>
-        Contact {COMPANY_EMAIL} or use our contact form. Include your Account email, order number
+        Contact {COMPANY_EMAIL}. Include your Account email, order number
         and purchase date. We may request information reasonably necessary to locate the purchase or
         verify the request. You do not need to give a reason to exercise a statutory cancellation
         right.

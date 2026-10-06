@@ -252,7 +252,8 @@ const ConversationPage = () => {
       return;
     }
 
-    if (!serviceAccepted || !healthAccepted) {
+    const requiresHealthConsent = toolId === "master-nutritionist";
+    if (!serviceAccepted || (requiresHealthConsent && !healthAccepted)) {
       setShowConsentErrors(true);
       return;
     }
@@ -543,6 +544,7 @@ const ConversationPage = () => {
               <GenerationConsents
                 serviceAccepted={serviceAccepted}
                 healthAccepted={healthAccepted}
+                showHealthConsent={toolId === "master-nutritionist"}
                 onServiceChange={handleServiceConsentChange}
                 onHealthChange={handleHealthConsentChange}
                 showErrors={showConsentErrors}
