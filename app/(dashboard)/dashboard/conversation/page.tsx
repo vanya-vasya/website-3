@@ -29,6 +29,7 @@ import { NutritionistReportCard } from "@/components/NutritionistReportCard";
 import { CalTrackerNutritionCard } from "@/components/CalTrackerNutritionCard";
 import { friendlyFormatter, FriendlyResponse } from "@/lib/friendly-response-formatter";
 import { GuidelineSection } from "@/components/GuidelineSection";
+import { GenerationConsents } from "@/components/generation-consents";
 
 import { getFormSchema } from "./constants";
 import { N8nWebhookClient } from "@/lib/n8n-webhook";
@@ -155,6 +156,9 @@ const ConversationPage = () => {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [description, setDescription] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [serviceAccepted, setServiceAccepted] = useState(false);
+  const [healthAccepted, setHealthAccepted] = useState(false);
+  const [showConsentErrors, setShowConsentErrors] = useState(false);
   
   // Use centralized credit context instead of local state
   const { remainingCredits, usedGenerations, availableGenerations, deductCredits, refreshCredits, isLoading: isLoadingCredits } = useCredits();
@@ -205,6 +209,21 @@ const ConversationPage = () => {
   });
 
 
+  useEffect(() => {
+    setServiceAccepted(window.localStorage.getItem("yum-mi-service-consent") === "true");
+    setHealthAccepted(window.localStorage.getItem("yum-mi-health-consent") === "true");
+  }, []);
+
+  const handleServiceConsentChange = (accepted: boolean) => {
+    setServiceAccepted(accepted);
+    window.localStorage.setItem("yum-mi-service-consent", String(accepted));
+  };
+
+  const handleHealthConsentChange = (accepted: boolean) => {
+    setHealthAccepted(accepted);
+    window.localStorage.setItem("yum-mi-health-consent", String(accepted));
+  };
+
   // Reset form when tool changes
   useEffect(() => {
     if (toolId === 'master-nutritionist') {
@@ -230,6 +249,11 @@ const ConversationPage = () => {
     if (hasInsufficientCredits && toolPrice > 0) {
       toast.error(`Insufficient credits. You need ${toolPrice} credits but only have ${availableCredits} available.`);
       proModal.onOpen();
+      return;
+    }
+
+    if (!serviceAccepted || !healthAccepted) {
+      setShowConsentErrors(true);
       return;
     }
     
@@ -515,6 +539,16 @@ const ConversationPage = () => {
               )}
             </div>
             
+            <div className="col-span-12">
+              <GenerationConsents
+                serviceAccepted={serviceAccepted}
+                healthAccepted={healthAccepted}
+                onServiceChange={handleServiceConsentChange}
+                onHealthChange={handleHealthConsentChange}
+                showErrors={showConsentErrors}
+              />
+            </div>
+
             {/* Generate Button */}
             <div className="col-span-12 flex flex-col items-center gap-3 mt-4">
               {/* Credit information */}

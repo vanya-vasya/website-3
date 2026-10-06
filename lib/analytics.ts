@@ -2,8 +2,15 @@
  * Analytics and Event Tracking Utility
  * 
  * Provides functions to track user interactions and events using Google Analytics
- * GA ID: G-DYY23NK5V1 (configured in app/layout.tsx)
+ * GA ID: G-DYY23NK5V1 (loaded only after analytics cookie consent)
  */
+
+import { readCookieConsent } from "@/lib/cookie-consent";
+
+const analyticsAllowed = () =>
+  typeof window !== "undefined" &&
+  Boolean(window.gtag) &&
+  readCookieConsent()?.analytics === true;
 
 // Check if Google Analytics is available
 declare global {
@@ -23,7 +30,7 @@ export const trackEvent = (
   eventName: string,
   eventParams?: Record<string, any>
 ) => {
-  if (typeof window !== 'undefined' && window.gtag) {
+  if (analyticsAllowed() && window.gtag) {
     window.gtag('event', eventName, eventParams);
     
     // Also log in development for debugging
@@ -37,7 +44,7 @@ export const trackEvent = (
  * Track page view
  */
 export const trackPageView = (pagePath: string, pageTitle?: string) => {
-  if (typeof window !== 'undefined' && window.gtag) {
+  if (analyticsAllowed() && window.gtag) {
     window.gtag('event', 'page_view', {
       page_path: pagePath,
       page_title: pageTitle || document.title,

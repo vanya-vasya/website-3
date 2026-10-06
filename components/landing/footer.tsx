@@ -1,6 +1,8 @@
 import { Building, FileText, Mail, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/cookie-settings-button";
+import { COMPANY_ADDRESS, COMPANY_EMAIL } from "@/lib/company";
 import CurrencySelector from "./currency-selector";
 
 const routes = [
@@ -40,12 +42,16 @@ const importantLinks = [
     href: "/terms-and-conditions",
   },
   {
-    name: "Return Policy",
+    name: "Refund and Cancellation Policy",
     href: "/return-policy",
   },
   {
     name: "Cookies Policy",
     href: "/cookies-policy",
+  },
+  {
+    name: "Payment Policy",
+    href: "/payment-policy",
   },
 ];
 
@@ -59,11 +65,11 @@ const companyDetails = [
     icon: FileText,
   },
   {
-    name: "support@yum-mi.com",
+    name: COMPANY_EMAIL,
     icon: Mail,
   },
   {
-    name: `DEPT 2, 43 OWSTON ROAD, CARCROFT, DONCASTER, UNITED KINGDOM, DN6 8DA`,
+    name: COMPANY_ADDRESS,
     icon: MapPin,
   },
 ];
@@ -167,6 +173,9 @@ const Footer = () => {
                       </li>
                     ))}
                   </ul>
+                  <div className="mt-4">
+                    <CookieSettingsButton />
+                  </div>
                 </div>
               </div>
             </div>

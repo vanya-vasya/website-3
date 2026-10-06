@@ -61,3 +61,10 @@ test-results/
 *.backup
 *.bak
 *~
+
+# Common build and tool artifacts
+/dist
+/.turbo
+/.cache
+*.tgz
+.eslintcache

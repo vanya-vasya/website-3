@@ -150,9 +150,9 @@ const styles = StyleSheet.create({
 const company = {
   name: "Yum-mi",
   company: "QUICK FIT LTD",
-  address: "DEPT 2, 43 OWSTON ROAD, CARCROFT, DONCASTER, UNITED KINGDOM, DN6 8DA",
+  address: "7 Cresset Rd, London, United Kingdom, E9 7FS",
   website: "yum-mi.com",
-  email: "support@yum-mi.com",
+  email: "info@yum-mi.com",
   logo: logoPath, // Official company logo
   companyNumber: "15995367",
 };
@@ -244,8 +244,10 @@ const Receipt = ({
         </Text>
 
         <Text style={styles.legal}>
-          You&apos;re receiving this email because you made a purchase at{" "}
-          {company.name}.
+          Tokens purchased: {tokens}. Purchased tokens are credited after successful payment
+          confirmation, normally within a few minutes. This order is governed by the Terms and
+          Conditions and the Refund and Cancellation Policy accepted before payment:
+          https://www.yum-mi.com/terms-and-conditions and https://www.yum-mi.com/return-policy.
         </Text>
       </View>
       <Text style={styles.companyInfo}>

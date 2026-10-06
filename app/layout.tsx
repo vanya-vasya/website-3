@@ -10,7 +10,8 @@ import { CurrencyProvider } from "@/contexts/currency-context";
 
 import NextTopLoader from "nextjs-toploader";
 
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { CookieConsentBanner } from "@/components/cookie-consent";
+import { GoogleAnalyticsGate } from "@/components/google-analytics-gate";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const spaceGrotesk = Space_Grotesk({
@@ -46,7 +47,8 @@ export default function RootLayout({
             spaceGrotesk.variable
           )}
         >
-          <GoogleAnalytics gaId="G-DYY23NK5V1" />
+          <GoogleAnalyticsGate />
+          <CookieConsentBanner />
           <CurrencyProvider>
             <ModalProvider />
             <ToasterProvider />

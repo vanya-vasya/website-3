@@ -1,192 +1,125 @@
-import CTA from "@/components/landing/cta";
+import { PolicyHeading, PolicyLayout, PolicyText } from "@/components/policy-layout";
+
+const cookieRows = [
+  {
+    name: "yum-mi-cookie-consent",
+    provider: "Yum-mi",
+    purpose: "Stores your choice to accept or reject optional analytics cookies",
+    category: "Strictly necessary",
+    duration: "6 months",
+  },
+  {
+    name: "__session",
+    provider: "Clerk",
+    purpose: "Keeps you signed in",
+    category: "Strictly necessary",
+    duration: "For the signed-in session",
+  },
+  {
+    name: "__client_uat",
+    provider: "Clerk",
+    purpose: "Detects whether a Clerk sign-in exists on this browser",
+    category: "Strictly necessary",
+    duration: "Up to 1 year",
+  },
+  {
+    name: "_ga",
+    provider: "Google",
+    purpose: "Distinguishes users for Google Analytics",
+    category: "Optional analytics",
+    duration: "2 years",
+  },
+  {
+    name: "_ga_DYY23NK5V1",
+    provider: "Google",
+    purpose: "Stores Google Analytics session state for this site",
+    category: "Optional analytics",
+    duration: "2 years",
+  },
+];
 
 const CookiesPolicy = () => {
   return (
-    <div style={{ fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
-      <section className="page-title" style={{ backgroundColor: 'white', position: 'relative' }}>
-        <style dangerouslySetInnerHTML={{__html: `
-          .page-title::before, .page-title::after {
-            display: none !important;
-            content: none !important;
-            background: none !important;
-            filter: none !important;
-          }
-          .page-title__shape-1, .page-title__shape-2, .page-title__shape-3 {
-            display: none !important;
-          }
-          .page-title {
-            background: white !important;
-            position: relative !important;
-          }
-          .page-title * {
-            filter: none !important;
-            background-image: none !important;
-          }
-        `}} />
-        <div className="container">
-          <div className="page-title__inner" style={{ padding: '60px 0 40px' }}>
-            <div className="page-title__title-box">
-              <h3 className="page-title__title" style={{ color: 'black', fontSize: '32px', marginBottom: '20px' }}>Cookies Policy</h3>
-            </div>
-            <p className="page-title__text" style={{ color: 'black' }}>
-              This Cookies Policy provides important information about the use
-              of cookies on our website. Please read it carefully to understand
-              how we use cookies and how you can control them.
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="career-page-top" style={{ backgroundColor: 'white' }}>
-        <div className="container">
-          <div className="career-page-top__inner">
-            <div className="career-page-top__single">
-              <div className="career-page-top__content-box" style={{ backgroundColor: 'white', border: '1px solid #e5e7eb', maxHeight: '70vh', overflowY: 'auto', padding: '30px' }}>
-                <div className="career-page-top__content-box-two">
+    <PolicyLayout
+      title="Cookies Policy"
+      lede="This Cookies Policy explains the cookies Yum-mi uses and how you can control them."
+    >
+      <PolicyText>
+        At yum-mi.com, we use cookies to operate the site and, if you allow it, to measure how the
+        site is used. This policy explains what cookies are, how we use them, and your choices.
+      </PolicyText>
 
-                  <p className="career-page-top__text-1 pt-8" style={{ color: 'black' }}>
-                    At yum-mi.com, we use cookies to enhance your browsing
-                    experience, provide personalized services, and analyze our
-                    website traffic. This policy explains what cookies are, how
-                    we use them, and your choices regarding their usage.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    What Are Cookies?
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    Cookies are small text files that are placed on your device
-                    when you visit a website. They help us recognize your device
-                    and store information about your preferences or past actions
-                    on our site.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    Types of Cookies We Use
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    We use the following types of cookies on yum-mi.com:
-                  </p>
-                  <ul className="career-page-top__points-list list-unstyled pt-4">
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        <strong>Essential Cookies:</strong> These cookies are
-                        necessary for the basic functioning of our website. They
-                        enable core features such as security, network
-                        management, and accessibility.
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        <strong>Performance and Analytics Cookies:</strong> We
-                        use these cookies to collect information about how you
-                        use our website. This helps us understand website
-                        performance and improve our services. We use Google
-                        Analytics for this purpose.
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        <strong>Functionality Cookies:</strong> These cookies
-                        allow our website to remember choices you make and
-                        provide enhanced, more personalized features. For
-                        example, they can remember your preferences on our site.
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        <strong>Advertising and Targeting Cookies:</strong> We
-                        may use these cookies to make advertising messages more
-                        relevant to you. They perform functions like preventing
-                        the same ad from continuously reappearing, ensuring that
-                        ads are properly displayed for advertisers, and in some
-                        cases selecting advertisements that are based on your
-                        interests.
-                      </p>
-                    </li>
-                  </ul>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    Third-Party Cookies
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    In addition to our own cookies, we use third-party cookies
-                    to report usage statistics of the website and deliver
-                    advertisements on and through the site. These cookies are
-                    provided by third-party services such as Google Analytics,
-                    which help us understand and analyze how visitors use our
-                    website.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    How We Use Cookies
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>We use cookies to:</p>
-                  <ul className="career-page-top__points-list list-unstyled pt-4">
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                        <p style={{ color: 'black' }}>Ensure the website functions properly and securely</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        Improve your browsing experience by remembering your
-                        preferences and settings
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        Understand how you use our website and identify areas
-                        for improvement
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        Deliver personalized content and advertising that is
-                        relevant to your interests
-                      </p>
-                    </li>
-                  </ul>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    Your Choices Regarding Cookies
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    You have several options for managing cookies on your
-                    device. You can:
-                  </p>
-                  <ul className="career-page-top__points-list list-unstyled pt-4">
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                        <p style={{ color: 'black' }}>Set your browser to block or delete cookies</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        Use opt-out tools provided by third-party services like
-                        Google Analytics
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        Adjust your preferences in our cookie consent manager,
-                        if available
-                      </p>
-                    </li>
-                  </ul>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    Please note that blocking or deleting cookies may affect
-                    your ability to use certain features of our website and may
-                    impact your experience.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+      <PolicyHeading>Consent</PolicyHeading>
+      <PolicyText>
+        We use strictly necessary cookies to provide services you request. Optional analytics
+        cookies are enabled only after you give consent. We do not use advertising or targeting
+        cookies. You can refuse optional cookies without losing access to the core service.
+      </PolicyText>
+
+      <PolicyHeading>What Are Cookies?</PolicyHeading>
+      <PolicyText>
+        Cookies are small text files that are placed on your device when you visit a website. They
+        help us recognize your device and store information about your preferences or past actions
+        on our site.
+      </PolicyText>
+
+      <PolicyHeading>Types of Cookies We Use</PolicyHeading>
+      <PolicyText>We use the following types of cookies on yum-mi.com:</PolicyText>
+      <PolicyText>
+        <strong>Strictly necessary cookies:</strong> These cookies are required for sign-in, security
+        and to remember your cookie choice. The site does not ask for consent before setting them.
+      </PolicyText>
+      <PolicyText>
+        <strong>Optional analytics cookies:</strong> Google Analytics cookies are set only after you
+        accept analytics. They help us understand how the site is used. They are not required to
+        buy tokens or use the nutrition tools.
+      </PolicyText>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm text-black border-collapse">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 p-2">Cookie or technology</th>
+              <th className="border border-gray-300 p-2">Provider</th>
+              <th className="border border-gray-300 p-2">Purpose</th>
+              <th className="border border-gray-300 p-2">Category</th>
+              <th className="border border-gray-300 p-2">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cookieRows.map((row) => (
+              <tr key={row.name}>
+                <td className="border border-gray-300 p-2">{row.name}</td>
+                <td className="border border-gray-300 p-2">{row.provider}</td>
+                <td className="border border-gray-300 p-2">{row.purpose}</td>
+                <td className="border border-gray-300 p-2">{row.category}</td>
+                <td className="border border-gray-300 p-2">{row.duration}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <PolicyHeading>How We Use Cookies</PolicyHeading>
+      <PolicyText>We use cookies to:</PolicyText>
+      <PolicyText>Keep the website working, including sign-in and payment pages.</PolicyText>
+      <PolicyText>Remember whether you accepted or rejected optional analytics cookies.</PolicyText>
+      <PolicyText>
+        Measure site usage with Google Analytics, only after you accept optional analytics cookies.
+      </PolicyText>
+
+      <PolicyHeading>Your Cookie Choices</PolicyHeading>
+      <PolicyText>
+        Our cookie controls allow you to accept optional cookies, reject them or choose individual
+        categories. You can change your preferences or withdraw consent at any time through “Cookie
+        Settings” in the Website footer.
+      </PolicyText>
+      <PolicyText>
+        You can also delete or block cookies through your browser. Blocking strictly necessary
+        cookies may prevent functions such as sign-in from working. Refusing optional cookies does
+        not prevent purchases or basic use of the service.
+      </PolicyText>
+    </PolicyLayout>
   );
 };
 

@@ -1,6 +1,7 @@
 import { transporter } from "@/config/nodemailer";
 import prismadb from "@/lib/prismadb";
 import { generatePdfReceipt } from "@/lib/receiptGeneration";
+import { purchaseConfirmationText } from "@/lib/company";
 import { PUBLIC_KEY } from "@/constants/index";
 import { createPublicKey, verify } from "crypto";
 import { headers } from "next/headers";
@@ -128,20 +129,7 @@ export async function POST(req: Request) {
             subject: `Receipt #${
               String(body.transaction.uid).split("-").pop() || "42f7fj3u48rh"
             } - Yum-Mi Tokens Purchase`,
-            text: `Hi there,
-
-We're excited to welcome you to Yum-Mi — thanks so much for your recent order on yum-mi.com!
-
-You’ll find your transaction receipt attached to this message. Be sure to keep it in case you need it later.
-
-If you run into any issues, have questions about your token usage, or need guidance, our support team is just an email away at support@yum-mi.com. We're always ready to help.
-
-We’re honored to be part of your creative journey.
-
-With appreciation,
-The Yum-Mi Team
-yum-mi.com
-support@yum-mi.com`,
+            text: purchaseConfirmationText,
             attachments: [
               {
                 filename:

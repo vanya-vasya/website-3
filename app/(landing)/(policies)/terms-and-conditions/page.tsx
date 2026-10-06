@@ -1,244 +1,198 @@
-import CTA from "@/components/landing/cta";
+import { PolicyHeading, PolicyLayout, PolicyText } from "@/components/policy-layout";
+import { COMPANY_EMAIL, TOKEN_CREDITING_TIMEFRAME } from "@/lib/company";
 
 const TermsAndConditions = () => {
   return (
-    <div style={{ fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
-      <section className="page-title" style={{ backgroundColor: 'white', position: 'relative' }}>
-        <style dangerouslySetInnerHTML={{__html: `
-          .page-title::before, .page-title::after {
-            display: none !important;
-            content: none !important;
-            background: none !important;
-            filter: none !important;
-          }
-          .page-title__shape-1, .page-title__shape-2, .page-title__shape-3 {
-            display: none !important;
-          }
-          .page-title {
-            background: white !important;
-            position: relative !important;
-          }
-          .page-title * {
-            filter: none !important;
-            background-image: none !important;
-          }
-        `}} />
-        <div className="container">
-          <div className="page-title__inner" style={{ padding: '60px 0 40px' }}>
-            <div className="page-title__title-box">
-              <h3 className="page-title__title" style={{ color: 'black', fontSize: '32px', marginBottom: '20px' }}>Terms and Conditions</h3>
-            </div>
-            <p className="page-title__text" style={{ color: 'black' }}>
-              These Terms and Conditions include important information about
-              your use of our services and we encourage you to read them
-              carefully.
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="career-page-top" style={{ backgroundColor: 'white' }}>
-        <div className="container">
-          <div className="career-page-top__inner">
-            <div className="career-page-top__single">
-              <div className="career-page-top__content-box" style={{ backgroundColor: 'white', border: '1px solid #e5e7eb', maxHeight: '70vh', overflowY: 'auto', padding: '30px' }}>
-                <div className="career-page-top__content-box-two">
+    <PolicyLayout
+      title="Terms and Conditions"
+      lede="These Terms and Conditions govern your use of Yum-mi and purchases of its services."
+    >
+      <PolicyText>
+        These Terms and Conditions govern your use of Yum-mi at https://www.yum-mi.com/ and
+        purchases of its services. Yum-mi is operated by QUICK FIT LTD, a company registered in
+        England and Wales under company number 15995367, with its registered office at 7 Cresset
+        Rd, London, United Kingdom, E9 7FS. In these Terms, “we”, “us” and “our” refer to QUICK
+        FIT LTD. Contact us at {COMPANY_EMAIL}.
+      </PolicyText>
+      <PolicyText>
+        Creating an Account or browsing the Website does not itself create an obligation to make a
+        purchase. Before placing a paid order, you will be asked to accept these Terms and the
+        Refund and Cancellation Policy.
+      </PolicyText>
 
-                  <p className="career-page-top__text-1 pt-8" style={{ color: 'black' }}>
-                    Welcome to yum-mi.com! These Terms and Conditions
-                    (&quot;Terms&quot;) constitute a distance agreement between
-                    QUICK FIT LTD (&quot;Company&quot;), a company registered
-                    under the laws of England and Wales, Company Number:
-                    15995367, with its registered address at DEPT 2, 43 OWSTON ROAD,
-                    CARCROFT, DONCASTER, UNITED KINGDOM, DN6 8DA, and you
-                    (&quot;Customer&quot;).
-                  </p>
-                  <p className="career-page-top__text-1 pt-8" style={{ color: 'black' }}>
-                    By accessing or using yum-mi.com, you agree to be bound by
-                    these Terms. If you do not agree with these Terms, please do
-                    not use our services.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    1. Use of Services
-                  </h4>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>Eligibility</h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    To use our services, you must be at least 18 years old and
-                    capable of entering into a binding contract.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>Registration</h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    You are required to create an account to access our AI
-                    generation services. During registration, you must provide
-                    accurate and complete information. You are responsible for
-                    maintaining the confidentiality of your account credentials
-                    and for all activities that occur under your account.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    2. AI Generations
-                  </h4>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>Free Generations</h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    Upon registration, you will receive a limited number of free
-                    generations. These free generations are provided at our
-                    discretion and may be subject to change.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    AI Generation Models
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    We offer various AI generation models, each requiring a
-                    specific number of generations to create content. The
-                    available models and their generation requirements are as
-                    follows:
-                  </p>
-                  <ul className="career-page-top__points-list list-unstyled">
-                    <li className="mt-[26px]">
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Conversation: 1 generation per interaction</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Image Generation: 10 generations per image</p>
-                    </li>
+      <PolicyHeading>1. Use of Services</PolicyHeading>
+      <PolicyHeading>Eligibility</PolicyHeading>
+      <PolicyText>
+        To use our services, you must be at least 18 years old and capable of entering into a
+        binding contract.
+      </PolicyText>
+      <PolicyHeading>Registration</PolicyHeading>
+      <PolicyText>
+        You are required to create an account to access our AI generation services. During
+        registration, you must provide accurate and complete information. You must take reasonable
+        steps to protect your Account credentials and promptly notify {COMPANY_EMAIL} of suspected
+        unauthorised access. Your responsibility for unauthorised activity will be determined under
+        applicable law; use of your credentials does not automatically make you responsible for
+        every transaction.
+      </PolicyText>
 
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Music Generation: 15 generations per music piece</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Speech Generation: 15 generations per speech piece</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Code Generation: 3 generations per code snippet</p>
-                    </li>
-                  </ul>
-                  <p className="career-page-top__text-1 mt-[26px]" style={{ color: 'black' }}>
-                    Users start with 20 free generations upon registration. For
-                    example, a user can generate 2 images, or generate a music
-                    piece and interact with the bot 5 times.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>3. User Conduct</h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    You agree not to use our services for any unlawful or
-                    prohibited activities, including but not limited to:
-                  </p>
-                  <ul className="career-page-top__points-list list-unstyled">
-                    <li className="mt-[26px]">
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Violating any applicable laws or regulations</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>
-                        Infringing on the intellectual property rights of others
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Distributing harmful or malicious software</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>
-                        Engaging in any activity that disrupts or interferes
-                        with our services
-                      </p>
-                    </li>
-                  </ul>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    4. Intellectual Property
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    All content generated using our tools is the exclusive
-                    property of the user who created it. Yum-Mi does not
-                    claim ownership rights to the generated content. You retain
-                    all rights to use, distribute, and create derivative works
-                    from the content you create. Yum-Mi provides you with
-                    a platform to generate content, but does not require any
-                    rights to its use.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    5. Disclaimer of Warranties
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    Our services are provided &quot;as is&quot; and &quot;as
-                    available&quot; without any warranties of any kind, either
-                    express or implied. We do not warrant that our services will
-                    be uninterrupted, error-free, or secure.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    6. Limitation of Liability
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    To the fullest extent permitted by law, Yum-Mi shall
-                    not be liable for any indirect, incidental, special,
-                    consequential, or punitive damages, or any loss of profits
-                    or revenues, whether incurred directly or indirectly, or any
-                    loss of data, use, goodwill, or other intangible losses,
-                    resulting from:
-                  </p>
-                  <ul className="career-page-top__points-list list-unstyled">
-                    <li className="mt-[26px]">
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>Your use or inability to use our services</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>
-                        Any unauthorized access to or use of our servers and/or
-                        any personal information stored therein
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                      <p style={{ color: 'black' }}>
-                        Any bugs, viruses, or other harmful code that may be
-                        transmitted to or through our services
-                      </p>
-                    </li>
-                  </ul>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    7. Indemnification
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    You agree to indemnify and hold harmless Yum-Mi, its
-                    affiliates, and their respective officers, directors,
-                    employees, and agents from and against any claims,
-                    liabilities, damages, losses, and expenses, including
-                    reasonable attorneys&apos; fees, arising out of or in any
-                    way connected with your access to or use of our services, or
-                    your violation of these Terms.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    8. Changes to These Terms
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    We may update these Terms from time to time. When we do, we
-                    will post the updated Terms on this page and update the
-                    effective date at the top. We encourage you to review these
-                    Terms periodically to stay informed about your rights and
-                    obligations.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>9. Governing Law</h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    These Terms shall be governed by and construed in accordance
-                    with the laws of the European Union, without regard to its
-                    conflict of law principles.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>10. Contact Us</h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    If you have any questions or concerns about these Terms,
-                    please contact us at support@yum-mi.com.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+      <PolicyHeading>2. Services and Tokens</PolicyHeading>
+      <PolicyText>
+        Yum-mi provides AI-assisted recipe generation, nutritional suggestions and estimates of
+        calories and macronutrients from user inputs, including food photographs.
+      </PolicyText>
+      <PolicyText>
+        Tokens are prepaid service credits used to access these features. The token cost of each
+        action is displayed before you confirm it. The number of tokens included in a package,
+        including package bonuses, and the total price are displayed before purchase.
+      </PolicyText>
+      <PolicyText>
+        Free promotional tokens, where offered, have no cash value. Any promotional conditions are
+        disclosed when the offer is made. Purchased tokens do not expire.
+      </PolicyText>
+      <PolicyText>
+        Tokens are made available in your Account {TOKEN_CREDITING_TIMEFRAME}. If payment has been
+        collected but tokens have not been credited within that timeframe, contact {COMPANY_EMAIL}{" "}
+        for correction or a refund where appropriate.
+      </PolicyText>
+      <PolicyText>
+        If a generation fails because of a technical problem with our service and no usable result
+        is provided, any tokens charged for that failed action will be restored. Tokens are charged
+        only after a successful generation. If they are not restored automatically, contact support
+        with the relevant transaction or generation details.
+      </PolicyText>
+      <PolicyText>
+        We will not retrospectively increase the token cost of an action you have already
+        confirmed. Material changes affecting purchased token balances will be communicated in
+        advance and will not remove your mandatory rights.
+      </PolicyText>
+
+      <PolicyHeading>AI Output and Food Safety</PolicyHeading>
+      <PolicyText>
+        Yum-mi provides automated information for general cooking and nutrition purposes. Outputs
+        are estimates and may contain errors, including errors in ingredient identification,
+        portion sizes, calorie values and nutritional calculations.
+      </PolicyText>
+      <PolicyText>
+        The service does not provide a clinical diagnosis, medical treatment or a substitute for
+        advice from a qualified healthcare professional. Check ingredients, product labels and
+        preparation instructions yourself, particularly if you have food allergies or other dietary
+        restrictions. A photograph alone cannot establish that a meal is free from allergens.
+      </PolicyText>
+      <PolicyText>
+        These explanations do not exclude our obligations to provide the service with reasonable
+        care and skill or your rights where the service does not meet applicable legal requirements.
+      </PolicyText>
+
+      <PolicyHeading>3. User Conduct</PolicyHeading>
+      <PolicyText>
+        You agree not to use our services for any unlawful or prohibited activities, including
+        violating any applicable laws or regulations, infringing the intellectual property rights of
+        others, distributing harmful or malicious software, or engaging in any activity that
+        disrupts or interferes with our services.
+      </PolicyText>
+
+      <PolicyHeading>4. User Inputs and Generated Outputs</PolicyHeading>
+      <PolicyText>
+        You retain any rights you hold in the photographs, text and other materials you submit. You
+        must have permission to submit those materials.
+      </PolicyText>
+      <PolicyText>
+        You grant us a limited licence to process, store and display your inputs as necessary to
+        provide the requested service, subject to our Privacy Policy. This does not grant an
+        unrestricted right to publish your inputs or use them for advertising.
+      </PolicyText>
+      <PolicyText>
+        As between you and QUICK FIT LTD, you may use the outputs generated for you to the extent
+        permitted by applicable law and any third-party rights. We do not guarantee that
+        AI-generated outputs are unique or qualify for copyright protection.
+      </PolicyText>
+
+      <PolicyHeading>5. Service Standards</PolicyHeading>
+      <PolicyText>
+        We will provide our services with reasonable care and skill and comply with applicable
+        legal requirements for services and digital content. We cannot guarantee uninterrupted
+        availability, but interruptions do not remove our obligations concerning accepted orders or
+        purchased tokens.
+      </PolicyText>
+
+      <PolicyHeading>6. Liability</PolicyHeading>
+      <PolicyText>
+        We are responsible for loss or damage that is a foreseeable result of our breach of
+        contract or our failure to exercise reasonable care and skill.
+      </PolicyText>
+      <PolicyText>
+        Nothing in these Terms excludes or limits liability for fraud, fraudulent misrepresentation,
+        death or personal injury caused by negligence, or any liability that cannot lawfully be
+        excluded or limited. Your mandatory consumer rights remain unaffected.
+      </PolicyText>
+
+      <PolicyHeading>7. Your Responsibilities</PolicyHeading>
+      <PolicyText>
+        You must use the service lawfully and respect third-party rights. Any liability for loss
+        caused by your conduct is determined under applicable law. Consumers are not subject to an
+        unrestricted obligation to reimburse all of our losses, third-party claims or legal costs
+        merely because they use the service.
+      </PolicyText>
+
+      <PolicyHeading>8. Changes to These Terms</PolicyHeading>
+      <PolicyText>
+        Updated Terms will be published with their effective date. The version accepted when a paid
+        order was placed continues to govern that order.
+      </PolicyText>
+      <PolicyText>
+        We will give reasonable advance notice of material changes affecting an ongoing service or
+        purchased token balance, unless an immediate change is required by law or for urgent
+        security reasons. Changes will not retrospectively reduce your rights concerning an existing
+        purchase.
+      </PolicyText>
+
+      <PolicyHeading>9. Governing Law and Disputes</PolicyHeading>
+      <PolicyText>
+        These Terms are governed by the laws of England and Wales. If you are a consumer, this
+        choice does not deprive you of mandatory protection under the law of your country of
+        habitual residence where that law applies.
+      </PolicyText>
+      <PolicyText>
+        The courts of England and Wales have non-exclusive jurisdiction. Nothing prevents you from
+        bringing proceedings before another court available to you under mandatory consumer law or
+        disputing a card transaction with your card issuer.
+      </PolicyText>
+
+      <PolicyHeading>10. Orders, Payments and Cancellation</PolicyHeading>
+      <PolicyText>
+        A contract for a token purchase is formed when payment is successfully confirmed by our
+        payment provider and we accept the order by crediting the purchased tokens to your Account.
+        Before payment, we display the total price, transaction currency, token quantity, any
+        applicable fees or taxes, and the token crediting timeframe.
+      </PolicyText>
+      <PolicyText>
+        Token purchases are one-off payments. We do not charge recurring subscription fees or
+        automatically purchase further tokens unless you separately authorise a clearly disclosed
+        recurring arrangement.
+      </PolicyText>
+      <PolicyText>
+        Our Refund and Cancellation Policy explains cancellation rights and our 14-day refund offer
+        for unused tokens. Crediting tokens to an Account does not, by itself, remove every
+        cancellation or refund right concerning unused tokens.
+      </PolicyText>
+      <PolicyText>
+        Where the law requires it, we obtain your express request before performing a service during
+        the cancellation period. Any loss of a statutory cancellation right for a service depends on
+        the applicable conditions, including full performance and the required acknowledgement. For
+        digital content, early supply and any loss of cancellation rights depend on your express
+        consent and acknowledgement.
+      </PolicyText>
+      <PolicyText>
+        These rules do not remove our separate refund offer for unused tokens or your rights where
+        the service or digital content does not meet applicable legal requirements.
+      </PolicyText>
+
+      <PolicyHeading>11. Contact Us</PolicyHeading>
+      <PolicyText>
+        If you have any questions or concerns about these Terms, please contact us at {COMPANY_EMAIL}.
+      </PolicyText>
+    </PolicyLayout>
   );
 };
 

@@ -27,6 +27,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SecureProcessorPaymentWidget } from "@/components/secure-processor-payment-widget";
+import { COMPANY_ADDRESS, COMPANY_LEGAL_NAME, TOKEN_CREDITING_SENTENCE } from "@/lib/company";
 import { MiaPaymentWidget } from "@/components/mia-payment-widget";
 import {
   Checkbox,
@@ -186,12 +187,17 @@ export const ProModal = () => {
               >
                 ← Back to Selection
               </Button>
-              <div className="text-black text-sm">
-                {watch("tokens")} Tokens - {(() => {
-                  const curr = watch("currency");
-                  const symbol = curr === "GBP" ? "£" : curr === "EUR" ? "€" : curr === "USD" ? "$" : "";
-                  return `${symbol}${calculatePrice(watch("tokens")).toFixed(2)}`;
-                })()}
+              <div className="text-black text-sm text-right">
+                <p>{COMPANY_LEGAL_NAME}, United Kingdom</p>
+                <p>
+                  {watch("tokens")} tokens · {watch("currency")}{" "}
+                  {(() => {
+                    const curr = watch("currency");
+                    const symbol = curr === "GBP" ? "£" : curr === "EUR" ? "€" : curr === "USD" ? "$" : "";
+                    return `${symbol}${calculatePrice(watch("tokens")).toFixed(2)}`;
+                  })()}
+                </p>
+                <p>{TOKEN_CREDITING_SENTENCE}</p>
               </div>
             </div>
             
@@ -328,8 +334,21 @@ export const ProModal = () => {
               </p>
             )}
           </div>
+          <div className="mt-3 rounded-lg border border-gray-200 p-3 text-sm text-black space-y-1">
+            <p>{COMPANY_LEGAL_NAME}, United Kingdom</p>
+            <p>
+              {Number.isFinite(watch("tokens")) ? watch("tokens") : 0} tokens · {watch("currency")}{" "}
+              {(() => {
+                const curr = watch("currency");
+                const symbol = curr === "GBP" ? "£" : curr === "EUR" ? "€" : curr === "USD" ? "$" : "";
+                return `${symbol}${calculatePrice(Number.isFinite(watch("tokens")) ? watch("tokens") : 0).toFixed(2)}`;
+              })()}
+            </p>
+            <p>The price shown is the amount charged. Yum-mi does not add a separate checkout fee.</p>
+            <p>{TOKEN_CREDITING_SENTENCE}</p>
+          </div>
           <div className="mt-3">
-            <Field className="flex items-center gap-2">
+            <Field className="flex items-start gap-2">
               <Checkbox
                 {...register("policies")}
                 checked={watch("policies")}
@@ -353,19 +372,19 @@ export const ProModal = () => {
                 className="text-black mb-2 block"
                 style={{fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'}}
               >
-                I agree to the{" "}
+                I have read and agree to the{" "}
                 <a
                   href="/terms-and-conditions"
-                  className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent hover:underline hover:underline-offset-4"
+                  className="underline"
                 >
-                  Terms of Service
+                  Terms and Conditions
                 </a>{" "}
-                and{" "}
+                and the{" "}
                 <a
-                  href="/privacy-policy"
-                  className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent hover:underline hover:underline-offset-4"
+                  href="/return-policy"
+                  className="underline"
                 >
-                  Privacy Policy
+                  Refund and Cancellation Policy
                 </a>
                 .
               </Label>
@@ -425,7 +444,7 @@ export const ProModal = () => {
               height={81}
             />
             <Label className="text-center text-black mb-2 block" style={{fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'}}>
-            QUICK FIT LTD - DEPT 2, 43 OWSTON ROAD, CARCROFT, DONCASTER, UNITED KINGDOM, DN6 8DA
+            {COMPANY_LEGAL_NAME} - {COMPANY_ADDRESS}
             </Label>
           </>
         )}

@@ -129,8 +129,15 @@ const PaymentSuccessPage = () => {
 
           <div className="border-t pt-4">
             <p className="text-sm text-gray-600 mb-4">
-              A payment confirmation has been sent to your email. 
-              You can now use all platform features with your updated token balance.
+              A payment confirmation has been sent to your email. It records the amount, currency
+              and tokens purchased, and the Terms and Conditions and Refund and Cancellation Policy
+              you accepted before payment. Purchased tokens are credited after successful payment
+              confirmation, normally within a few minutes. QUICK FIT LTD, United Kingdom.
+            </p>
+            <p className="text-sm text-gray-600 mb-4">
+              <a href="/terms-and-conditions" className="underline">Terms and Conditions</a>
+              {" · "}
+              <a href="/return-policy" className="underline">Refund and Cancellation Policy</a>
             </p>
           </div>
 

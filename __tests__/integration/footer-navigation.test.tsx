@@ -5,10 +5,15 @@
 
 import { render, screen } from '@testing-library/react';
 import Footer from '@/components/landing/footer';
+import { CurrencyProvider } from '@/contexts/currency-context';
 
 describe('Footer Navigation Integration Tests', () => {
   beforeEach(() => {
-    render(<Footer />);
+    render(
+      <CurrencyProvider>
+        <Footer />
+      </CurrencyProvider>
+    );
   });
 
   describe('Menu Links Presence', () => {
@@ -16,7 +21,7 @@ describe('Footer Navigation Integration Tests', () => {
       const expectedMenuItems = [
         'Home',
         'Products', 
-        'Our Story',
+        'Story',
         'Pricing',
         'FAQ',
         'Contact'
@@ -31,8 +36,9 @@ describe('Footer Navigation Integration Tests', () => {
       const expectedImportantLinks = [
         'Privacy Policy',
         'Terms and Conditions',
-        'Return Policy',
-        'Cookies Policy'
+        'Refund and Cancellation Policy',
+        'Cookies Policy',
+        'Payment Policy'
       ];
 
       expectedImportantLinks.forEach(item => {
@@ -52,7 +58,7 @@ describe('Footer Navigation Integration Tests', () => {
       const expectedOrder = [
         { text: 'Home', href: '/#home' },
         { text: 'Products', href: '/#products' },
-        { text: 'Our Story', href: '/story' },
+        { text: 'Story', href: '/story' },
         { text: 'Pricing', href: '/#pricing' },
         { text: 'FAQ', href: '/faq' },
         { text: 'Contact', href: '/contact' }
@@ -86,7 +92,7 @@ describe('Footer Navigation Integration Tests', () => {
       const productsLink = screen.getByRole('link', { name: 'Navigate to Products page' });
       expect(productsLink).toHaveAttribute('href', '/#products');
 
-      const storyLink = screen.getByRole('link', { name: 'Navigate to Our Story page' });
+      const storyLink = screen.getByRole('link', { name: 'Navigate to Story page' });
       expect(storyLink).toHaveAttribute('href', '/story');
     });
   });
@@ -96,7 +102,7 @@ describe('Footer Navigation Integration Tests', () => {
       const menuLinks = [
         'Navigate to Home page',
         'Navigate to Products page', 
-        'Navigate to Our Story page',
+        'Navigate to Story page',
         'Navigate to Pricing page',
         'Navigate to FAQ page',
         'Navigate to Contact page'
@@ -112,8 +118,9 @@ describe('Footer Navigation Integration Tests', () => {
       const importantLinks = [
         'Read our Privacy Policy',
         'Read our Terms and Conditions',
-        'Read our Return Policy', 
-        'Read our Cookies Policy'
+        'Read our Refund and Cancellation Policy', 
+        'Read our Cookies Policy',
+        'Read our Payment Policy'
       ];
 
       importantLinks.forEach(ariaLabel => {
@@ -146,7 +153,7 @@ describe('Footer Navigation Integration Tests', () => {
 
       // Test company details
       expect(screen.getByText(/QUICK FIT LTD/)).toBeInTheDocument();
-      expect(screen.getByText(/support@yum-mi\.com/)).toBeInTheDocument();
+      expect(screen.getByText(/info@yum-mi\.com/)).toBeInTheDocument();
     });
 
     it('should display copyright information', () => {

@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import DashboardHeader from "@/components/dashboard-header";
 import { CreditProvider } from "@/lib/contexts/credit-context";
+import { CookieSettingsButton } from "@/components/cookie-settings-button";
+import { COMPANY_ADDRESS, COMPANY_EMAIL } from "@/lib/company";
 
 export default async function DashboardLayout({
   children,
@@ -50,12 +52,12 @@ export default async function DashboardLayout({
                 color: '#0f172a'
               }}
             >
-            QUICK FIT LTD (№15995367) <br /> Email: support@yum-mi.com{" "}
+            QUICK FIT LTD (№15995367) <br /> Email: {COMPANY_EMAIL}{" "}
               <br />
-              DEPT 2, 43 OWSTON ROAD, CARCROFT, DONCASTER, UNITED KINGDOM, DN6 8DA, <br />
+              {COMPANY_ADDRESS} <br />
               Copyright © {new Date().getFullYear()}. All rights reserved.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
               <Link 
                 href="/privacy-policy" 
                 className="hover:text-indigo-600"
@@ -99,7 +101,7 @@ export default async function DashboardLayout({
                   color: '#0f172a'
                 }}
               >
-                Return Policy
+                Refund and Cancellation Policy
               </Link>
               <Link 
                 href="/cookies-policy" 
@@ -116,6 +118,22 @@ export default async function DashboardLayout({
               >
                 Cookies Policy
               </Link>
+              <Link
+                href="/payment-policy"
+                className="hover:text-indigo-600"
+                style={{
+                  fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  lineHeight: 1.2,
+                  letterSpacing: '0.01em',
+                  textTransform: 'none',
+                  color: '#0f172a'
+                }}
+              >
+                Payment Policy
+              </Link>
+              <CookieSettingsButton />
             </div>
           </div>
           <div className="flex justify-center mt-6">

@@ -1,175 +1,114 @@
-import CTA from "@/components/landing/cta";
+import { PolicyHeading, PolicyLayout, PolicyText } from "@/components/policy-layout";
+import { COMPANY_EMAIL } from "@/lib/company";
 
 const ReturnPolicy = () => {
   return (
-    <div style={{ fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', backgroundColor: 'white', color: 'black', minHeight: '100vh' }}>
-      <section className="page-title" style={{ backgroundColor: 'white', position: 'relative' }}>
-        <style dangerouslySetInnerHTML={{__html: `
-          .page-title::before, .page-title::after {
-            display: none !important;
-            content: none !important;
-            background: none !important;
-            filter: none !important;
-          }
-          .page-title__shape-1, .page-title__shape-2, .page-title__shape-3 {
-            display: none !important;
-          }
-          .page-title {
-            background: white !important;
-            position: relative !important;
-          }
-          .page-title * {
-            filter: none !important;
-            background-image: none !important;
-          }
-        `}} />
-        <div className="container">
-          <div className="page-title__inner" style={{ padding: '60px 0 40px' }}>
-            <div className="page-title__title-box">
-              <h3 className="page-title__title" style={{ color: 'black', fontSize: '32px', marginBottom: '20px' }}>Return Policy</h3>
-            </div>
-            <p className="page-title__text" style={{ color: 'black' }}>
-              This Return Policy includes important information about the return
-              process for our services. Please read it carefully.
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="career-page-top" style={{ backgroundColor: 'white' }}>
-        <div className="container">
-          <div className="career-page-top__inner">
-            <div className="career-page-top__single">
-              <div className="career-page-top__content-box" style={{ backgroundColor: 'white', border: '1px solid #e5e7eb', maxHeight: '70vh', overflowY: 'auto', padding: '30px' }}>
-                <div className="career-page-top__content-box-two">
+    <PolicyLayout
+      title="Refund and Cancellation Policy"
+      lede="This policy applies to purchases of Yum-mi tokens from QUICK FIT LTD."
+    >
+      <PolicyText>This policy applies to purchases of Yum-mi tokens from QUICK FIT LTD.</PolicyText>
 
-                  <p className="career-page-top__text-1 pt-8" style={{ color: 'black' }}>
-                    At yum-mi.com, we strive to provide high-quality AI
-                    generation services that meet your needs. However, if you
-                    are not satisfied with your purchase, we offer a return
-                    policy for unused generations. This policy is designed to
-                    ensure that you have a positive experience with our platform
-                    and feel confident in your purchases.
-                  </p>
-                  <p className="career-page-top__text-1 pt-4">
-                    You may return any unused generations within 14 days of the
-                    purchase date for a full refund. This return policy applies
-                    to all generation packages available on our website. Please
-                    read the following conditions carefully to understand the
-                    requirements for returning unused generations.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    Conditions for Returns
-                  </h4>
-                  <ul className="career-page-top__points-list list-unstyled">
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        <strong>Unused Generations:</strong> Only generations
-                        that have not been used are eligible for return. Once a
-                        generation has been used, it cannot be returned or
-                        refunded. We define &quot;used&quot; generations as
-                        those that have been utilized in any of our AI
-                        generation services, including but not limited to text
-                        generation, image creation, or any other AI tool
-                        provided on yum-mi.com.
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        <strong>14-Day Return Period:</strong> To be eligible
-                        for a return, you must request the return within 14 days
-                        of the purchase date. This 14-day period begins on the
-                        date you complete the purchase transaction. Requests
-                        made after this period will not be considered for a
-                        refund.
-                      </p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        <strong>Proof of Purchase:</strong> You must provide
-                        proof of purchase when requesting a return. This can be
-                        in the form of an order confirmation email, receipt, or
-                        any other documentation that verifies the purchase date
-                        and details of the generation package purchased.
-                      </p>
-                    </li>
-                  </ul>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    How to Request a Return
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    To initiate a return, please contact our support team
-                    through our contact form on the website or by sending an
-                    email to support@yum-mi.com. In your message, include the
-                    following information:
-                  </p>
-                  <ul className="career-page-top__points-list list-unstyled pt-4">
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                        <p style={{ color: 'black' }}>Your full name and contact information</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                        <p style={{ color: 'black' }}>Order number and date of purchase</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                        <p style={{ color: 'black' }}>The reason for the return request</p>
-                    </li>
-                    <li>
-                      <div className="career-page-top__points-shape"></div>
-                                              <p style={{ color: 'black' }}>
-                        Proof of purchase (e.g., order confirmation email or
-                        receipt)
-                      </p>
-                    </li>
-                  </ul>
-                  <p className="career-page-top__text-1 pt-4">
-                    Once we receive your return request, our support team will
-                    review the information provided and process your request. If
-                    your return is approved, we will issue a refund to your
-                    original method of payment. Please allow up to 7 business
-                    days for the refund to appear in your account, depending on
-                    your payment provider.
-                  </p>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    If additional information is required to process your
-                    return, our support team will contact you for further
-                    details. We are committed to resolving return requests as
-                    efficiently as possible to ensure your satisfaction.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>
-                    Non-Refundable Generations
-                  </h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    Please note that any generations that have been used are
-                    non-refundable. This policy is in place to maintain the
-                    integrity of our service and ensure fair usage. We encourage
-                    you to evaluate your needs and usage carefully before making
-                    a purchase.
-                  </p>
-                  <h4 className="career-page-top__title-3" style={{ color: 'black' }}>Contact Us</h4>
-                  <p className="career-page-top__text-1" style={{ color: 'black' }}>
-                    If you have any questions or need assistance with your
-                    return, please contact our support team at
-                    support@yum-mi.com. Our team is available to help you with
-                    any issues or concerns you may have regarding our return
-                    policy or any other aspect of our services.
-                  </p>
-                  <p className="career-page-top__text-1 pt-4">
-                    We value your feedback and are dedicated to providing you
-                    with the best possible service. Your satisfaction is our
-                    priority, and we are here to assist you in any way we can.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+      <PolicyHeading>1. Our 14-Day Refund Offer</PolicyHeading>
+      <PolicyText>
+        You may request a refund for unused purchased tokens within 14 days of purchase. An entirely
+        unused package is eligible for a full refund of the price paid. For a partially used
+        package, we refund the proportion attributable to its remaining tokens, calculated using the
+        price paid and the total number of tokens supplied in that package, including any package
+        bonus. Tokens supplied entirely free of charge have no independent cash value.
+      </PolicyText>
+      <PolicyText>
+        Spent tokens are allocated to a purchase before free promotional tokens are treated as used.
+        Free tokens are not deducted in a way that reduces the refund of the price you paid for
+        unused purchased tokens.
+      </PolicyText>
+      <PolicyText>
+        This refund offer remains available for unused tokens even if you have started using other
+        tokens or have validly lost a statutory cancellation right for a particular completed
+        service or supplied output.
+      </PolicyText>
+
+      <PolicyHeading>2. Failed Generations and Purchase Problems</PolicyHeading>
+      <PolicyText>
+        Tokens charged for a generation that fails because of a technical problem with our service
+        and provides no usable result will be restored. If payment was collected but the purchased
+        tokens were not delivered within the stated timeframe, we will correct the issue or provide
+        a refund where appropriate.
+      </PolicyText>
+      <PolicyText>
+        Duplicate charges for the same purchase will be refunded. If services or digital content do
+        not meet applicable legal requirements, we provide the remedy required by law, which may
+        include repeat performance, replacement, a price reduction or a refund.
+      </PolicyText>
+
+      <PolicyHeading>3. Statutory Cancellation Rights</PolicyHeading>
+      <PolicyText>
+        Where applicable, consumers have a 14-day statutory cancellation period starting when the
+        contract is concluded. Merely crediting tokens does not automatically remove this right.
+      </PolicyText>
+      <PolicyText>
+        Early performance of services or early supply of digital content, and any effect on
+        statutory cancellation rights, require the consents and acknowledgements prescribed by law.
+        Any lawful charge for services performed before cancellation will be limited to what
+        applicable law permits.
+      </PolicyText>
+      <PolicyText>
+        Our separate refund offer for unused tokens and your rights concerning faulty or
+        non-conforming services remain unaffected.
+      </PolicyText>
+
+      <PolicyHeading>4. How to Request a Refund or Cancel</PolicyHeading>
+      <PolicyText>
+        Contact {COMPANY_EMAIL} or use our contact form. Include your Account email, order number
+        and purchase date. We may request information reasonably necessary to locate the purchase or
+        verify the request. You do not need to give a reason to exercise a statutory cancellation
+        right.
+      </PolicyText>
+      <PolicyText>
+        For statutory cancellation, any clear statement communicating your decision to cancel is
+        sufficient. You may use the optional model cancellation form below.
+      </PolicyText>
+
+      <PolicyHeading>5. Refund Processing</PolicyHeading>
+      <PolicyText>
+        Refunds are returned to the original payment method unless another method is lawfully
+        permitted and agreed with you. Refunded tokens are removed from the Account.
+      </PolicyText>
+      <PolicyText>
+        We make refunds without undue delay and within any applicable legal deadline. For statutory
+        cancellation, this is normally no later than 14 calendar days after we are informed of your
+        decision to cancel. We initiate other approved refunds within 14 days of approval.
+      </PolicyText>
+      <PolicyText>
+        After initiation, refunds are generally expected to appear within 7 business days, depending
+        on the payment provider. This is an estimate of bank processing time, not an extension of a
+        statutory refund deadline. We do not impose a refund fee for statutory cancellation.
+      </PolicyText>
+
+      <PolicyHeading>6. Consumer Rights</PolicyHeading>
+      <PolicyText>
+        The 14-day commercial offer does not exclude claims outside that period where applicable law
+        provides a remedy. Nothing in this policy restricts your mandatory consumer rights or your
+        right to dispute a payment with your card issuer.
+      </PolicyText>
+
+      <PolicyHeading>Optional Model Cancellation Form</PolicyHeading>
+      <PolicyText>
+        To: QUICK FIT LTD, 7 Cresset Rd, London, United Kingdom, E9 7FS; {COMPANY_EMAIL}.
+      </PolicyText>
+      <PolicyText>
+        I/We hereby give notice that I/We cancel my/our contract for the following purchase:
+        [DESCRIPTION / ORDER NUMBER].
+      </PolicyText>
+      <PolicyText>Ordered on: [DATE].</PolicyText>
+      <PolicyText>Name of consumer(s): [NAME].</PolicyText>
+      <PolicyText>Address of consumer(s): [ADDRESS].</PolicyText>
+      <PolicyText>
+        Signature of consumer(s), only if this form is submitted on paper: [SIGNATURE].
+      </PolicyText>
+      <PolicyText>Date: [DATE].</PolicyText>
+      <PolicyText>Delete as appropriate.</PolicyText>
+    </PolicyLayout>
   );
 };
 
