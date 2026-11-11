@@ -45,7 +45,8 @@ interface PaymentRow {
 // ─── Activity type ────────────────────────────────────────────────────────────
 
 interface ActivityRow {
-  ts: number; // epoch ms — drives sorting
+  seq: number; // chronological position (0-based) — the running total follows this order
+  ts: number; // epoch ms — display only; ties are possible (clamped to the last day)
   date: string;
   tool: string;
   tokensUsed: number;
@@ -136,9 +137,10 @@ const generateActivity = (tokensTarget: number, startDate: Date, endDate: Date):
   timed.sort((a, b) => a.ts - b.ts);
 
   let totalSpent = 0;
-  return timed.map((entry) => {
+  return timed.map((entry, seq) => {
     totalSpent += entry.tokens;
     return {
+      seq,
       ts:          entry.ts,
       date:        formatDate(new Date(entry.ts)),
       tool:        entry.tool,
@@ -267,8 +269,11 @@ export default function AdminDashboardPage() {
 
   // ── Sorting + pagination slices ──────────────────────────────────────────────
 
+  // Sort by seq, not ts: entries clamped to the last day share an identical ts,
+  // and a ts-only sort would leave them in ascending order inside a descending
+  // view, so "Total spent" would look wrong next to "Tokens".
   const sortedActivity = [...activityRows].sort((a, b) =>
-    activitySortDir === "desc" ? b.ts - a.ts : a.ts - b.ts
+    activitySortDir === "desc" ? b.seq - a.seq : a.seq - b.seq
   );
   const activityTotalPages = Math.max(1, Math.ceil(sortedActivity.length / PAGE_SIZE));
   const pagedActivity = sortedActivity.slice((activityPage - 1) * PAGE_SIZE, activityPage * PAGE_SIZE);
