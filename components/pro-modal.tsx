@@ -42,11 +42,11 @@ import {
 // When the entered token amount matches exactly, the fixed price is shown
 // (and charged) instead of the computed rate. All other amounts are unaffected.
 const EUR_PRICE_OVERRIDES: Record<number, number> = {
-  230:  53.61,
-  2300: 530.56,
-  3850: 892.45,
-  6500: 1500.0,
-  7600: 1768.18,
+  350:   82.66,
+  430:   100.0,
+  4300:  1000.0,
+  5200:  1224.92,
+  10000: 2384.62,
 };
 
 const formSchema = z.object({
