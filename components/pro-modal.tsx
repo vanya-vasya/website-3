@@ -322,14 +322,6 @@ export const ProModal = () => {
           </div>
           <div className="mt-3 rounded-lg border border-gray-200 p-3 text-sm text-black space-y-1">
             <p>{COMPANY_LEGAL_NAME}, United Kingdom</p>
-            <p>
-              {Number.isFinite(watch("tokens")) ? watch("tokens") : 0} tokens · {watch("currency")}{" "}
-              {(() => {
-                const curr = watch("currency");
-                const symbol = curr === "GBP" ? "£" : curr === "EUR" ? "€" : curr === "USD" ? "$" : "";
-                return `${symbol}${calculatePrice(Number.isFinite(watch("tokens")) ? watch("tokens") : 0).toFixed(2)}`;
-              })()}
-            </p>
             <p>The price shown is the amount charged. Yum-mi does not add a separate checkout fee.</p>
             <p>{TOKEN_CREDITING_SENTENCE}</p>
           </div>
