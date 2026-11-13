@@ -19,6 +19,8 @@ const EUR_TOKENS_PER_EUR = EUR_ANCHORS.large.tokens / EUR_ANCHORS.large.price;
 
 // Fixed EUR prices for specific bundles. They always win over the linear rate.
 export const EUR_PRICE_OVERRIDES: Record<number, number> = {
+  100: 23, // Your Own Tracker
+  200: 46, // Your Own Chef
   350: 82.66,
   [EUR_ANCHORS.small.tokens]: EUR_ANCHORS.small.price,
   [EUR_ANCHORS.large.tokens]: EUR_ANCHORS.large.price,
@@ -49,6 +51,11 @@ export const getTokenPrice = (tokens: number, currency: Currency): number => {
 // Whole tokens that fit into the given amount (never charges more than entered).
 export const getTokensForAmount = (amount: number, currency: Currency): number => {
   if (!Number.isFinite(amount) || amount <= 0) return 0;
+  if (currency === "EUR") {
+    // An amount that equals a fixed bundle price buys exactly that bundle
+    const bundle = Object.entries(EUR_PRICE_OVERRIDES).find(([, price]) => price === amount);
+    if (bundle) return Number(bundle[0]);
+  }
   // toFixed guards against float noise such as 4299.999999999
   return Math.floor(Number((amount * getTokensPerCurrencyUnit(currency)).toFixed(6)));
 };

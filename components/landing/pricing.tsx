@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
 import { useCurrency } from "@/contexts/currency-context";
@@ -14,7 +13,6 @@ interface PricingTier {
   name: string;
   description: string;
   tokens: number | null; // null = custom amount
-  features: string[];
   popular: boolean;
   color: string;
 }
@@ -25,7 +23,6 @@ const pricingTiers: PricingTier[] = [
     name: "Your Own Tracker",
     description: "For a quick start",
     tokens: 100,
-    features: ["Macros Generations"],
     popular: false,
     color: "from-purple-600 to-pink-600",
   },
@@ -34,7 +31,6 @@ const pricingTiers: PricingTier[] = [
     name: "Your Own Chef",
     description: "For regular use",
     tokens: 200,
-    features: ["Recipe Generations"],
     popular: true,
     color: "from-green-500 to-emerald-600",
   },
@@ -43,7 +39,6 @@ const pricingTiers: PricingTier[] = [
     name: "Custom Amount",
     description: "Perfect for your specific needs",
     tokens: null,
-    features: ["Pay Exactly What You Want"],
     popular: false,
     color: "from-orange-500 to-red-600",
   },
@@ -212,30 +207,8 @@ const Pricing = () => {
                   </div>
                 )}
 
-                {/* Features */}
-                <div className="flex-1 space-y-3">
-                  <h4
-                    className="text-sm font-semibold text-slate-900 uppercase tracking-wide"
-                    style={{ fontFamily: interFont }}
-                  >
-                    What&apos;s Included
-                  </h4>
-                  <ul className="space-y-2">
-                    {tier.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center space-x-3">
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                        <span
-                          className="text-slate-600 text-sm"
-                          style={{ fontFamily: interFont }}
-                        >
-                          {feature}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
                 {/* Button */}
+                <div className="mt-auto">
                 {(() => {
                   const ctaButton = (
                     <motion.button
@@ -256,6 +229,7 @@ const Pricing = () => {
                   if (isSignedIn) return ctaButton;
                   return <Link href="/dashboard">{ctaButton}</Link>;
                 })()}
+                </div>
               </div>
             </motion.div>
           ))}
