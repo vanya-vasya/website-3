@@ -26,6 +26,7 @@ import { z } from "zod";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { getTokenPrice } from "@/lib/token-pricing";
 import { SecureProcessorPaymentWidget } from "@/components/secure-processor-payment-widget";
 import { COMPANY_ADDRESS, COMPANY_LEGAL_NAME, TOKEN_CREDITING_SENTENCE } from "@/lib/company";
 import { MiaPaymentWidget } from "@/components/mia-payment-widget";
@@ -37,17 +38,6 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-
-// Manual EUR price overrides for specific token bundles.
-// When the entered token amount matches exactly, the fixed price is shown
-// (and charged) instead of the computed rate. All other amounts are unaffected.
-const EUR_PRICE_OVERRIDES: Record<number, number> = {
-  350:   82.66,
-  430:   100.0,
-  4300:  1000.0,
-  5200:  1224.92,
-  10000: 2384.62,
-};
 
 const formSchema = z.object({
   tokens: z
@@ -117,23 +107,19 @@ export const ProModal = () => {
     setValue("policies", checked);
   };
 
-  // Calculate total price based on token count
-  // GENERATIONS_PRICE is 0.20 GBP per token
-  const calculatePrice = (tokens: number): number => {
-    const currentCurrency = watch("currency");
-    // Fixed-price EUR bundles take priority over the computed rate
-    if (currentCurrency === "EUR" && EUR_PRICE_OVERRIDES[tokens] !== undefined) {
-      return EUR_PRICE_OVERRIDES[tokens];
-    }
-    // For GBP, use the base price directly (0.20 per token)
-    // For other currencies, convert from GBP to the target currency
-    if (currentCurrency === "GBP") {
-      return tokens * GENERATIONS_PRICE;
-    }
-    // Convert GBP price to other currency using exchange rates
-    const priceInEUR = GENERATIONS_PRICE / currenciesRate["GBP"]; // Convert GBP to EUR base
-    return tokens * priceInEUR * currenciesRate[currentCurrency];
-  };
+  // Price comes from the shared model (lib/token-pricing.ts): fixed EUR anchors
+  // and bundle overrides, flat per-token rate otherwise. No bonuses or promos.
+  const calculatePrice = (tokens: number): number =>
+    getTokenPrice(tokens, watch("currency"));
+
+  // Prefill from the landing pricing cards (Begin / Choose Amount)
+  useEffect(() => {
+    if (!proModal.isOpen || !proModal.prefill) return;
+    const { tokens, currency } = proModal.prefill;
+    if (currency) handleCurrencyChange(currency);
+    if (tokens !== undefined) setValue("tokens", tokens);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [proModal.isOpen, proModal.prefill]);
 
   // Обработчики для платежного виджета
   const handlePaymentSuccess = (transactionData: any) => {

@@ -4,16 +4,16 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 import { useCurrency } from "@/contexts/currency-context";
+import { useProModal } from "@/hooks/use-pro-modal";
+import { getTokenPrice, getTokensForAmount } from "@/lib/token-pricing";
 
 interface PricingTier {
   id: string;
   name: string;
   description: string;
-  gbpPrice: number | null;
-  tokens: string;
-  tokenRateGbp: number | null;
-  discount?: string;
+  tokens: number | null; // null = custom amount
   features: string[];
   popular: boolean;
   color: string;
@@ -24,10 +24,7 @@ const pricingTiers: PricingTier[] = [
     id: "Tracker",
     name: "Your Own Tracker",
     description: "For a quick start",
-    gbpPrice: 20,
-    tokens: "100 Tokens",
-    tokenRateGbp: null,
-    discount: "Standard Rate",
+    tokens: 100,
     features: ["Macros Generations"],
     popular: false,
     color: "from-purple-600 to-pink-600",
@@ -35,34 +32,17 @@ const pricingTiers: PricingTier[] = [
   {
     id: "master-chef",
     name: "Your Own Chef",
-    description: "Best value for regular use",
-    gbpPrice: 40,
-    tokens: "220 Tokens",
-    tokenRateGbp: null,
-    discount: "10% Bonus Tokens",
+    description: "For regular use",
+    tokens: 200,
     features: ["Recipe Generations"],
     popular: true,
     color: "from-green-500 to-emerald-600",
   },
   {
-    id: "master-nutritionist",
-    name: "Your Own Nutritionist",
-    description: "Maximum value package",
-    gbpPrice: 60,
-    tokens: "360 Tokens",
-    tokenRateGbp: null,
-    discount: "20% Bonus Tokens",
-    features: ["Consulting Generations"],
-    popular: false,
-    color: "from-blue-600 to-violet-600",
-  },
-  {
     id: "custom",
     name: "Custom Amount",
     description: "Perfect for your specific needs",
-    gbpPrice: null,
-    tokens: "",
-    tokenRateGbp: 0.2,
+    tokens: null,
     features: ["Pay Exactly What You Want"],
     popular: false,
     color: "from-orange-500 to-red-600",
@@ -73,7 +53,22 @@ const interFont = 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helveti
 
 const Pricing = () => {
   const [customAmount, setCustomAmount] = useState("");
-  const { currency, convert } = useCurrency();
+  const { currency } = useCurrency();
+  const { isSignedIn } = useAuth();
+  const proModal = useProModal();
+
+  const formatPrice = (price: number): string =>
+    `${currency.symbol}${Number.isInteger(price) ? price.toFixed(0) : price.toFixed(2)}`;
+
+  // Signed-in users go straight to the Buy More modal with the amount prefilled
+  const handleSelectTier = (tier: PricingTier) => {
+    const tokens =
+      tier.tokens ?? getTokensForAmount(Number(customAmount), currency.code);
+    proModal.openWithPrefill({
+      currency: currency.code,
+      tokens: tokens > 0 ? tokens : undefined,
+    });
+  };
 
   return (
     <section
@@ -114,12 +109,12 @@ const Pricing = () => {
               color: '#475569',
             }}
           >
-            Just pay-as-you-go tokens, with bigger packs for better value
+            Just pay-as-you-go tokens. Pay only for what you use
           </motion.p>
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {pricingTiers.map((tier, index) => (
             <motion.div
               key={tier.id}
@@ -160,37 +155,20 @@ const Pricing = () => {
                 </div>
 
                 {/* Price — fixed tiers */}
-                {tier.id !== "custom" && tier.gbpPrice !== null && (
+                {tier.tokens !== null && (
                   <div className="text-center space-y-1">
                     <div
                       className="text-4xl font-bold text-slate-900"
                       style={{ fontFamily: interFont }}
                     >
-                      {convert(tier.gbpPrice, 0)}
+                      {formatPrice(getTokenPrice(tier.tokens, currency.code))}
                     </div>
-                    {tier.tokens && (
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-center space-x-2">
-                          <p
-                            className="text-green-600 font-semibold"
-                            style={{ fontFamily: interFont }}
-                          >
-                            {tier.tokens}
-                          </p>
-                          {tier.discount && (
-                            <span
-                              className={`text-xs px-2 py-1 rounded-full font-semibold ${
-                                tier.discount === "Standard Rate"
-                                  ? "bg-gray-100 text-gray-700"
-                                  : "bg-green-100 text-green-700"
-                              }`}
-                            >
-                              {tier.discount}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                    <p
+                      className="text-green-600 font-semibold"
+                      style={{ fontFamily: interFont }}
+                    >
+                      {tier.tokens} Tokens
+                    </p>
                   </div>
                 )}
 
@@ -229,18 +207,8 @@ const Pricing = () => {
                         onBlur={(e) => {
                           (e.target as HTMLInputElement).style.boxShadow = "none";
                         }}
-                        aria-describedby={`token-rate-${tier.id}`}
                       />
                     </div>
-                    {tier.tokenRateGbp !== null && (
-                      <p
-                        id={`token-rate-${tier.id}`}
-                        className="text-slate-500 text-xs mt-2"
-                        style={{ fontFamily: interFont }}
-                      >
-                        {convert(tier.tokenRateGbp, 2)} per token
-                      </p>
-                    )}
                   </div>
                 )}
 
@@ -268,20 +236,26 @@ const Pricing = () => {
                 </div>
 
                 {/* Button */}
-                <Link href="/dashboard">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 ${
-                      tier.popular
-                        ? "bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-lg"
-                        : "bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900"
-                    }`}
-                    style={{ fontFamily: interFont }}
-                  >
-                    {tier.id === "custom" ? "Choose Amount" : "Begin"}
-                  </motion.button>
-                </Link>
+                {(() => {
+                  const ctaButton = (
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={isSignedIn ? () => handleSelectTier(tier) : undefined}
+                      className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition-all duration-300 ${
+                        tier.popular
+                          ? "bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 shadow-lg"
+                          : "bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-800 hover:to-slate-900"
+                      }`}
+                      style={{ fontFamily: interFont }}
+                    >
+                      {tier.tokens === null ? "Choose Amount" : "Begin"}
+                    </motion.button>
+                  );
+                  if (isSignedIn) return ctaButton;
+                  return <Link href="/dashboard">{ctaButton}</Link>;
+                })()}
               </div>
             </motion.div>
           ))}
